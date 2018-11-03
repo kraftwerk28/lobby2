@@ -18,7 +18,7 @@
   @include fill;
 
   opacity: 0.7;
-  background: #333;
+  background: #000;
   opacity: 0;
   user-select: none;
   z-index: 10;
@@ -39,4 +39,24 @@
 
 .sd-menu-trigger {
   user-select: none;
+}
+
+.sm-expand-enter {
+  transform: scaleY(0);
+}
+
+.sm-expand-exit {
+  transform: scaleY(1);
+}
+
+.sm-expand-enter-active {
+  transform-origin: top;
+  transition: opacity .3s, transform .3s, max-height .3s;
+  transform: scaleY(1);
+}
+
+.sm-expand-exit-active {
+  transform-origin: top;
+  transition: opacity .3s, transform .3s, max-height .3s;
+  transform: scaleY(0);
 }

@@ -4,18 +4,11 @@ import globalListener from '../../globalListener';
 import defs from '../../globals';
 import SdMenuChild from './SdMenuChild.jsx';
 import Swipeable from 'react-swipeable';
+import NestedChild from './NestedChild.jsx';
 
 const { abs, sign } = Math;
 
 const triggerWidth = 20;
-
-const items = [
-  { title: 'Lol' },
-  { title: 'Game1' },
-  { title: 'Game2' },
-  { title: 'Game3' },
-  { title: 'Fart' },
-];
 
 export default class SideMenu extends Component {
   constructor(props) {
@@ -47,17 +40,12 @@ export default class SideMenu extends Component {
 
   expand(bool) {
     if (this.state.expanded !== bool) {
-      this.setState({
-        expanded: bool,
-        x: 0,
-      });
+      this.setState({ expanded: bool, x: 0, });
     }
     if (this.props.toBlur) {
       this.props.toBlur.style.filter =
         `blur(${bool ? 10 : 0}px)`;
     }
-    // if (!bool)
-    //   this.overflowElement.style.opacity = 0;
   }
 
 
@@ -66,15 +54,18 @@ export default class SideMenu extends Component {
       this.startX = window.isMobile ? e.touches[0].clientX : e.clientX;
       this.setState({ swapping: true });
     }
-    if (deltaX === 0) return;
+
+    if (deltaX === 0)
+      return;
+
     let x = -deltaX - (this.state.expanded ? 0 : this.width);
-    if (x > 0) x = 0;
-    // (-deltaX > this.width ? this.width : (this.state.expanded ? -deltaX + this.width : -deltaX)) -
-    //   this.width;
+    if (x > 0)
+      x = 0;
+
     this.setState({ x });
     if (this.props.toBlur) {
       this.props.toBlur.style.filter =
-        `blur(${Math.round((abs(x) / this.width) * 10)}px)`;
+        `blur(${Math.round((this.width + x) / this.width * 10)}px)`;
     }
   }
 
@@ -97,6 +88,10 @@ export default class SideMenu extends Component {
   }
 
   render() {
+    const {
+      items
+    } = this.props;
+
     return (
       <div style={rootStyle}>
         <div
@@ -105,6 +100,7 @@ export default class SideMenu extends Component {
           }}
           className='sd-menu-overflow'
           style={{
+            ...overflowStyle,
             display: (this.state.expanded || this.state.swapping) ?
               'block' : 'none',
             opacity: Math.round(
@@ -138,7 +134,7 @@ export default class SideMenu extends Component {
               e.stopPropagation();
             }}
           >
-            {items.map((item, ind) => this.child(item, ind))}
+            {items && items.map((item, ind) => this.child(item, ind))}
           </div>
         </Swipeable>
       </div>
@@ -165,16 +161,9 @@ const triggerStyle = {
   zIndex: 11,
 };
 
-// const triggerStyle = {
-//   position: 'fixed',
-//   top: 0,
-//   bottom: 0,
-//   left: 0,
-//   width: 20,
-//   userDrag: 'none',
-//   userSelect: 'none',
-//   background: '#333',
-// };
+const overflowStyle = {
+
+};
 
 const sdMenuStyle = {
   borderLeft: 0,

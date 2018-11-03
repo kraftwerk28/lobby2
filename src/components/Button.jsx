@@ -11,6 +11,7 @@ const DEFAULTS = {
 export default class Button extends Component {
   constructor(props) {
     super(props);
+    this.size = 0;
     this.buttonEl = React.createRef();
     this.state = { mouseOver: false };
   }
@@ -19,7 +20,8 @@ export default class Button extends Component {
     if (this.props.rounded) {
       const { width, height } = this.buttonEl.getBoundingClientRect();
       const maxDim = Math.round(Math.max(width, height));
-      buttonStyle.width = buttonStyle.height = maxDim + 'px';
+      this.size = maxDim + 'px';
+      this.forceUpdate();
     }
   }
 
@@ -51,7 +53,9 @@ export default class Button extends Component {
           borderRadius: rounded ? '50%' : DEFAULTS.borderRadius,
           background: transparent ? 'transparent' :
             (background ? background : DEFAULTS.background),
-          boxShadow: transparent ? 'none' : ''
+          boxShadow: transparent ? 'none' : '',
+          width: this.size ? this.size : 'auto',
+          height: this.size ? this.size : 'auto',
         }}
         className='md2-button'
         onMouseOver={(event) => {

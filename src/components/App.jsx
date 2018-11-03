@@ -4,7 +4,7 @@ import Button from './Button.jsx';
 import SideMenu from './side-menu/SideMenu';
 import Transition from 'react-transition-group';
 import Swipeable from 'react-swipeable';
-
+import Collapsible from 'react-collapsible';
 
 class App extends Component {
   constructor(props) {
@@ -27,17 +27,33 @@ class App extends Component {
         alignItems: 'center',
         flexDirection: 'column'
       }}>
-        <SideMenu ref={e => { this.sm = e; }} toBlur={/*this.rootEl*/null} />
+        <SideMenu ref={e => { this.sm = e; }} toBlur={null/*this.rootEl*/} />
 
 
-        <div>
+        <div
+          ref={e => { this.rootEl = e; }}
+        >
           <Button background='green'
             rippleColor='black'
             rippleOpacity={0.5}
-            transparent
-            rippleStyle={{ background: 'purple' }}
             onClick={() => { this.sm.expand(true) }}
           >hello</Button>
+
+          <Collapsible
+            trigger='Helllo there'
+            triggerStyle={{
+              color: 'black',
+              background: 'green'
+            }}
+            open
+          >
+            <div>lol</div>
+            <div>kek</div>
+            <div>lol</div>
+            <div>kek</div>
+            <div>lol</div>
+            <div>kek</div>
+          </Collapsible>
         </div>
       </div>
     )
