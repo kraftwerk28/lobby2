@@ -35,6 +35,7 @@ export default class Button extends Component {
       rounded,
       transparent,
       rippleStyle,
+      className,
 
       onMouseOver,
       onMouseLeave,
@@ -57,7 +58,7 @@ export default class Button extends Component {
           width: this.size ? this.size : 'auto',
           height: this.size ? this.size : 'auto',
         }}
-        className='md2-button'
+        className={`md2-button ${className ? className : ''}`}
         onMouseOver={(event) => {
           this.setState({ mouseOver: true });
           if (onMouseOver) onMouseOver(event);

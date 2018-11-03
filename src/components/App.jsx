@@ -5,6 +5,7 @@ import SideMenu from './side-menu/SideMenu';
 import Transition from 'react-transition-group';
 import Swipeable from 'react-swipeable';
 import Collapsible from 'react-collapsible';
+import Home from './pages/Home';
 
 class App extends Component {
   constructor(props) {
@@ -21,40 +22,39 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column'
-      }}>
-        <SideMenu ref={e => { this.sm = e; }} toBlur={null/*this.rootEl*/} />
+      <div
+        style={{
+          position: 'relative',
+        }}
+      >
+        <div style={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column'
+        }}>
 
-
-        <div
-          ref={e => { this.rootEl = e; }}
-        >
-          <Button background='green'
-            rippleColor='black'
-            rippleOpacity={0.5}
-            onClick={() => { this.sm.expand(true) }}
-          >hello</Button>
-
-          <Collapsible
-            trigger='Helllo there'
-            triggerStyle={{
-              color: 'black',
-              background: 'green'
-            }}
-            open
+          <div
+            ref={e => { this.rootEl = e; }}
           >
-            <div>lol</div>
-            <div>kek</div>
-            <div>lol</div>
-            <div>kek</div>
-            <div>lol</div>
-            <div>kek</div>
-          </Collapsible>
+
+            <Home />
+
+          </div>
         </div>
+
+        <SideMenu ref={e => { this.sm = e; }} toBlur={null} />
+
+        <Button
+          className='menu-btn'
+          icon='menu'
+          transparent
+          rounded
+          rippleColor='#aaa'
+          rippleOpacity={0.5}
+          onClick={() => { this.sm.expand(true) }}
+        >hello</Button>
+
       </div>
     )
   }

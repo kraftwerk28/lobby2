@@ -8,14 +8,13 @@ import NestedChild from './NestedChild.jsx';
 
 const { abs, sign } = Math;
 
-const triggerWidth = 20;
+const triggerWidth = 10;
 
 export default class SideMenu extends Component {
   constructor(props) {
     super(props);
 
     this.width = 500;
-    this.triggerWidth = 20;
 
     this.menuElement = createRef();
     this.overflowElement = createRef();
@@ -93,7 +92,10 @@ export default class SideMenu extends Component {
     } = this.props;
 
     return (
-      <div style={rootStyle}>
+      <div style={{
+        ...rootStyle,
+        cursor: this.state.swapping ? 'grabbing' : 'grab'
+      }}>
         <div
           ref={e => {
             this.overflowElement = e;
@@ -162,7 +164,7 @@ const triggerStyle = {
 };
 
 const overflowStyle = {
-
+  cursor: 'default',
 };
 
 const sdMenuStyle = {
@@ -170,4 +172,5 @@ const sdMenuStyle = {
   borderBottom: 0,
   borderTop: 0,
   transitionTimingFunction: 'ease-out',
+  cursor: 'default',
 };
