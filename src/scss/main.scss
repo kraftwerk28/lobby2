@@ -1,0 +1,28 @@
+@import "./constants.scss";
+@import "./sd-menu.scss";
+
+* {
+  font-family: 'Fira Code';
+  font-variant-ligatures: additional-ligatures;
+  color: white;
+}
+
+.md2-button {
+  position: relative;
+  box-shadow: $md2-box-shadow;
+  transition: box-shadow $transition-box-shadow;
+  cursor: pointer;
+  outline: none;
+  margin: 5px;
+  padding: 15px;
+  border: 0;
+  text-align: center;
+
+  &:hover {
+    box-shadow: $md2-box-shadow-hover;
+  }
+}
+
+span.material-icons {
+  vertical-align: middle;
+}
