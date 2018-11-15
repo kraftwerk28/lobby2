@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
-import MenuBtn from '../MenuButton';
 
-export default class Home extends Component {
+
+export default class Test extends Component {
   constructor(props) {
     super(props);
     this.data = {};
@@ -16,11 +16,9 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className='home-containter'>
-        {/* <div className='home-title'>
-          <MenuBtn />
-          {this.data.title}
-        </div> */}
+      <div>
+        <div>{this.data.title}</div>
+        <div>{this.data.about}</div>
         <div>{this.data.about}</div>
       </div>
     )

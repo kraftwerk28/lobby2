@@ -24,8 +24,9 @@ export default class SdMenuChild extends Component {
           borderRadius: `
             0px ${this.borderRadius}px ${this.borderRadius}px 0px`
         }}
-        className='sd-menu-child'>
-        {this.props.title}
+        className='sd-menu-child'
+      >
+        {this.props.link}
         <Ripple inner color='white' />
       </div>
     );

@@ -5,8 +5,11 @@ const cssExt = require('mini-css-extract-plugin');
 const cssMini = require('optimize-css-assets-webpack-plugin');
 
 module.exports = (env) => {
-  const dev = !env.production;
-  console.log('Running in ' + (dev ? 'development' : 'production') + ' mode.\n');
+  const dev = env.development;
+  console.log('Running in ' +
+    (dev ? 'development' : 'production') +
+    ' mode.\n'
+  );
   return {
     mode: dev ? 'development' : 'production',
 
@@ -34,6 +37,11 @@ module.exports = (env) => {
             'sass-loader'
           ],
           exclude: /node_modules/,
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'file-loader',
+          exclude: /node_modules/,
         }
       ]
     },
@@ -49,7 +57,7 @@ module.exports = (env) => {
         new cssExt({ filename: 'style.css' })
       ]
     ],
-    devtool: 'source-map',
+    devtool: dev ? 'source-map' : false,
     devServer: {
       compress: true,
       host: '0.0.0.0',

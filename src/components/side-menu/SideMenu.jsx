@@ -5,10 +5,11 @@ import defs from '../../globals';
 import SdMenuChild from './SdMenuChild.jsx';
 import Swipeable from 'react-swipeable';
 import NestedChild from './NestedChild.jsx';
+import { Link } from 'react-router-dom';
 
 const { abs, sign } = Math;
 
-const triggerWidth = 10;
+const triggerWidth = 8;
 
 export default class SideMenu extends Component {
   constructor(props) {
@@ -83,13 +84,18 @@ export default class SideMenu extends Component {
   }
 
   child(component, key) {
-    return <SdMenuChild title={component.title} key={key} />
+    return (
+      <Link {...component.props} key={key} style={linkStyle}>
+        <SdMenuChild title={component.title} link={component.props.children} />
+      </Link>
+    )
   }
 
   render() {
     const {
-      items
+      children: items
     } = this.props;
+
 
     return (
       <div style={{
@@ -136,7 +142,7 @@ export default class SideMenu extends Component {
               e.stopPropagation();
             }}
           >
-            {items && items.map((item, ind) => this.child(item, ind))}
+            {items && items.map((c, i) => this.child(c, i))}
           </div>
         </Swipeable>
       </div>
@@ -174,3 +180,7 @@ const sdMenuStyle = {
   transitionTimingFunction: 'ease-out',
   cursor: 'default',
 };
+
+const linkStyle = {
+  textDecoration: 'none'
+}

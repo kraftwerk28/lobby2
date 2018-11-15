@@ -1,5 +1,12 @@
-@import "./constants.scss";
-@import "./sd-menu.scss";
+@import './constants';
+@import './sd-menu';
+@import './homepage';
+@import './article-animation';
+@import './title-animation';
+
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+@import url(https://cdn.rawgit.com/tonsky/FiraCode/1.206/distr/fira_code.css);
 
 * {
   font-family: 'Fira Code';
@@ -8,8 +15,15 @@
   -webkit-tap-highlight-color: rgba($color: #000000, $alpha: 0);
 }
 
-#root {
+#app {
   background: #000;
+}
+
+.root {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
 
 .md2-button {
@@ -33,8 +47,71 @@ span.material-icons {
   vertical-align: middle;
 }
 
-.menu-btn {
-  position: fixed;
+.tr-wrapper {
+  position: absolute;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
   top: 0px;
-  left: 10px;
+  left: 0px;
+
+  > * {
+    position: relative;
+  }
+}
+
+.title {
+  border: 2px solid lime;
+  border-top: 0;
+  padding: 10px;
+  text-align: center;
+  align-self: stretch;
+
+  // width: 90%;
+
+  // border-bottom-left-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
+
+  // width: 80%;
+
+  @media (min-width: 320px) and (max-width: 480px) {}
+
+  .menu-btn {
+    // position: relative;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    @media (min-width: 320px) and (max-width: 480px) {
+      // position: absolute;
+      margin: 0px;
+      padding: 5px;
+      left: 10px;
+    }
+  }
+}
+
+.content-container {
+  position: relative;
+
+  // top: 0px;
+  // bottom: 0px;
+
+  // right: 0px;
+  width: 80%;
+  margin: 30px auto 0px auto;
+  overflow: hidden;
+  height: 100%;
+
+  // border: 3px solid red;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  box-sizing: border-box;
+
+  // height: 100%;
+  @media (min-width: 320px) and (max-width: 480px) {
+    width: 100%;
+  }
 }
