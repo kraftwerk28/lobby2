@@ -4,15 +4,21 @@ import { CSSTransition, Transition } from 'react-transition-group';
 
 const timeout = 500;
 const style = {
-  transition: `transform ${timeout}ms`
+  transition: `transform ${timeout}ms, opacity ${timeout}ms`,
 }
 
 const styles = {
   entering: {
     transform: 'translateY(-100px)',
+    opacity: 0,
+  },
+  entered: {
+    transform: 'translateY(0px)',
+    opacity: 1,
   },
   exiting: {
     transform: 'translateY(-100px)',
+    opacity: 0,
   }
 }
 
@@ -20,7 +26,11 @@ export default class Title extends Component {
   constructor(props) {
     super(props);
     this.prevTitle = props.text;
-  };
+  }
+
+  // componentDidMount() {
+  //   console.log(object);
+  // }
 
   render() {
     return (
@@ -40,8 +50,10 @@ export default class Title extends Component {
             }}
           >
             <MenuBtn sideMenu={this.props.sideMenu} />
-            {(state === 'entering') || (state === 'exiting') ?
-              this.prevTitle : this.props.text}
+            <h2>
+              {(state === 'entering') || (state === 'exiting') ?
+                this.prevTitle : this.props.text}
+            </h2>
           </div>
         )}
       </Transition>

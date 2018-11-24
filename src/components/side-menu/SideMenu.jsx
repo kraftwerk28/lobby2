@@ -37,7 +37,6 @@ export default class SideMenu extends Component {
     this.forceUpdate();
   }
 
-
   expand(bool) {
     if (this.state.expanded !== bool) {
       this.setState({ expanded: bool, x: 0, });

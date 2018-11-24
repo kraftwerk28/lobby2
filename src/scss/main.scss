@@ -37,6 +37,9 @@
   border: 0;
   text-align: center;
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     box-shadow: $md2-box-shadow-hover;
@@ -64,33 +67,55 @@ span.material-icons {
 .title {
   border: 2px solid lime;
   border-top: 0;
-  padding: 10px;
   text-align: center;
   align-self: stretch;
+  display: grid;
+  grid-template-columns: 3% 1fr 3%;
+  align-items: center;
 
   // width: 90%;
 
   // border-bottom-left-radius: 5px;
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 0px 0px 10px 10px;
 
   // width: 80%;
 
-  @media (min-width: 320px) and (max-width: 480px) {}
+  @media (min-width: 320px) and (max-width: 480px) {
+    grid-template-columns: 5% 1fr 5%;
+  }
 
   .menu-btn {
-    // position: relative;
-    position: fixed;
+    position: relative;
     top: 0px;
     left: 0px;
+    margin: 0px;
+    padding: 10px;
+    width: auto;
+    height: auto;
+    min-width: 50px;
+    min-height: 50px;
 
-    @media (min-width: 320px) and (max-width: 480px) {
-      // position: absolute;
-      margin: 0px;
-      padding: 5px;
-      left: 10px;
-    }
+    // @media (min-width: 320px) and (max-width: 480px) {
+    // position: absolute;
+    // left: 10px;
+    // }
+ 
+  }
+
+  > *:nth-child(2), h2 {
+    margin: 0px;
+    grid-column: 2 / 3;
   }
 }
+
+// .content-container::-webkit-scrollbar-track {
+//   background: transparent;
+// }
+
+// .content-container::-webkit-scrollbar-thumb {
+//   background: lime;
+//   border-radius: 5px 0px 0px 5px;
+// }
 
 .content-container {
   position: relative;
@@ -99,7 +124,7 @@ span.material-icons {
   // bottom: 0px;
 
   // right: 0px;
-  width: 80%;
+  width: 100%;
   margin: 30px auto 0px auto;
   overflow: hidden;
   height: 100%;
@@ -109,9 +134,33 @@ span.material-icons {
   flex-flow: column nowrap;
   align-items: center;
   box-sizing: border-box;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    transition: opacity .5s;
+    background: lime;
+    border-radius: 10px 0px 0px 10px;
+
+    &:hover {
+      background: darken(lime, 10%);
+    }
+  }
 
   // height: 100%;
   @media (min-width: 320px) and (max-width: 480px) {
     width: 100%;
   }
+}
+
+.typed-cursor {
+  background: lime;
+  color: lime;
 }

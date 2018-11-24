@@ -1,5 +1,47 @@
 .home-container {
+  // flex-basis: 50%;
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
+  align-items: flex-start;
+  width: 50%;
+  box-sizing: border-box;
+  padding: 0px 10px 0px 10px;
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    width: 100%;
+  }
+
+  .typed-cursor--blink {
+    display: none;
+  }
+
+  .skill-h3, #typed1, #typed2 {
+    color: lime;
+  }
+
+  .skill-ul {
+    list-style-type: none;
+
+    .skill-li {
+      color: rgb(190, 190, 190);
+
+      &:before {
+        content: '⇒';
+        color: orange;
+        font-size: 120%;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.skill-head-tr-appear, .skill-head-tr-enter {
+  transform: translateX(-200px);
+  opacity: 0;
+}
+
+.skill-head-tr-appear-active, .skill-head-tr-enter-active {
+  transition: transform 1s, opacity 1s;
+  opacity: 1;
+  transform: translateX(0px);
 }

@@ -25,7 +25,8 @@
     "react-collapsible": "^2.3.1",
     "react-dom": "^16.5.2",
     "react-swipeable": "^4.3.0",
-    "react-transition-group": "^2.5.0"
+    "react-transition-group": "^2.5.0",
+    "typed.js": "^2.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

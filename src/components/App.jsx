@@ -1,11 +1,13 @@
 import React, { Component, createRef } from 'react';
 import '../scss/main.scss';
+
 import SideMenu from './side-menu/SideMenu';
 import Title from './Title';
-import History from 'history/createBrowserHistory';
+import Container from './ContentContainer';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Router, Route, Link, Switch, } from 'react-router-dom';
+import History from 'history/createBrowserHistory';
 
 import Home from './pages/Home';
 import Test from './pages/Test';
@@ -19,10 +21,10 @@ const routes = {
 };
 
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
-    this.rootEl = React.createRef();
+    this.rootEl = createRef();
     this.sm = createRef();
     this.state = {
       trx: 0,
@@ -34,7 +36,6 @@ class App extends Component {
       this.setState({ location: location, doAnim: false }, () => {
         this.setState({ doAnim: true });
       });
-      console.log(location);
     });
   }
 
@@ -53,36 +54,14 @@ class App extends Component {
             text={routes[this.state.location.pathname][0]}
             sideMenu={this.sm}
           />
-          <div className='content-container article-container'
+          <div className='content-container'
             ref={e => { this.rootEl = e; }}
-            style={containerStyle}
           >
-            <TransitionGroup>
-              <CSSTransition
-                classNames='article-next'
-                timeout={1000}
-                key={this.state.location.key}
-                appear
-                unmountOnExit
-              >
-                <Switch location={this.state.location}>
-                  {Object.keys(routes).map((p, i) => (
-                    <Route
-                      exact
-                      path={p}
-                      key={i}
-                      render={() => (
-                        <div className='tr-wrapper'>
-                          {routes[p][1]}
-                        </div>
-                      )} />
-                  ))}
-                </Switch>
-              </CSSTransition>
-            </TransitionGroup>
+            <Container location={this.state.location} routes={routes} />
           </div>
 
-          <SideMenu ref={e => { this.sm = e; }}
+          <SideMenu
+            ref={e => { this.sm = e; }}
             toBlur={null}
           >
             <Link to='/'>Home</Link>
@@ -95,12 +74,3 @@ class App extends Component {
     )
   }
 }
-
-export default App
-
-const style = {
-  background: 'red'
-}
-
-const containerStyle = {
-};

@@ -17,9 +17,11 @@ export default class Button extends Component {
 
   componentDidMount() {
     if (this.props.rounded) {
-      const { width, height } = this.buttonEl.getBoundingClientRect();
+      // const { width, height } = this.buttonEl.getBoundingClientRect();
+      const width = this.buttonEl.offsetWidth;
+      const height = this.buttonEl.offsetHeight;
       const maxDim = Math.round(Math.max(width, height));
-      this.setState({ size: maxDim });
+      this.setState({ size: maxDim }, () => { this.forceUpdate(); });
     }
   }
 
@@ -54,8 +56,8 @@ export default class Button extends Component {
           background: transparent ? 'transparent' :
             (background ? background : DEFAULTS.background),
           boxShadow: transparent ? 'none' : '',
-          width: size ? size : 'unset',
-          height: size ? size : 'unset',
+          width: size ? size : 'auto',
+          height: size ? size : 'auto',
         }}
         className={`md2-button ${className ? className : ''}`}
         onMouseOver={(event) => {

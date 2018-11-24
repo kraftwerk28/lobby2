@@ -1,9 +1,40 @@
 {
   "title": "@kraftwerk28's lobby",
-  "about": "Hi there. I'm Vsevolod, a software developer from Ukraine.",
-  "skills": [
-    "web",
-    "game dev",
-    "..."
-  ]
+  "about": [
+    "Hi there",
+    "Hi there. I'm Vsevolod, a stud",
+    "Hi there. I'm Vsevolod, a software developer from Ukraine. I hate Java ",
+    "Hi there. I'm Vsevolod, a software developer from Ukraine. I love to learn modern technologies and create applications with them."
+  ],
+  "skills": {
+    "frontend": [
+      "vanilla javaScript / html / css",
+      "React.js + Redux",
+      "Vue.js",
+      "Webpack / Gulp",
+      "sass / scss / stylus"
+    ],
+    "game dev": [
+      "vanilla javaScript / html / css",
+      "React.js + Redux",
+      "Vue.js",
+      "Webpack / Gulp",
+      "sass / scss / stylus"
+    ],
+    "game dev2": [
+      "vanilla javaScript / html / css",
+      "React.js + Redux",
+      "Vue.js",
+      "Webpack / Gulp",
+      "sass / scss / stylus"
+    ],
+    "game dev3": [
+      "vanilla javaScript / html / css",
+      "React.js + Redux",
+      "Vue.js",
+      "Webpack / Gulp",
+      "sass / scss / stylus"
+    ],
+    "...": null
+  }
 }
