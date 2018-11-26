@@ -19,4 +19,4 @@ http.createServer((req, res) => {
     res.statusCode = 200;
     res.end(data);
   });
-}).listen(8080, () => { console.log('Server running at port :8080'); });
+}).listen(80, () => { console.log('Server running at port :80'); });
