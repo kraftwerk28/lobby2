@@ -14,20 +14,20 @@ import Test from './pages/Test';
 
 const history = History();
 
-const routes = [
-  { to: '/', text: 'Home', component: <Home /> },
-  // { to: '/main', text: 'Main', component: <Test /> },
-  // {
-  //   text: 'Hello',
-  //   group: [
-  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
-  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
-  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
-  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
-  //   ]
-  // },
-  // { to: '/main2', text: 'Main2', component: <Home /> },
-];
+// const routes = [
+//   { to: '/', text: 'Home', component: <Home /> },
+// { to: '/main', text: 'Main', component: <Test /> },
+// {
+//   text: 'Hello',
+//   group: [
+//     { to: '/main3', text: 'Hi there1', component: <Test /> },
+//     { to: '/main3', text: 'Hi there1', component: <Test /> },
+//     { to: '/main3', text: 'Hi there1', component: <Test /> },
+//     { to: '/main3', text: 'Hi there1', component: <Test /> },
+//   ]
+// },
+// { to: '/main2', text: 'Main2', component: <Home /> },
+// ];
 
 // const flattenRoutes = () => {
 //   const getFlatten = r => r.group ? r.group.map(v => getFlatten(v)) : [r];
@@ -51,13 +51,25 @@ export default class App extends Component {
         this.setState({ doAnim: true });
       });
     });
+
+    this.openMenu = this.openMenu.bind(this);
+
+    this.routes = [
+      { to: '/', text: 'Home', component: <Home onMenuOpen={this.openMenu} /> },
+    ];
   }
 
   componentDidMount() {
     this.forceUpdate();
   }
 
+  openMenu() {
+    this.sm.expand(true);
+  }
+
   render() {
+    const routes = this.routes;
+    
     return (
       <Router history={history}>
         <div className='root'>

@@ -32,8 +32,8 @@ html {
 
 .md2-button {
   position: relative;
-  box-shadow: $md2-box-shadow;
-  transition: box-shadow $transition-box-shadow;
+  // box-shadow: $md2-box-shadow;
+  // transition: box-shadow $transition-box-shadow;
   cursor: pointer;
   outline: none;
   margin: 5px;
@@ -44,6 +44,8 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  border: $def-border;
 
   &:hover {
     box-shadow: $md2-box-shadow-hover;

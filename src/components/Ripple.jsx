@@ -161,4 +161,5 @@ const rippleStyle = {
   pointerEvents: 'none',
   userSelect: 'none',
   transitionTimingFunction: 'cubic-bezier(0, 0, 0, 1)',
+  // transitionTimingFunction: 'linear',
 };

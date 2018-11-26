@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Ripple from './Ripple.jsx';
 import Icon from './Icon.jsx';
+import DEFS from '../globals.js';
 
 const DEFAULTS = {
-  rippleOpacity: 0.2,
-  background: 'orange',
-  borderRadius: 4,
+  rippleOpacity: 0.5,
+  rippleColor: '#aaa',
+  background: 'transparent',
+  borderRadius: 5,
 };
 
 export default class Button extends Component {
@@ -58,6 +60,7 @@ export default class Button extends Component {
           boxShadow: transparent ? 'none' : '',
           width: size ? size : 'auto',
           height: size ? size : 'auto',
+          borderWidth: rounded ? 0 : null
         }}
         className={`md2-button ${className ? className : ''}`}
         onMouseOver={(event) => {
@@ -73,7 +76,7 @@ export default class Button extends Component {
 
         <Ripple style={rippleStyle}
           inner rippleTime={280}
-          color={rippleColor && rippleColor}
+          color={rippleColor ? rippleColor : DEFAULTS.rippleColor}
           opacity={rippleOpacity ? rippleOpacity :
             DEFAULTS.rippleOpacity} />
         {this.props.icon ?

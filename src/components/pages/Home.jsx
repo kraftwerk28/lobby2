@@ -3,6 +3,7 @@ import React, { Component, createRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Typed from 'typed.js';
 import HomeSkillGroup from './HomeSkillGroup';
+import Button from '../Button';
 
 export default class Home extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class Home extends Component {
     this.data = {};
     this.typed = null;
     this.skillsCount = null;
+    this.enteredCount = 0;
     this.keyListener = (e) => {
       if (e.key === 'p') {
         this.typed.reset();
@@ -18,9 +20,11 @@ export default class Home extends Component {
 
     this.state = {
       showSkills: false,
+      allEntered: false,
     };
 
     this.showSkills = this.showSkills.bind(this);
+    this.enteredHandler = this.enteredHandler.bind(this);
 
     fetch('data/homepage.json')
       .then(d => d.json())
@@ -31,13 +35,13 @@ export default class Home extends Component {
           strings: this.data.about,
           // stringsElement: '#typed1strings',
           typeSpeed: 30,
-          backSpeed: 30,
-          backDelay: 0,
+          backSpeed: 50,
+          backDelay: 100,
           cursorChar: '-',
           onComplete: () => {
             this.typed = new Typed('#typed2', {
               strings: ['My skills:'],
-              startDelay: 500,
+              startDelay: 300,
               typeSpeed: 60,
               onComplete: this.showSkills,
             })
@@ -53,6 +57,13 @@ export default class Home extends Component {
 
   showSkills() {
     this.setState({ showSkills: true });
+  }
+
+  enteredHandler() {
+    this.enteredCount++;
+    if (this.enteredCount === Object.keys(this.data.skills).length) {
+      this.setState({ allEntered: true });
+    }
   }
 
   componentWillUnmount() {
@@ -79,10 +90,14 @@ export default class Home extends Component {
                 index={index}
                 count={this.skillsCount}
                 subSkills={this.data.skills[key]}
+                onEntered={this.enteredHandler}
               />
             )}
         </div>
 
+        {this.state.allEntered &&
+          <Button onClick={this.props.onMenuOpen}>View projects</Button>
+        }
       </div>
     )
   }

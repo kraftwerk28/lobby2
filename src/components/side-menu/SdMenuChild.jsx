@@ -27,7 +27,6 @@ export default class SdMenuChild extends Component {
           position: 'relative',
           borderRadius: `
             0px ${this.borderRadius}px ${this.borderRadius}px 0px`,
-          borderLeft: sub ? `10px solid lime` : 0,
         }}
         className={'sd-menu-child' + (sub ? '-sub' : '')}
         onClick={onClick ? onClick : undefined}

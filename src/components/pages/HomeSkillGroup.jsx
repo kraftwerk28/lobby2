@@ -18,7 +18,7 @@ export default class extends Component {
   }
 
   render() {
-    const { title, subSkills, index, count } = this.props;
+    const { title, subSkills, index, count, onEntered } = this.props;
 
     return (
       <>
@@ -29,13 +29,21 @@ export default class extends Component {
             timeout={animTimeout}
             appear
             in
+            onEntered={() => {
+              setTimeout(() => {
+                if (onEntered)
+                  onEntered();
+              }, 1000);
+            }}
           >
             {state =>
               <ul
                 className='skill-ul'
                 style={{
                   maxHeight: state === 'entered' ? 300 : 0 + 'px',
-                  transition: `max-height ${animTimeout}ms`,
+                  paddingTop: state === 'entered' ? 20 : 0 + 'px',
+                  transition:
+                    `max-height ${animTimeout}ms, padding ${animTimeout}ms`,
                   transitionDelay:
                     (count) * DEF.skillsInDiff + DEF.subSkillsDelay + 'ms',
                 }}
@@ -66,7 +74,7 @@ const H3 = props => <CSSTransition
   in
 >
   <h3
-  className='skill-h3'
+    className='skill-h3'
     style={{
       transitionDelay: props.index * DEF.skillsInDiff + 'ms'
     }}
@@ -84,7 +92,7 @@ const Li = props => <Transition
     <li
       className='skill-li'
       style={{
-        transform: `translateX(${state === 'entered' ? 0 : -200}px)`,
+        transform: `translateX(${state === 'entered' ? 0 : -50}px)`,
         opacity: state === 'entered' ? 1 : 0,
         transition: `transform ${animTimeout}ms, opacity ${animTimeout}ms`,
         transitionDelay:
