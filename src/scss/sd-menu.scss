@@ -1,4 +1,4 @@
-@import "./constants.scss";
+@import './constants.scss';
 
 .side-menu {
   position: fixed;
@@ -8,8 +8,27 @@
   width: 200px;
   background: green;
   border: $def-border;
+  border-width: 1px;
   user-select: none;
   box-sizing: border-box;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 2px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: lime;
+  }
+
+  * {
+    user-select: none;
+  }
 }
 
 .sd-menu-overflow {
@@ -24,21 +43,59 @@
   z-index: 10;
 }
 
-.sd-menu-child {
+@mixin smc {
   padding: 10px 10px 10px 20px;
   border: $def-border;
   border-left: 0px;
   margin: 5px 10px 5px 0px;
-  transform: translateX(-10px);
   transition: transform .2s;
+}
+
+.sd-menu-child {
+  @include smc;
+
+  transform: translateX(-10px);
 
   &:hover {
     transform: translateX(0px);
   }
 }
 
+.sd-menu-child-sub {
+  @include smc;
+
+  transform: translateX(-20px);
+
+  &:hover {
+    transform: translateX(-10px);
+  }
+}
+
 .sd-menu-trigger {
   user-select: none;
+}
+
+.def-link {
+  text-decoration: none;
+}
+
+//! ANIMATIONS
+
+.sd-menu-sub-tr-enter, .sd-menu-sub-tr-exit-done {
+  transform: translateX(-300px);
+}
+
+.sd-menu-sub-tr-enter-active {
+  transform: translateX(-20px);
+}
+
+.sd-menu-sub-tr-exit-active {
+  transform: translateX(-300px);
+}
+
+.sd-menu-sub-tr-enter-active,
+.sd-menu-sub-tr-exit-active {
+  transition: transform 1s;
 }
 
 .sm-expand-enter {

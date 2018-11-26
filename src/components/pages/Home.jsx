@@ -10,6 +10,11 @@ export default class Home extends Component {
     this.data = {};
     this.typed = null;
     this.skillsCount = null;
+    this.keyListener = (e) => {
+      if (e.key === 'p') {
+        this.typed.reset();
+      }
+    };
 
     this.state = {
       showSkills: false,
@@ -25,13 +30,14 @@ export default class Home extends Component {
         this.typed = new Typed('#typed1', {
           strings: this.data.about,
           // stringsElement: '#typed1strings',
-          typeSpeed: 10,
+          typeSpeed: 30,
           backSpeed: 30,
           backDelay: 0,
           cursorChar: '-',
           onComplete: () => {
             this.typed = new Typed('#typed2', {
               strings: ['My skills:'],
+              startDelay: 500,
               typeSpeed: 60,
               onComplete: this.showSkills,
             })
@@ -42,7 +48,7 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-
+    document.addEventListener('keypress', this.keyListener);
   }
 
   showSkills() {
@@ -51,6 +57,7 @@ export default class Home extends Component {
 
   componentWillUnmount() {
     this.typed.destroy();
+    document.removeEventListener('keypress', this.keyListener);
   }
 
   render() {

@@ -14,11 +14,25 @@ import Test from './pages/Test';
 
 const history = History();
 
-const routes = {
-  '/': ['Home', <Home />],
-  '/main': ['Main', <Test />],
-  '/main2': ['Main2', <Home />],
-};
+const routes = [
+  { to: '/', text: 'Home', component: <Home /> },
+  // { to: '/main', text: 'Main', component: <Test /> },
+  // {
+  //   text: 'Hello',
+  //   group: [
+  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
+  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
+  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
+  //     { to: '/main3', text: 'Hi there1', component: <Test /> },
+  //   ]
+  // },
+  // { to: '/main2', text: 'Main2', component: <Home /> },
+];
+
+// const flattenRoutes = () => {
+//   const getFlatten = r => r.group ? r.group.map(v => getFlatten(v)) : [r];
+//   return routes.map(v => getFlatten(v))//.reduce((res, cur) => [...res, ...cur], []);
+// };
 
 
 export default class App extends Component {
@@ -51,7 +65,10 @@ export default class App extends Component {
           {/* -----MAIN BODY----- */}
           <Title
             animTrigger={this.state.doAnim}
-            text={routes[this.state.location.pathname][0]}
+            text={routes.find(v =>
+              v.group ?
+                v.group.find(_v => _v.to = this.state.location.pathname) :
+                v.to === this.state.location.pathname).text}
             sideMenu={this.sm}
           />
           <div className='content-container'
@@ -64,9 +81,14 @@ export default class App extends Component {
             ref={e => { this.sm = e; }}
             toBlur={null}
           >
-            <Link to='/'>Home</Link>
+            {routes}
+            {/* <Link to='/'>Home</Link>
             <Link to='/main'>Main</Link>
             <Link to='/main2'>Main2</Link>
+            <React.Fragment group title='Hello'>
+              <Link to='/main3'>Hello1</Link>
+              <Link to='/main4'>Hello2</Link>
+            </React.Fragment> */}
           </SideMenu>
 
         </div>

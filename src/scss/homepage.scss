@@ -11,12 +11,20 @@
     width: 100%;
   }
 
+  @media (min-width: 481px) and (max-width: 900px) {
+    width: 75%;
+  }
+
   .typed-cursor--blink {
     display: none;
   }
 
   .skill-h3, #typed1, #typed2 {
     color: lime;
+  }
+
+  .skill-h3 {
+    margin-bottom: 5px;
   }
 
   .skill-ul {
@@ -26,9 +34,9 @@
       color: rgb(190, 190, 190);
 
       &:before {
-        content: '⇒';
+        content: '↳';
         color: orange;
-        font-size: 120%;
+        font-size: 200%;
         margin-right: 10px;
       }
     }

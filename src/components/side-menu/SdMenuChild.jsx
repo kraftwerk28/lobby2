@@ -17,16 +17,22 @@ export default class SdMenuChild extends Component {
   }
 
   render() {
+    const { text, onClick, sub, style } = this.props;
+
+
     return (
       <div ref={e => { this.DOMel = e; }}
         style={{
+          ...style,
           position: 'relative',
           borderRadius: `
-            0px ${this.borderRadius}px ${this.borderRadius}px 0px`
+            0px ${this.borderRadius}px ${this.borderRadius}px 0px`,
+          borderLeft: sub ? `10px solid lime` : 0,
         }}
-        className='sd-menu-child'
+        className={'sd-menu-child' + (sub ? '-sub' : '')}
+        onClick={onClick ? onClick : undefined}
       >
-        {this.props.link}
+        {text}
         <Ripple inner color='white' />
       </div>
     );

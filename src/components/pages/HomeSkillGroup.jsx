@@ -26,7 +26,6 @@ export default class extends Component {
 
         {subSkills !== null &&
           <Transition
-            in={true}
             timeout={animTimeout}
             appear
             in
@@ -35,7 +34,7 @@ export default class extends Component {
               <ul
                 className='skill-ul'
                 style={{
-                  maxHeight: state === 'entered' ? 200 : 0 + 'px',
+                  maxHeight: state === 'entered' ? 300 : 0 + 'px',
                   transition: `max-height ${animTimeout}ms`,
                   transitionDelay:
                     (count) * DEF.skillsInDiff + DEF.subSkillsDelay + 'ms',

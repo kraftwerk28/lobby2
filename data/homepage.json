@@ -14,27 +14,25 @@
       "Webpack / Gulp",
       "sass / scss / stylus"
     ],
+    "backend": [
+      "node.js",
+      "MongoDB",
+      "MySql",
+      "Express.js",
+      "PM2",
+      "Telegram Bot API"
+    ],
     "game dev": [
-      "vanilla javaScript / html / css",
-      "React.js + Redux",
-      "Vue.js",
-      "Webpack / Gulp",
-      "sass / scss / stylus"
+      "Unity3D",
+      "Blender",
+      "modelling / rigging / animating",
+      "Bfxr",
+      "Phaser / PIXI.js"
     ],
-    "game dev2": [
-      "vanilla javaScript / html / css",
-      "React.js + Redux",
-      "Vue.js",
-      "Webpack / Gulp",
-      "sass / scss / stylus"
-    ],
-    "game dev3": [
-      "vanilla javaScript / html / css",
-      "React.js + Redux",
-      "Vue.js",
-      "Webpack / Gulp",
-      "sass / scss / stylus"
-    ],
-    "...": null
+    "other": [
+      "C++",
+      "Python",
+      "C#"
+    ]
   }
 }

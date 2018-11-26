@@ -27,17 +27,31 @@ export default class Container extends Component {
           unmountOnExit
         >
           <Switch location={location}>
-            {Object.keys(routes).map((p, i) => (
-              <Route
-                exact
-                path={p}
-                key={i}
-                render={() => (
-                  <div className='tr-wrapper'>
-                    {routes[p][1]}
-                  </div>
-                )} />
-            ))}
+            {routes.map((p, i) =>
+              p.group ?
+                p.group.map((v, i_) => (
+                  <Route
+                    exact
+                    path={v.to}
+                    key={routes.length + i_}
+                    render={() => (
+                      <div className='tr-wrapper'>
+                        {v.component}
+                      </div>
+                    )}
+                  />
+                )) :
+                <Route
+                  exact
+                  path={p.to}
+                  key={i}
+                  render={() => (
+                    <div className='tr-wrapper'>
+                      {p.component}
+                    </div>
+                  )}
+                />
+            )}
           </Switch>
         </CSSTransition>
       </TransitionGroup>

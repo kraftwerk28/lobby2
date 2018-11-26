@@ -82,12 +82,23 @@ export default class SideMenu extends Component {
     this.setState({ swapping: false });
   }
 
-  child(component, key) {
-    return (
-      <Link {...component.props} key={key} style={linkStyle}>
-        <SdMenuChild title={component.title} link={component.props.children} />
-      </Link>
-    )
+  child({ text, to, group }, key) {
+    return group ?
+      (
+        <NestedChild
+          group={group}
+          key={key}
+          text={text}
+        />
+      ) : (
+        <Link
+          to={to}
+          key={key}
+          className='def-link'
+        >
+          <SdMenuChild title={text} text={text} />
+        </Link>
+      );
   }
 
   render() {
@@ -179,7 +190,3 @@ const sdMenuStyle = {
   transitionTimingFunction: 'ease-out',
   cursor: 'default',
 };
-
-const linkStyle = {
-  textDecoration: 'none'
-}

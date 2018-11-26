@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Ripple from '../Ripple';
-import Base from './SdMenuChild';
-import Button from '../Button';
-import { CSSTransition as Transition } from 'react-transition-group';
+import SdMenuChild from './SdMenuChild';
+import { CSSTransition, Transition } from 'react-transition-group';
+import { Link } from 'react-router-dom';
 
-export default class NestedChild extends Base {
+const EXPAND_TIMEOUT = 1000;
+
+export default class NestedChild extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,50 +22,58 @@ export default class NestedChild extends Base {
 
 
   render() {
-    return (
-      <div ref={e => { this.DOMel = e; }}
-        onClick={this.toggleExpand}
-        style={{
-          position: 'relative',
-          borderRadius: `
-            0px ${this.borderRadius}px ${this.borderRadius}px 0px`
-        }}
-        className='sd-menu-child'>
-        <Button rounded
-          transparent
-          icon='chevron_right'
-          rippleOpacity={0.5}
-          rippleColor='#fff'
+    const { text, group } = this.props;
+    const allText =
+      <>
+        <span
+          className='material-icons'
           style={{
-            margin: 0,
-            padding: 0,
-            transform: `rotate(${this.state.expanded ? 90 : 0}deg)`,
-            transition: 'transform .3s'
+            transition: 'transform .5s',
+            transform: `rotate(${this.state.expanded ? 0 : -90}deg)`,
           }}
-          onClick={this.toggleExpand}
-        >
-        </Button>
-        <Ripple inner />
-        {this.props.title}
+        >expand_more</span>
+        {text}
+      </>;
+
+    return (
+      <>
+        <SdMenuChild text={allText} onClick={this.toggleExpand} />
+
         <Transition
+          timeout={EXPAND_TIMEOUT}
           in={this.state.expanded}
-          classNames='sm-expand'
-          timeout={300}
-          unmountOnExit
-          onEntered={() => {
-            console.log('enter');
-          }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              height: 200,
-              width: 50,
-              background: '#f3a',
-            }}
-          ></div>
+          {state =>
+            <div
+              style={{
+                maxHeight: state === 'exited' || state === 'exiting' ?
+                  0 : 200 + 'px',
+                transition: `max-height ${EXPAND_TIMEOUT}ms`,
+                overflow: 'hidden',
+              }}
+            >
+              {group.map(({ to, text }, i) =>
+                <Link
+                  to={to}
+                  className='def-link'
+                  key={i}
+                >
+                  <CSSTransition
+                    classNames='sd-menu-sub-tr'
+                    timeout={1000}
+                    in={this.state.expanded}
+                  >
+                    <SdMenuChild sub text={text}
+                      style={{
+                        transitionDelay: i * 50 + 'ms',
+                      }} />
+                  </CSSTransition>
+                </Link>
+              )}
+            </div>
+          }
         </Transition>
-      </div>
+      </>
     );
   }
 }

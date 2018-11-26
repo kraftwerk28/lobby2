@@ -8,6 +8,10 @@
 
 @import url(https://cdn.rawgit.com/tonsky/FiraCode/1.206/distr/fira_code.css);
 
+html {
+  overflow: -moz-scrollbars-none;
+}
+
 * {
   font-family: 'Fira Code';
   font-variant-ligatures: additional-ligatures;
