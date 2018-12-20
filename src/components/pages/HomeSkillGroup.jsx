@@ -5,7 +5,7 @@ const animTimeout = 1000;
 
 const DEF = {
   skillsInDiff: 100,
-  subSkillsDelay: 500,
+  subSkillsDelay: 250,
 };
 
 export default class extends Component {
@@ -41,7 +41,7 @@ export default class extends Component {
                 className='skill-ul'
                 style={{
                   maxHeight: state === 'entered' ? 300 : 0 + 'px',
-                  paddingTop: state === 'entered' ? 20 : 0 + 'px',
+                  // paddingTop: state === 'entered' ? 20 : 0 + 'px',
                   transition:
                     `max-height ${animTimeout}ms, padding ${animTimeout}ms`,
                   transitionDelay:
@@ -92,9 +92,13 @@ const Li = props => <Transition
     <li
       className='skill-li'
       style={{
-        transform: `translateX(${state === 'entered' ? 0 : -50}px)`,
+        transform: `
+          translateX(${state === 'entered' ? 0 : -25}px)`,
         opacity: state === 'entered' ? 1 : 0,
-        transition: `transform ${animTimeout}ms, opacity ${animTimeout}ms`,
+        transition: `
+          transform ${animTimeout}ms,
+          opacity ${animTimeout}ms`,
+        transformOrigin: 'top left',
         transitionDelay:
           (props.count + props.index) * DEF.skillsInDiff +
           DEF.subSkillsDelay + 500 + 'ms',

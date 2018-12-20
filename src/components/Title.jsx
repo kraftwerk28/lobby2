@@ -49,7 +49,7 @@ export default class Title extends Component {
               ...styles[state]
             }}
           >
-            <MenuBtn sideMenu={this.props.sideMenu} />
+            <MenuBtn openMenu={this.props.onOpenMenu} />
             <h2>
               {(state === 'entering') || (state === 'exiting') ?
                 this.prevTitle : this.props.text}

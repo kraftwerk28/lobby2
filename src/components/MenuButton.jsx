@@ -12,7 +12,7 @@ export default (props) => {
       rippleColor='#aaa'
       rippleOpacity={0.5}
       onClick={() => {
-        props.sideMenu.expand(true); 
+        props.openMenu();
       }}
     />
   );

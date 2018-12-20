@@ -5,6 +5,8 @@ import Typed from 'typed.js';
 import HomeSkillGroup from './HomeSkillGroup';
 import Button from '../Button';
 
+import octocat from '../../assets/octocat.png';
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -12,9 +14,13 @@ export default class Home extends Component {
     this.typed = null;
     this.skillsCount = null;
     this.enteredCount = 0;
+    this.typedPassed = false;
     this.keyListener = (e) => {
-      if (e.key === 'p') {
-        this.typed.reset();
+      if (!this.typedPassed && e.key === 'p') {
+        // this.typed.reset();
+        this.typedPassed = true;
+        this.typed.typeSpeed = 0;
+        this.typed.backSpeed = 0;
       }
     };
 
@@ -33,6 +39,7 @@ export default class Home extends Component {
         this.skillsCount = Object.keys(this.data.skills).length;
         this.typed = new Typed('#typed1', {
           strings: this.data.about,
+          // stringsElement: '#typed1static',
           // stringsElement: '#typed1strings',
           typeSpeed: 30,
           backSpeed: 50,
@@ -41,13 +48,16 @@ export default class Home extends Component {
           onComplete: () => {
             this.typed = new Typed('#typed2', {
               strings: ['My skills:'],
+              // stringsElement: 'typed1',
               startDelay: 300,
               typeSpeed: 60,
               onComplete: this.showSkills,
             })
           }
         });
-        this.forceUpdate();
+        this.forceUpdate(() => { });
+
+        // this.forceUpdate();
       });
   }
 
@@ -75,7 +85,8 @@ export default class Home extends Component {
     return (
       <div className='home-container'>
         <div>
-          <span id='typed1'></span>
+          <span id='typed1'>{}</span>
+          {/* <span id='typed1static'>{this.data.about}</span> */}
         </div>
         <div>
           <h2 style={{ display: 'inline-block' }} id='typed2'></h2>
@@ -95,10 +106,23 @@ export default class Home extends Component {
             )}
         </div>
 
-        {this.state.allEntered &&
-          <Button onClick={this.props.onMenuOpen}>View projects</Button>
-        }
+        {this.state.allEntered && (
+          <div className='bottom-div'>
+            <Button onClick={this.props.onMenuOpen}>&lt;- View projects</Button>
+            <Button href="https://github.com/kraftwerk28" style={{ padding: 2 }}>
+              <img src={octocat} style={styles.octocat} />
+            </Button>
+          </div>
+        )}
       </div>
     )
+  }
+}
+
+const styles = {
+  octocat: {
+    filter: 'invert(100%)',
+    pointerEvents: 'none',
+    width: 40,
   }
 }

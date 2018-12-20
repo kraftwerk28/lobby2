@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Ripple from './Ripple.jsx';
-import Icon from './Icon.jsx';
+import Ripple from './Ripple';
+import Icon from './Icon';
+import A from './MyLink';
 import DEFS from '../globals.js';
 
 const DEFAULTS = {
@@ -9,6 +10,17 @@ const DEFAULTS = {
   background: 'transparent',
   borderRadius: 5,
 };
+
+class Wrapper extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return this.props.href ?
+      <A {...this.props}>{this.props.children}</A> :
+      <button {...this.props}>{this.props.children}</button>;
+  }
+}
 
 export default class Button extends Component {
   constructor(props) {
@@ -39,6 +51,8 @@ export default class Button extends Component {
       rippleStyle,
       className,
 
+      href,
+
       onMouseOver,
       onMouseLeave,
       onClick,
@@ -48,7 +62,8 @@ export default class Button extends Component {
     const { size } = this.state;
 
     return (
-      <button
+      <Wrapper
+        href={href}
         ref={e => {
           this.buttonEl = e;
         }}
@@ -82,7 +97,7 @@ export default class Button extends Component {
         {this.props.icon ?
 
           <Icon name={icon} /> : this.props.children}
-      </button>
+      </Wrapper>
     )
   }
 }

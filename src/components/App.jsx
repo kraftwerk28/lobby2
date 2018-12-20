@@ -10,7 +10,10 @@ import { Router, Route, Link, Switch, } from 'react-router-dom';
 import History from 'history/createBrowserHistory';
 
 import Home from './pages/Home';
+import ProjectPresentation from './pages/ProjectPresentation';
 import Test from './pages/Test';
+
+import {hot} from 'react-hot-loader';
 
 const history = History();
 
@@ -34,8 +37,7 @@ const history = History();
 //   return routes.map(v => getFlatten(v))//.reduce((res, cur) => [...res, ...cur], []);
 // };
 
-
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.rootEl = createRef();
@@ -56,11 +58,16 @@ export default class App extends Component {
 
     this.routes = [
       { to: '/', text: 'Home', component: <Home onMenuOpen={this.openMenu} /> },
+      {
+        to: '/kpi-labs', text: 'Kpi Labs',
+        component:
+          <ProjectPresentation jsonDataPath='../../data/kpi-labs.json' />
+      },
     ];
   }
 
   componentDidMount() {
-    this.forceUpdate();
+    // this.forceUpdate();
   }
 
   openMenu() {
@@ -69,7 +76,7 @@ export default class App extends Component {
 
   render() {
     const routes = this.routes;
-    
+
     return (
       <Router history={history}>
         <div className='root'>
@@ -81,7 +88,7 @@ export default class App extends Component {
               v.group ?
                 v.group.find(_v => _v.to = this.state.location.pathname) :
                 v.to === this.state.location.pathname).text}
-            sideMenu={this.sm}
+            onOpenMenu={this.openMenu}
           />
           <div className='content-container'
             ref={e => { this.rootEl = e; }}
@@ -108,3 +115,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default hot(module)(App);

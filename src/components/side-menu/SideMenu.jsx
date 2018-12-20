@@ -153,6 +153,7 @@ export default class SideMenu extends Component {
             }}
           >
             {items && items.map((c, i) => this.child(c, i))}
+            <span>Another content will be soon...</span>
           </div>
         </Swipeable>
       </div>

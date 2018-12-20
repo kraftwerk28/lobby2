@@ -28,14 +28,14 @@
   }
 
   .skill-ul {
-    list-style-type: none;
+    // list-style-type: armenian;
     border-bottom-left-radius: 10px;
     border-left: 2px solid orange;
     margin-top: 0px;
 
     .skill-li {
       color: rgb(190, 190, 190);
-
+      margin-top: 15px,
       // &:before {
       //   content: '↳';
       //   color: orange;
@@ -43,6 +43,12 @@
       //   margin-right: 10px;
       // }
     }
+  }
+
+  .bottom-div {
+    display: flex;
+    flex: row wrap;
+    align-self: center;
   }
 }
 
