@@ -20,7 +20,10 @@ if (process.env.NODE_ENV === 'production') {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ platform: navigator.platform, timestamp: Date.now() })
+    body: JSON.stringify({
+      platform: navigator.platform,
+      timestamp: (new Date()).toJSON().replace(/T/, ' ').replace(/\..*$/, '')
+    })
   });
 }
 

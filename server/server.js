@@ -31,8 +31,8 @@ app.post('/stats', (req, res) => {
   const conn = mysql.createConnection(connConfig);
   conn.connect();
   conn.query(
-    `INSERT INTO ? VALUES(?, ?, ?)`,
-    [TABLENAME, platform, req.connection.remoteAddress, timestamp]
+    `INSERT INTO ${TABLENAME} VALUES(?, ?, ?)`,
+    [platform, req.connection.remoteAddress.substring(7), timestamp]
   );
   conn.end();
 });
