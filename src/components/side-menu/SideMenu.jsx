@@ -167,7 +167,7 @@ const rootStyle = {
   left: 0,
   userSelect: 'none',
   zIndex: 10,
-}
+};
 
 const triggerStyle = {
   position: 'fixed',

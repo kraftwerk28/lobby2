@@ -3,6 +3,12 @@
 // const http = require('http');
 const fs = require('fs');
 const express = require('express');
+const mysql = require('mysql');
+const TABLENAME = 'statistics';
+
+const connConfig = JSON.parse(
+  fs.readFileSync(__dirname + '/connConfig.json', 'utf8')
+);
 
 const app = express();
 
@@ -16,22 +22,12 @@ app.get('/', (req, res) => {
   res.sendFile('')
 });
 
+app.post('/stats', (req, res) => {
+  console.log(req.body);
+  // const {platfor}
+  // const conn = mysql.createConnection(connConfig);
+  // conn.connect();
+  // conn.query(`INSERT INTO ${TABLENAME} (${123})`);
+});
+
 app.listen(80, () => { console.log('Listening on port :80'); });
-
-// http.createServer((req, res) => {
-//   let path = '';
-//   if (req.url === '/')
-//     path = '/dist/index.html';
-//   else
-//     path = /\/(?:bundle.js|style.css)/i.test(req.url) ? '/dist' + req.url :
-//       req.url;
-
-//   fs.readFile(__dirname + path, { encoding: 'utf8' }, (err, data) => {
-//     if (err)
-//       console.log(err.message);
-
-//     console.log(path);
-//     res.statusCode = 200;
-//     res.end(data);
-//   });
-// }).listen(80, () => { console.log('Server running at port :80'); });

@@ -13,4 +13,11 @@ if (
   window.isMobile = true;
 }
 
+if (!process.env.NODE_ENV === 'development') {
+  fetch('/stats', {
+    method: 'POST',
+    body: JSON.stringify({ platform: navigator.platform, timestamp: Date.now() })
+  });
+}
+
 ReactDOM.render(<App />, document.getElementById('app'));

@@ -3,7 +3,7 @@
 const HWP = require('html-webpack-plugin');
 const cssExt = require('mini-css-extract-plugin');
 const cssMini = require('optimize-css-assets-webpack-plugin');
-
+const { EnvironmentPlugin } = require('webpack');
 
 const config = {
   resolve: {
@@ -64,6 +64,7 @@ module.exports = env => {
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
+      // new EnvironmentPlugin({ 'NODE_ENV': 'development' })
     );
     config.devServer = {
       compress: true,
