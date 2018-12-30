@@ -32,7 +32,7 @@ app.post('/stats', (req, res) => {
   conn.connect();
   conn.query(
     `INSERT INTO ? VALUES(?, ?, ?)`,
-    [platform, req.connection.remoteAddress, timestamp]
+    [TABLENAME, platform, req.connection.remoteAddress, timestamp]
       .map(_ => conn.escape(_))
   );
   conn.end();
