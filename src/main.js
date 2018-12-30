@@ -16,7 +16,11 @@ if (
 if (process.env.NODE_ENV === 'production') {
   fetch('/stats', {
     method: 'POST',
-    body: { platform: navigator.platform, timestamp: Date.now() }
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ platform: navigator.platform, timestamp: Date.now() })
   });
 }
 
