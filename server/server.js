@@ -35,6 +35,7 @@ app.post('/stats', (req, res) => {
     [platform, req.connection.remoteAddress.substring(7), timestamp]
   );
   conn.end();
+  res.status(200).end();
 });
 
 app.listen(80, () => { console.log('Listening on port :80'); });
