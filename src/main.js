@@ -13,7 +13,7 @@ if (
   window.isMobile = true;
 }
 
-if (!process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   fetch('/stats', {
     method: 'POST',
     body: JSON.stringify({ platform: navigator.platform, timestamp: Date.now() })

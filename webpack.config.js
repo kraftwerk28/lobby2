@@ -80,7 +80,5 @@ module.exports = env => {
     );
   }
 
-  console.log(config);
-
   return config;
 };
