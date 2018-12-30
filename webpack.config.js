@@ -60,11 +60,8 @@ module.exports = env => {
 
   config.mode = dev ? 'development' : 'production';
   if (dev) {
-    config.module.rules[1].use[0] = cssExt.loader;
     config.plugins.push(
-      new cssMini({}),
-      new cssExt({ filename: 'style.css' }),
-      // new EnvironmentPlugin({ 'NODE_ENV': 'development' })
+      new EnvironmentPlugin({ 'NODE_ENV': 'development' })
     );
     config.devServer = {
       compress: true,
@@ -75,6 +72,15 @@ module.exports = env => {
     };
     config.devtool = 'source-map';
 
+  } else {
+    config.module.rules[1].use[0] = cssExt.loader;
+    config.plugins.push(
+      new cssMini({}),
+      new cssExt({ filename: 'style.css' }),
+    );
   }
+
+  console.log(config);
+
   return config;
 };
