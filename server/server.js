@@ -31,7 +31,7 @@ app.post('/stats', (req, res) => {
   const conn = mysql.createConnection(connConfig);
   conn.connect();
   conn.query(
-    `INSERT INTO ${TABLENAME} (?, ?, ?)`,
+    `INSERT INTO ? VALUES(?, ?, ?)`,
     [platform, req.connection.remoteAddress, timestamp]
       .map(_ => conn.escape(_))
   );
