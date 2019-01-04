@@ -41,7 +41,6 @@ const config = {
   plugins: [
     new HWP({
       template: './src/index.html',
-      favicon: './src/assets/favicon.png',
       minify: {
         collapseWhitespace: true,
       }
