@@ -16,7 +16,7 @@ export default class Home extends Component {
     this.enteredCount = 0;
     this.typedPassed = false;
     this.keyListener = (e) => {
-      if (!this.typedPassed && e.key === 'p') {
+      if (!this.typedPassed && e.key === 'p' || e.key === 'з') {
         // this.typed.reset();
         this.typedPassed = true;
         this.typed.typeSpeed = 0;
@@ -47,7 +47,7 @@ export default class Home extends Component {
           cursorChar: '-',
           onComplete: () => {
             this.typed = new Typed('#typed2', {
-              strings: ['My skills:'],
+              strings: ['echo $MY_SKILLS'],
               // stringsElement: 'typed1',
               startDelay: 300,
               typeSpeed: 60,
@@ -84,13 +84,19 @@ export default class Home extends Component {
   render() {
     return (
       <div className='home-container'>
+
+        {/* about me */}
         <div>
           <span id='typed1'>{}</span>
           {/* <span id='typed1static'>{this.data.about}</span> */}
         </div>
+
+        {/* echo $MY_SKILLS */}
         <div>
           <h2 style={{ display: 'inline-block' }} id='typed2'></h2>
         </div>
+
+        {/* skills */}
         <div>
           {this.data.skills &&
             this.state.showSkills &&
@@ -106,23 +112,16 @@ export default class Home extends Component {
             )}
         </div>
 
+        {/* footer */}
         {this.state.allEntered && (
           <div className='bottom-div'>
             <Button onClick={this.props.onMenuOpen}>&lt;- View projects</Button>
             <Button href="https://github.com/kraftwerk28" style={{ padding: 2 }}>
-              <img src={octocat} style={styles.octocat} />
+              <img src={octocat} className='octocat' />
             </Button>
           </div>
         )}
       </div>
     )
-  }
-}
-
-const styles = {
-  octocat: {
-    filter: 'invert(100%)',
-    pointerEvents: 'none',
-    width: 40,
   }
 }

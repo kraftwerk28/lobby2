@@ -47,7 +47,6 @@ export default class SideMenu extends Component {
     }
   }
 
-
   swipeStart(e, deltaX, deltaY, absX, absY, velocity) {
     if (!this.state.swapping) {
       this.startX = window.isMobile ? e.touches[0].clientX : e.clientX;
@@ -95,6 +94,7 @@ export default class SideMenu extends Component {
           to={to}
           key={key}
           className='def-link'
+          onClick={() => { this.expand(false); }}
         >
           <SdMenuChild title={text} text={text} />
         </Link>
@@ -105,7 +105,6 @@ export default class SideMenu extends Component {
     const {
       children: items
     } = this.props;
-
 
     return (
       <div style={{

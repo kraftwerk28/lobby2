@@ -28,20 +28,18 @@ export default class Container extends Component {
         >
           <Switch location={location}>
             {routes.map((p, i) =>
-              p.group ?
-                p.group.map((v, i_) => (
-                  <Route
-                    exact
-                    path={v.to}
-                    key={routes.length + i_}
-                    render={() => (
-                      <div className='tr-wrapper'>
-                        {v.component}
-                      </div>
-                    )}
-                  />
-                )) :
+              p.group ? p.group.map((v, i_) => (
                 <Route
+                  exact
+                  path={v.to}
+                  key={routes.length + i_}
+                  render={() => (
+                    <div className='tr-wrapper'>
+                      {v.component}
+                    </div>
+                  )}
+                />
+              )) : <Route
                   exact
                   path={p.to}
                   key={i}

@@ -62,7 +62,7 @@ span.material-icons {
   flex-flow: column nowrap;
   align-items: center;
   width: 100%;
-  top: 0px;
+  top: 30px;
   left: 0px;
 
   > * {
@@ -131,7 +131,7 @@ span.material-icons {
 
   // right: 0px;
   width: 100%;
-  margin: 30px auto 0px auto;
+  margin: 0px auto 0px auto;
   overflow: hidden;
   height: 100%;
 
@@ -169,4 +169,19 @@ span.material-icons {
 .typed-cursor {
   background: lime;
   color: lime;
+}
+
+.top-shadow {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  height: 30px;
+  background: linear-gradient(black, transparent);
+  z-index: 10;
+}
+
+.octocat {
+  filter: invert(100%);
+  pointer-events: none;
+  width: 40px;
 }

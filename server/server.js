@@ -1,6 +1,5 @@
 'use strict';
 
-// const http = require('http');
 const fs = require('fs');
 const express = require('express');
 const mysql = require('mysql');
@@ -20,7 +19,7 @@ app.use(
   urlencoded({ extended: false }),
 );
 
-
+// routing
 app.get('/', (req, res) => {
   res.statusCode = 200;
   res.sendFile('')

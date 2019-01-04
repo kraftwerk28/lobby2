@@ -8,13 +8,24 @@ const DEF = {
   subSkillsDelay: 250,
 };
 
-export default class extends Component {
+export default class HomeSkillGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      entered: false,
+      entered: false, // just animation control
       showSubSkills: false,
+      expanded: true, // if skill group is showing sub-skills
     }
+    this.h3ClickHandler = this.h3ClickHandler.bind(this);
+    setTimeout(() => {
+      this.setState({ entered: true });
+    }, (props.count * 2) * DEF.skillsInDiff +
+    DEF.subSkillsDelay + 500 + animTimeout);
+
+  }
+
+  h3ClickHandler() {
+    this.setState(prev => ({ expanded: !prev.expanded }));
   }
 
   render() {
@@ -22,13 +33,18 @@ export default class extends Component {
 
     return (
       <>
-        <H3 index={index} text={title} count={count} />
+        <H3
+          index={index}
+          text={title}
+          count={count}
+          onClick={this.h3ClickHandler}
+        />
 
         {subSkills !== null &&
           <Transition
-            timeout={animTimeout}
+            timeout={this.state.entered ? 0 : animTimeout}
             appear
-            in
+            in={this.state.expanded}
             onEntered={() => {
               setTimeout(() => {
                 if (onEntered)
@@ -43,12 +59,14 @@ export default class extends Component {
                   maxHeight: state === 'entered' ? 300 : 0 + 'px',
                   // paddingTop: state === 'entered' ? 20 : 0 + 'px',
                   transition:
-                    `max-height ${animTimeout}ms, padding ${animTimeout}ms`,
+                    this.state.entered ? 0 :
+                      `max-height ${animTimeout}ms, padding ${animTimeout}ms`,
                   transitionDelay:
-                    (count) * DEF.skillsInDiff + DEF.subSkillsDelay + 'ms',
+                    this.state.entered ? 0 :
+                      (count) * DEF.skillsInDiff + DEF.subSkillsDelay + 'ms',
                 }}
               >
-                {subSkills.map((val, _index) =>
+                {this.state.expanded && subSkills.map((val, _index) =>
                   <Li
                     count={count}
                     text={val}
@@ -76,8 +94,10 @@ const H3 = props => <CSSTransition
   <h3
     className='skill-h3'
     style={{
-      transitionDelay: props.index * DEF.skillsInDiff + 'ms'
+      transitionDelay: props.index * DEF.skillsInDiff + 'ms',
+      cursor: 'pointer'
     }}
+    onClick={undefined && props.onClick}
   >
     {props.text}
   </h3>
@@ -87,6 +107,7 @@ const Li = props => <Transition
   timeout={animTimeout}
   appear
   in
+  unmountOnExit
 >
   {state =>
     <li

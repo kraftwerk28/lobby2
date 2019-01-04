@@ -13,7 +13,7 @@ import Home from './pages/Home';
 import ProjectPresentation from './pages/ProjectPresentation';
 import Test from './pages/Test';
 
-import {hot} from 'react-hot-loader';
+import { hot } from 'react-hot-loader';
 
 const history = History();
 
@@ -93,6 +93,7 @@ class App extends Component {
           <div className='content-container'
             ref={e => { this.rootEl = e; }}
           >
+            <div className='top-shadow' />
             <Container location={this.state.location} routes={routes} />
           </div>
 

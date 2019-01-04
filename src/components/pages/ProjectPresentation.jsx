@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import MDParser from 'markdown-it';
 import MyLink from '../MyLink';
+import Button from '../Button';
+import Icon from '../Icon';
+
+import octocat from '../../assets/octocat.png';
 
 const md = new MDParser();
 
@@ -9,13 +13,14 @@ export default class ProjectPresentation extends Component {
     super(props);
     this.state = {
       data: {},
+      dataLoaded: false,
       description: {},
     }
 
     fetch(props.jsonDataPath)
       .then(d => d.json())
       .then(d => {
-        this.setState({ data: d });
+        this.setState({ data: d, dataLoaded: true });
 
         if (d.readme) {
           fetch(d.readme)
@@ -33,7 +38,11 @@ export default class ProjectPresentation extends Component {
     return (
       <div>
         {githubUrl &&
-          <MyLink href={githubUrl}>gitHub</MyLink>
+          <Button href={githubUrl}>
+            <img src={octocat} className='octocat' />
+            gitHub
+          </Button>
+          // <MyLink href={githubUrl}></MyLink>
         }
         {npmUrl &&
           <MyLink href={npmUrl}>npm</MyLink>

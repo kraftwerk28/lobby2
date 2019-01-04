@@ -41,6 +41,7 @@ const config = {
   plugins: [
     new HWP({
       template: './src/index.html',
+      favicon: './src/assets/favicon.png',
       minify: {
         collapseWhitespace: true,
       }
@@ -51,7 +52,7 @@ const config = {
   }
 };
 
-module.exports = env => {
+module.exports = (env) => {
   const dev = env.development;
   console.log('Running in ' +
     (dev ? 'development' : 'production') +
