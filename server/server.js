@@ -5,6 +5,7 @@ const express = require('express');
 const mysql = require('mysql');
 const TABLENAME = 'statistics';
 const { json, urlencoded } = require('body-parser');
+const { resolve } = require('path');
 
 const connConfig = JSON.parse(
   fs.readFileSync(__dirname + '/connConfig.json', 'utf8')
@@ -29,7 +30,7 @@ const indexRoutes = [
 // routing
 app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
   res.statusCode = 200;
-  res.sendFile('index.html')
+  res.sendFile(resolve(__dirname + '/../dist/index.html'));
 });
 
 app.post('/stats', (req, res) => {
