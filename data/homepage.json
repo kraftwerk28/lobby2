@@ -1,10 +1,11 @@
 {
   "title": "@kraftwerk28's lobby",
   "about": [
-    "Good $TIME_OF_DAY. I'm Vsevolod, a stud",
-    "Good $TIME_OF_DAY. I'm Vsevolod, a software developer from Ukraine. I hate Java ",
-    "Good $TIME_OF_DAY. I'm Vsevolod, a software developer from Ukraine. I love to learn modern technologies and create applications with them."
+    "Good $TIME. I'm Vsevolod, a stud",
+    "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I hate Java ",
+    "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I love to learn modern technologies and create applications with them."
   ],
+  "skillsTitle": "Technologies, I have experiense in:",
   "skills": {
     "frontend": [
       "vanilla javaScript / html / css",

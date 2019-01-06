@@ -1,0 +1,30 @@
+.top-links {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.top-link-btn {
+  filter: invert(100%);
+  pointer-events: none;
+  width: 40px;
+}
+
+.md-desc {
+  h1 {
+    text-align: center;
+  }
+
+  p {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+
+    img {
+      border: 2px solid $fore-color;
+      border-radius: 3px;
+      align-self: center;
+      width: 75%;
+    }
+  }
+}

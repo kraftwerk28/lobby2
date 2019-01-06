@@ -13,6 +13,8 @@ if (
   window.isMobile = true;
 }
 
+const location = window.location.pathname;
+
 if (process.env.NODE_ENV === 'production') {
   fetch('/stats', {
     method: 'POST',
@@ -27,4 +29,4 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App startLocation={location} />, document.getElementById('app'));

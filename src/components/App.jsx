@@ -1,22 +1,25 @@
 import React, { Component, createRef } from 'react';
-import '../scss/main.scss';
+import { Router, Route, Link, Switch, } from 'react-router-dom';
+import History from 'history/createBrowserHistory';
 
+//? components
 import SideMenu from './side-menu/SideMenu';
 import Title from './Title';
 import Container from './ContentContainer';
 
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Router, Route, Link, Switch, } from 'react-router-dom';
-import History from 'history/createBrowserHistory';
-
+//? pages
 import Home from './pages/Home';
 import ProjectPresentation from './pages/ProjectPresentation';
-import Test from './pages/Test';
 
 import { hot } from 'react-hot-loader';
 
+import '../scss/main.scss';
+
 const history = History();
 
+import Loader from './LoadIndicator';
+
+//* example template
 // const routes = [
 //   { to: '/', text: 'Home', component: <Home /> },
 // { to: '/main', text: 'Main', component: <Test /> },
@@ -45,8 +48,10 @@ class App extends Component {
     this.state = {
       trx: 0,
       canNext: false,
-      location: { pathname: '/' },
+      location: { pathname: props.startLocation },
       doAnim: true,
+
+      bioHasTyped: false,
     }
     history.listen((location) => {
       this.setState({ location: location, doAnim: false }, () => {
@@ -56,14 +61,43 @@ class App extends Component {
 
     this.openMenu = this.openMenu.bind(this);
 
-    this.routes = [
-      { to: '/', text: 'Home', component: <Home onMenuOpen={this.openMenu} /> },
+    this.routes = () => [
+      {
+        to: '/', text: 'Home',
+        component:
+          <Home
+            onMenuOpen={this.openMenu}
+            onBioTyped={() => this.setState({ bioHasTyped: true })}
+            typeBio={!this.state.bioHasTyped}
+          />
+      },
       {
         to: '/kpi-labs', text: 'Kpi Labs',
         component:
-          <ProjectPresentation jsonDataPath='../../data/kpi-labs.json' />
+          <ProjectPresentation jsonDataPath='../../kpi-labs.json' />
       },
+      {
+        to: '/loader-demo', text: 'Loader demo',
+        component:
+          <ProjectPresentation><Loader /></ProjectPresentation>
+      },
+      {
+        to: '/hue-game', text: 'Hue game',
+        component:
+          <ProjectPresentation jsonDataPath='../../hue-game.json' />
+      },
+      {
+        to: '/cube-switch', text: 'Cube switch',
+        component:
+          <ProjectPresentation jsonDataPath='../../cube-switch.json' />
+      },
+      {
+        to: '/dev-helper', text: 'dev-helper',
+        component:
+          <ProjectPresentation jsonDataPath='../../dev-helper.json' />
+      }
     ];
+
   }
 
   componentDidMount() {
@@ -75,7 +109,7 @@ class App extends Component {
   }
 
   render() {
-    const routes = this.routes;
+    const routes = this.routes();
 
     return (
       <Router history={history}>

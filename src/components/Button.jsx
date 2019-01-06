@@ -16,7 +16,7 @@ class Wrapper extends Component {
     super(props);
   }
   render() {
-    return this.props.href ?
+    return typeof this.props.href === 'string' ?
       <A {...this.props}>{this.props.children}</A> :
       <button {...this.props}>{this.props.children}</button>;
   }
@@ -87,16 +87,19 @@ export default class Button extends Component {
           if (onMouseLeave) onMouseLeave(event);
         }}
         onClick={onClick ? onClick : undefined}
-        {...domProps}>
+        {...domProps}
+      >
 
-        <Ripple style={rippleStyle}
-          inner rippleTime={280}
+        <Ripple
+          style={rippleStyle}
+          inner
+          rippleTime={280}
           color={rippleColor ? rippleColor : DEFAULTS.rippleColor}
           opacity={rippleOpacity ? rippleOpacity :
             DEFAULTS.rippleOpacity} />
         {this.props.icon ?
-
-          <Icon name={icon} /> : this.props.children}
+          <Icon name={icon} /> : this.props.children
+        }
       </Wrapper>
     )
   }

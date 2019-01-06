@@ -55,20 +55,26 @@ module.exports = (env) => {
   const dev = env.development;
   console.log('Running in ' +
     (dev ? 'development' : 'production') +
-    ' mode.\n'
-  );
+    ' mode.\n');
 
   config.mode = dev ? 'development' : 'production';
+
+  config.plugins.push(
+    new EnvironmentPlugin({ 'NODE_ENV': dev ? 'development' : 'production' }));
+
   if (dev) {
-    config.plugins.push(
-      new EnvironmentPlugin({ 'NODE_ENV': 'development' })
-    );
     config.devServer = {
       compress: true,
       host: '0.0.0.0',
       port: 8080,
+      contentBase: ['/dist', '/data'].map(_ => __dirname + _),
       overlay: true,
-      stats: 'minimal'
+      stats: 'minimal',
+      historyApiFallback: true,
+      // proxy: [{
+      //   context: ['/kpi-labs'],
+      //   target: 'localhost:8080',
+      // }],
     };
     config.devtool = 'source-map';
 
@@ -78,6 +84,7 @@ module.exports = (env) => {
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
     );
+
   }
 
   return config;

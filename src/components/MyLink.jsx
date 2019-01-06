@@ -6,7 +6,6 @@ const Mylink = props => {
   return (
     <a href={props.href} target='_blank' {...rest}>
       {props.children}
-      <Ripple inner />
     </a>
   )
 }

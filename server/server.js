@@ -14,15 +14,22 @@ const app = express();
 
 app.use(
   express.static(__dirname + '/../dist/'),
-  express.static(__dirname + '/../'),
+  express.static(__dirname + '/../data/'),
   json(),
   urlencoded({ extended: false }),
 );
 
+const indexRoutes = [
+  'cube-switch',
+  'dev-helper',
+  'hue-game',
+  'kpi-labs',
+];
+
 // routing
-app.get('/', (req, res) => {
+app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
   res.statusCode = 200;
-  res.sendFile('')
+  res.sendFile('index.html')
 });
 
 app.post('/stats', (req, res) => {

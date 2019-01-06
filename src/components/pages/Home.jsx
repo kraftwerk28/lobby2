@@ -6,6 +6,7 @@ import HomeSkillGroup from './HomeSkillGroup';
 import Button from '../Button';
 
 import octocat from '../../assets/octocat.png';
+import telegram from '../../assets/telegram.png';
 
 export default class Home extends Component {
   constructor(props) {
@@ -32,30 +33,52 @@ export default class Home extends Component {
     this.showSkills = this.showSkills.bind(this);
     this.enteredHandler = this.enteredHandler.bind(this);
 
-    fetch('data/homepage.json')
+    fetch('/homepage.json')
       .then(d => d.json())
+      .then(d => {
+        const time = (new Date()).getHours();
+        let timeStr = '';
+
+        if (time < 4)
+          timeStr = 'night';
+        else if (time < 12)
+          timeStr = 'morning';
+        else if (time < 18)
+          timeStr = 'afternoon';
+        else if (time < 22)
+          timeStr = 'evening';
+        else
+          timeStr = 'night';
+
+        d.about = d.about.map(v => v.replace(/\$TIME/, timeStr));
+        return d;
+      })
       .then(d => {
         this.data = d;
         this.skillsCount = Object.keys(this.data.skills).length;
+        props.onBioTyped();
+        const timg = (num) => props.typeBio ? num : 0;
+
         this.typed = new Typed('#typed1', {
           strings: this.data.about,
           // stringsElement: '#typed1static',
           // stringsElement: '#typed1strings',
-          typeSpeed: 30,
-          backSpeed: 50,
-          backDelay: 100,
+          typeSpeed: timg(30),
+          backSpeed: timg(50),
+          backDelay: timg(100),
           cursorChar: '-',
           onComplete: () => {
             this.typed = new Typed('#typed2', {
-              strings: ['echo $MY_SKILLS'],
+              strings: [this.data.skillsTitle],
               // stringsElement: 'typed1',
-              startDelay: 300,
-              typeSpeed: 60,
+              startDelay: timg(300),
+              typeSpeed: timg(40),
               onComplete: this.showSkills,
             })
           }
         });
-        this.forceUpdate(() => { });
+
+        // this.forceUpdate(() => { });
 
         // this.forceUpdate();
       });
@@ -93,7 +116,7 @@ export default class Home extends Component {
 
         {/* echo $MY_SKILLS */}
         <div>
-          <h2 style={{ display: 'inline-block' }} id='typed2'></h2>
+          <h3 style={{ display: 'inline-block' }} id='typed2'></h3>
         </div>
 
         {/* skills */}
@@ -116,8 +139,17 @@ export default class Home extends Component {
         {this.state.allEntered && (
           <div className='bottom-div'>
             <Button onClick={this.props.onMenuOpen}>&lt;- View projects</Button>
-            <Button href="https://github.com/kraftwerk28" style={{ padding: 2 }}>
-              <img src={octocat} className='octocat' />
+            <Button
+              href="https://github.com/kraftwerk28"
+              style={{ padding: 2 }}
+            >
+              <img src={octocat} className='top-link-btn' />
+            </Button>
+            <Button
+              href="https://t.me/kraftwerk28"
+              style={{ padding: 2 }}
+            >
+              <img src={telegram} className='top-link-btn' />
             </Button>
           </div>
         )}
