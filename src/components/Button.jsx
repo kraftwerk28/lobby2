@@ -3,6 +3,7 @@ import Ripple from './Ripple';
 import Icon from './Icon';
 import A from './MyLink';
 import DEFS from '../globals.js';
+import PropTypes from 'prop-types';
 
 const DEFAULTS = {
   rippleOpacity: 0.5,
@@ -22,7 +23,7 @@ class Wrapper extends Component {
   }
 }
 
-export default class Button extends Component {
+class Button extends Component {
   constructor(props) {
     super(props);
     this.buttonEl = React.createRef();
@@ -109,3 +110,5 @@ export default class Button extends Component {
 const buttonStyle = {
   borderRadius: DEFAULTS.borderRadius,
 };
+
+export default Button;

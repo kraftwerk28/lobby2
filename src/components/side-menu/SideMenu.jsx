@@ -88,13 +88,14 @@ export default class SideMenu extends Component {
           group={group}
           key={key}
           text={text}
+          onChildClick={() => this.expand(false)}
         />
       ) : (
         <Link
           to={to}
           key={key}
           className='def-link'
-          onClick={() => { this.expand(false); }}
+          onClick={() => this.expand(false)}
         >
           <SdMenuChild title={text} text={text} />
         </Link>
@@ -152,7 +153,7 @@ export default class SideMenu extends Component {
             }}
           >
             {items && items.map((c, i) => this.child(c, i))}
-            <span>Another content will be soon...</span>
+            <div>Another content will be soon...</div>
           </div>
         </Swipeable>
       </div>

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment as Fg } from 'react';
 import MDParser from 'markdown-it';
-// import { Emojione as EmojiRender, Emojione } from 'react-emoji-render';
+import mdEmoji from 'markdown-it-emoji';
+import twemoji from 'twemoji';
 
 import Button from '../Button';
 import Loader from '../LoadIndicator';
@@ -9,8 +10,15 @@ import octocatIcon from '../../assets/octocat.png';
 import npmIcon from '../../assets/npm.png';
 import linkIcon from '../../assets/link.png';
 import youtubeIcon from '../../assets/youtube.png';
+import Ripple from '../Ripple';
 
 const md = new MDParser();
+md.use(mdEmoji);
+md.renderer.rules.emoji = (token, idx) =>
+  twemoji.parse(token[idx].content);
+
+md.renderer.rules.text = (token, idx) => `<span>${token[idx].content}<span>`
+
 
 export default class ProjectPresentation extends Component {
   constructor(props) {
@@ -25,14 +33,17 @@ export default class ProjectPresentation extends Component {
       fetch(props.jsonDataPath)
         .then(d => d.json())
         .then(d => {
-          this.setState({ data: d, dataLoaded: true });
+          this.setState({ data: d });
 
           if (d.readme) {
             fetch(d.readme)
               .then(d => d.text())
               .then(mdData => {
+                this.setState({ dataLoaded: true });
                 this.setState({ description: md.render(mdData) });
               });
+          } else {
+            this.setState({ dataLoaded: true });
           }
         });
     }

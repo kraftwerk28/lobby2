@@ -45,9 +45,11 @@ export default class NestedChild extends Component {
         >
           {state =>
             <div
+              className='sd-menu-nested-div'
               style={{
                 maxHeight: state === 'exited' || state === 'exiting' ?
                   0 : 200 + 'px',
+                // display: state === 'exited' ? 'none' : null,
                 transition: `max-height ${EXPAND_TIMEOUT}ms`,
                 overflow: 'hidden',
               }}
@@ -57,6 +59,7 @@ export default class NestedChild extends Component {
                   to={to}
                   className='def-link'
                   key={i}
+                  onClick={this.props.onChildClick}
                 >
                   <CSSTransition
                     classNames='sd-menu-sub-tr'

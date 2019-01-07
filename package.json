@@ -22,13 +22,12 @@
   "homepage": "https://github.com/kraftwerk28/lobby2#readme",
   "dependencies": {
     "markdown-it": "^8.4.2",
-    "prop-types": "^15.6.2",
+    "markdown-it-emoji": "^1.4.0",
     "react": "^16.5.2",
-    "react-collapsible": "^2.3.1",
     "react-dom": "^16.5.2",
-    "react-emoji-render": "^0.5.0",
     "react-swipeable": "^4.3.0",
     "react-transition-group": "^2.5.0",
+    "twemoji": "^11.2.0",
     "typed.js": "^2.0.9"
   },
   "devDependencies": {
@@ -45,6 +44,7 @@
     "mini-css-extract-plugin": "^0.4.3",
     "node-sass": "^4.9.3",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "prop-types": "^15.6.2",
     "react-hot-loader": "^4.6.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
@@ -52,6 +52,6 @@
     "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.14"
   }
 }

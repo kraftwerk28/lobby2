@@ -7,6 +7,7 @@ import Button from '../Button';
 
 import octocat from '../../assets/octocat.png';
 import telegram from '../../assets/telegram.png';
+import Modal from '../Modal';
 
 export default class Home extends Component {
   constructor(props) {
@@ -108,6 +109,10 @@ export default class Home extends Component {
     return (
       <div className='home-container'>
 
+
+        {/* <Modal headerText='Feedback'>
+          <div>hi there!</div>
+        </Modal> */}
         {/* about me */}
         <div>
           <span id='typed1'>{}</span>

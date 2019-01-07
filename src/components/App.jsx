@@ -76,26 +76,31 @@ class App extends Component {
         component:
           <ProjectPresentation jsonDataPath='../../kpi-labs.json' />
       },
+      // {
+      //   to: '/loader-demo', text: 'Loader demo',
+      //   component:
+      //     <ProjectPresentation><Loader /></ProjectPresentation>
+      // },
       {
-        to: '/loader-demo', text: 'Loader demo',
-        component:
-          <ProjectPresentation><Loader /></ProjectPresentation>
-      },
-      {
-        to: '/hue-game', text: 'Hue game',
-        component:
-          <ProjectPresentation jsonDataPath='../../hue-game.json' />
-      },
-      {
-        to: '/cube-switch', text: 'Cube switch',
-        component:
-          <ProjectPresentation jsonDataPath='../../cube-switch.json' />
+        text: 'Gamedev',
+        group: [
+          {
+            to: '/hue-game', text: 'Hue game',
+            component:
+              <ProjectPresentation jsonDataPath='../../hue-game.json' />
+          },
+          {
+            to: '/cube-switch', text: 'Cube switch',
+            component:
+              <ProjectPresentation jsonDataPath='../../cube-switch.json' />
+          },
+        ]
       },
       {
         to: '/dev-helper', text: 'dev-helper',
         component:
           <ProjectPresentation jsonDataPath='../../dev-helper.json' />
-      }
+      },
     ];
 
   }
@@ -134,16 +139,7 @@ class App extends Component {
           <SideMenu
             ref={e => { this.sm = e; }}
             toBlur={null}
-          >
-            {routes}
-            {/* <Link to='/'>Home</Link>
-            <Link to='/main'>Main</Link>
-            <Link to='/main2'>Main2</Link>
-            <React.Fragment group title='Hello'>
-              <Link to='/main3'>Hello1</Link>
-              <Link to='/main4'>Hello2</Link>
-            </React.Fragment> */}
-          </SideMenu>
+          >{routes}</SideMenu>
 
         </div>
       </Router>

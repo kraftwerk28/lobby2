@@ -11,20 +11,37 @@
 }
 
 .md-desc {
+  display: flex;
+  flex-flow: column nowrap;
+  
   h1 {
     text-align: center;
   }
 
   p {
     display: flex;
-    flex-flow: column nowrap;
-    align-items: flex-start;
+    // display: inline;
+    // flex-flow: column nowrap;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    // align-items: flex-start;
 
-    img {
+    a {
+      display: contents;
+    }
+
+    img:not(.emoji) {
       border: 2px solid $fore-color;
-      border-radius: 3px;
+      border-radius: 5px;
       align-self: center;
       width: 75%;
+      margin: auto;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    img.emoji {
+      width: 1em;
+      height: 1em;
     }
   }
 }
