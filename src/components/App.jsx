@@ -125,7 +125,7 @@ class App extends Component {
             animTrigger={this.state.doAnim}
             text={routes.find(v =>
               v.group ?
-                v.group.find(_v => _v.to = this.state.location.pathname) :
+                v.group.find(_v => _v.to === this.state.location.pathname) :
                 v.to === this.state.location.pathname).text}
             onOpenMenu={this.openMenu}
           />

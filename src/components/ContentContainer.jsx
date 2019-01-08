@@ -39,17 +39,17 @@ export default class Container extends Component {
                     </div>
                   )}
                 />
-              )) : <Route
-                  exact
-                  path={p.to}
-                  key={i}
-                  render={() => (
-                    <div className='tr-wrapper'>
-                      {p.component}
-                    </div>
-                  )}
-                />
-            )}
+              )) : [<Route
+                exact
+                path={p.to}
+                key={i}
+                render={() => (
+                  <div className='tr-wrapper'>
+                    {p.component}
+                  </div>
+                )}
+              />]
+            ).reduce((r, c) => [...r, ...c], [])}
           </Switch>
         </CSSTransition>
       </TransitionGroup>
