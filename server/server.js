@@ -6,9 +6,11 @@ const mysql = require('mysql');
 const TABLENAME = 'statistics';
 const { json, urlencoded } = require('body-parser');
 const { resolve } = require('path');
+const fetch = require('node-fetch');
 
 const { createServer } = require('https');
 const PORT = 443;
+const geourl = 'http://ip-api.com/json/';
 
 const connConfig = JSON.parse(
   readFileSync(__dirname + '/connConfig.json', 'utf8')
@@ -36,13 +38,18 @@ app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
   res.sendFile(resolve(__dirname + '/../dist/index.html'));
 });
 
-app.post('/stats', (req, res) => {
+app.post('/stats', async (req, res) => {
   const { platform, timestamp } = req.body;
+  const ip = req.connection.remoteAddress.substring(7);
+
+  const { country, city, org, lat, lon } = await fetch(geourl + ip)
+    .then(d => d.json());
+
   const conn = mysql.createConnection(connConfig);
   conn.connect();
   conn.query(
-    `INSERT INTO ${TABLENAME} VALUES(?, ?, ?)`,
-    [platform, req.connection.remoteAddress.substring(7), timestamp]
+    `INSERT INTO ${TABLENAME} VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
+    [platform, ip, timestamp, country, city, org, lat, lon]
   );
   conn.end();
   res.status(200).end();
