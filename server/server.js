@@ -48,7 +48,8 @@ app.post('/stats', (req, res) => {
   res.status(200).end();
 });
 
-const httpsPaths = JSON.parse(readFileSync('httpsCfg.json', 'utf8'));
+const httpsPaths = JSON.parse(
+  readFileSync(__dirname + '/httpsCfg.json', 'utf8'));
 
 const cfg = {
   key: readFileSync(httpsPaths.key),
