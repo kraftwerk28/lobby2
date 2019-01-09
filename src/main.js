@@ -16,6 +16,7 @@ if (
 const location = window.location.pathname;
 
 if (process.env.NODE_ENV === 'production') {
+  const date = new Date();
   fetch('/stats', {
     method: 'POST',
     headers: {
@@ -24,7 +25,8 @@ if (process.env.NODE_ENV === 'production') {
     },
     body: JSON.stringify({
       platform: navigator.platform,
-      timestamp: (new Date()).toJSON().replace(/T/, ' ').replace(/\..*$/, '')
+      timestamp: (new Date(date.getTime() - (date.getTimezoneOffset() * 60000)))
+        .toJSON().replace(/T/, ' ').replace(/\..*$/, '')
     })
   });
 }
