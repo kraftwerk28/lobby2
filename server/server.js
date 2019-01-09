@@ -1,14 +1,17 @@
 'use strict';
 
-const fs = require('fs');
+const { readFileSync } = require('fs');
 const express = require('express');
 const mysql = require('mysql');
 const TABLENAME = 'statistics';
 const { json, urlencoded } = require('body-parser');
 const { resolve } = require('path');
 
+const { createServer } = require('https');
+const PORT = 443;
+
 const connConfig = JSON.parse(
-  fs.readFileSync(__dirname + '/connConfig.json', 'utf8')
+  readFileSync(__dirname + '/connConfig.json', 'utf8')
 );
 
 const app = express();
@@ -45,4 +48,12 @@ app.post('/stats', (req, res) => {
   res.status(200).end();
 });
 
-app.listen(80, () => { console.log('Listening on port :80'); });
+const httpsPaths = JSON.parse(readFileSync('httpsCfg.json', 'utf8'));
+
+const cfg = {
+  key: readFileSync(httpsPaths.key),
+  cert: readFileSync(httpsPaths.cert),
+};
+
+createServer(cfg, app)
+  .listen(443, () => console.log('Listening on port :' + PORT));
