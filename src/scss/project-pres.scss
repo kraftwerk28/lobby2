@@ -20,14 +20,14 @@
 
   p {
     display: flex;
-    // display: inline;
-    // flex-flow: column nowrap;
-    flex-flow: row wrap;
-    justify-content: flex-start;
+    // display: block;
+    flex-flow: column nowrap;
+    // flex-flow: column wrap;
+    // justify-content: flex-start;
     // align-items: flex-start;
 
     a {
-      display: contents;
+      // display: contents;
     }
 
     img:not(.emoji) {

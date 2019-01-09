@@ -7,7 +7,9 @@ import Button from '../Button';
 
 import octocat from '../../assets/octocat.png';
 import telegram from '../../assets/telegram.png';
+import facebook from '../../assets/facebook.png';
 import Modal from '../Modal';
+import Icon from '../Icon';
 
 export default class Home extends Component {
   constructor(props) {
@@ -143,7 +145,10 @@ export default class Home extends Component {
         {/* footer */}
         {this.state.allEntered && (
           <div className='bottom-div'>
-            <Button onClick={this.props.onMenuOpen}>&lt;- View projects</Button>
+            <Button onClick={this.props.onMenuOpen}>
+              <Icon name='arrow_back' />
+              View projects
+            </Button>
             <Button
               href="https://github.com/kraftwerk28"
               style={{ padding: 2 }}
@@ -155,6 +160,12 @@ export default class Home extends Component {
               style={{ padding: 2 }}
             >
               <img src={telegram} className='top-link-btn' />
+            </Button>
+            <Button
+              href="https://www.facebook.com/vsevolod.zerda.1"
+              style={{ padding: 2 }}
+            >
+              <img src={facebook} className='top-link-btn' />
             </Button>
           </div>
         )}

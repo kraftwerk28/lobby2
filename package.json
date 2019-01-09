@@ -25,13 +25,16 @@
     "markdown-it-emoji": "^1.4.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-markdown": "^4.0.6",
     "react-swipeable": "^4.3.0",
     "react-transition-group": "^2.5.0",
+    "react-twemoji": "^0.1.0",
     "twemoji": "^11.2.0",
     "typed.js": "^2.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",

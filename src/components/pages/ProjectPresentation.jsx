@@ -1,7 +1,8 @@
-import React, { Component, Fragment as Fg } from 'react';
+import React, { Component } from 'react';
 import MDParser from 'markdown-it';
 import mdEmoji from 'markdown-it-emoji';
 import twemoji from 'twemoji';
+// import RT from 'react-twemoji';
 
 import Button from '../Button';
 import Loader from '../LoadIndicator';
@@ -10,7 +11,7 @@ import octocatIcon from '../../assets/octocat.png';
 import npmIcon from '../../assets/npm.png';
 import linkIcon from '../../assets/link.png';
 import youtubeIcon from '../../assets/youtube.png';
-import Ripple from '../Ripple';
+// import Ripple from '../Ripple';
 
 const md = new MDParser();
 md.use(mdEmoji);
@@ -18,6 +19,10 @@ md.renderer.rules.emoji = (token, idx) =>
   twemoji.parse(token[idx].content);
 
 md.renderer.rules.text = (token, idx) => `<span>${token[idx].content}<span>`
+
+// const mdRenderers = {
+//   image: (props) => <img {...props}></img>
+// };
 
 
 export default class ProjectPresentation extends Component {
@@ -39,8 +44,10 @@ export default class ProjectPresentation extends Component {
             fetch(d.readme)
               .then(d => d.text())
               .then(mdData => {
-                this.setState({ dataLoaded: true });
-                this.setState({ description: md.render(mdData) });
+                this.setState({
+                  dataLoaded: true,
+                  description: md.render(mdData),
+                });
               });
           } else {
             this.setState({ dataLoaded: true });
@@ -107,7 +114,8 @@ export default class ProjectPresentation extends Component {
             <div
               className='md-desc'
               dangerouslySetInnerHTML={{ __html: this.state.description }}
-            /> : <h3>{'no description provided :L'}</h3>
+            />
+            : <h3>{'no description provided :L'}</h3>
           }
 
         </> : <Loader />}

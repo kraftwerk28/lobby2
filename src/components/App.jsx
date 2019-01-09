@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { Router, Route, Link, Switch, } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import History from 'history/createBrowserHistory';
 
 //? components
@@ -9,7 +9,7 @@ import Container from './ContentContainer';
 
 //? pages
 import Home from './pages/Home';
-import ProjectPresentation from './pages/ProjectPresentation';
+import ProjPres from './pages/ProjectPresentation';
 
 import { hot } from 'react-hot-loader';
 
@@ -59,7 +59,6 @@ class App extends Component {
       });
     });
 
-    this.openMenu = this.openMenu.bind(this);
 
     this.routes = () => [
       {
@@ -74,7 +73,7 @@ class App extends Component {
       {
         to: '/kpi-labs', text: 'Kpi Labs',
         component:
-          <ProjectPresentation jsonDataPath='../../kpi-labs.json' />
+          <ProjPres jsonDataPath='../../kpi-labs.json' />
       },
       // {
       //   to: '/loader-demo', text: 'Loader demo',
@@ -87,19 +86,19 @@ class App extends Component {
           {
             to: '/hue-game', text: 'Hue game',
             component:
-              <ProjectPresentation jsonDataPath='../../hue-game.json' />
+              <ProjPres jsonDataPath='../../hue-game.json' />
           },
           {
             to: '/cube-switch', text: 'Cube switch',
             component:
-              <ProjectPresentation jsonDataPath='../../cube-switch.json' />
+              <ProjPres jsonDataPath='../../cube-switch.json' />
           },
         ]
       },
       {
         to: '/dev-helper', text: 'dev-helper',
         component:
-          <ProjectPresentation jsonDataPath='../../dev-helper.json' />
+          <ProjPres jsonDataPath='../../dev-helper.json' />
       },
     ];
 
@@ -109,11 +108,11 @@ class App extends Component {
     // this.forceUpdate();
   }
 
-  openMenu() {
+  openMenu = () => {
     this.sm.expand(true);
   }
 
-  render() {
+  render = () => {
     const routes = this.routes();
 
     return (
@@ -123,9 +122,10 @@ class App extends Component {
           {/* -----MAIN BODY----- */}
           <Title
             animTrigger={this.state.doAnim}
-            text={routes.find(v =>
-              v.group ?
-                v.group.find(_v => _v.to === this.state.location.pathname) :
+            text={routes
+              .map(r => r.group ? r.group : [r])
+              .reduce((r, c) => [...r, ...c])
+              .find(v =>
                 v.to === this.state.location.pathname).text}
             onOpenMenu={this.openMenu}
           />
