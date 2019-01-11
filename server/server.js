@@ -30,6 +30,7 @@ const indexRoutes = [
   'dev-helper',
   'hue-game',
   'kpi-labs',
+  'index.html',
 ];
 
 // routing
