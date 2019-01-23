@@ -101,7 +101,7 @@ app.post('/visittable', (req, res) => {
       country, city, org, latitude, longtitude
       FROM statistics
       ORDER BY id DESC`
-      ).then(({ result }) => {
+    ).then(({ result }) => {
       res.status(200).send(result).end();
     });
   }
@@ -114,13 +114,8 @@ app.post('/stats', async (req, res) => {
   const { country, city, org, lat, lon } = await fetch(geourl + ip)
     .then(d => d.json());
 
-  const conn = mysql.createConnection(connConfig);
-  conn.connect();
-  conn.query(
-    `INSERT INTO ${TABLENAME} VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
-    [platform, ip, timestamp, country, city, org, lat, lon]
-  );
-  conn.end();
+  dbQuery(`INSERT INTO ststistics VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
+    [platform, ip, timestamp, country, city, org, lat, lon]);
   res.status(200).end();
 });
 
