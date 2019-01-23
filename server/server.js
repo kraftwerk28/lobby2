@@ -55,21 +55,21 @@ app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
 });
 
 app.all('/crud', (req, res) => {
-  res.status(200);
-  if (req.method === 'GET') {
-    res.sendFile(resolve(__dirname + '/../dist/crudauth.html'));
-  } else if (req.method === 'POST' &&
-    req.body.pwd.toLowerCase() === password) {
-    sessionToken = generateToken();
-    res.setHeader('authtoken', sessionToken);
-    if (timerId) {
-      clearTimeout(timerId);
-    }
-    timerId = setTimeout(() => {
-      timerId = sessionToken = null;
-    }, TOKEN_TIMEOUT);
+  res.status(200).sendFile(resolve(__dirname + '/../dist/crud.html'));
+  // if (req.method === 'GET') {
+  //   res.sendFile(resolve(__dirname + '/../dist/crudauth.html'));
+  // } else if (req.method === 'POST' &&
+  //   req.body.pwd.toLowerCase() === password) {
+  //   sessionToken = generateToken();
+  //   res.setHeader('authtoken', sessionToken);
+  //   if (timerId) {
+  //     clearTimeout(timerId);
+  //   }
+  //   timerId = setTimeout(() => {
+  //     timerId = sessionToken = null;
+  //   }, TOKEN_TIMEOUT);
 
-    sendCrud(res);
+  //   sendCrud(res);
   }
 });
 
