@@ -24,9 +24,9 @@ const dbQuery = (query, values) => new Promise((resolve, reject) => {
     else resolve({ err, result, fields });
   };
   if (typeof values === 'undefined') {
-    conn.query(query, values, callback);
-  } else {
     conn.query(query, callback);
+  } else {
+    conn.query(query, values, callback);
   }
   conn.end();
 });
