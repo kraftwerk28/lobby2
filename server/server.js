@@ -114,7 +114,7 @@ app.post('/stats', async (req, res) => {
   const { country, city, org, lat, lon } = await fetch(geourl + ip)
     .then(d => d.json());
 
-  dbQuery(`INSERT INTO ststistics VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
+  dbQuery(`INSERT INTO statistics VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
     [platform, ip, timestamp, country, city, org, lat, lon]);
   res.status(200).end();
 });
