@@ -70,7 +70,7 @@ app.all('/crud', (req, res) => {
   //   }, TOKEN_TIMEOUT);
 
   //   sendCrud(res);
-  }
+  // }
 });
 
 // session token (must send it back in headers)
