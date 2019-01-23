@@ -1,26 +1,35 @@
 'use strict';
 
 const { readFileSync } = require('fs');
+const { randomBytes } = require('crypto');
 const express = require('express');
-const mysql = require('mysql');
-const TABLENAME = 'statistics';
 const { json, urlencoded } = require('body-parser');
 const { resolve } = require('path');
 const fetch = require('node-fetch');
 
+const { createServer: createhttpServer } = require('http');
 const { createServer } = require('https');
-const PORT = 443;
+
+const { dbQuery } = require('./db');
+
+const PORT = 443
+const DEVPORT = 8081;
 const geourl = 'http://ip-api.com/json/';
 
-const connConfig = JSON.parse(
-  readFileSync(__dirname + '/connConfig.json', 'utf8')
-);
+const generateToken = () => randomBytes(16).toString('hex');
+let sessionToken = null;
+const TOKEN_TIMEOUT = 1000 * 60 * 5;
+let timerId = null;
+
+const password = readFileSync(__dirname + '/password', 'utf8');
 
 const app = express();
 
+// custom middlewares
 app.use(
   express.static(__dirname + '/../dist/'),
   express.static(__dirname + '/../data/'),
+  express.static(__dirname + '/../crud/dist/'),
   json(),
   urlencoded({ extended: false }),
 );
@@ -34,9 +43,68 @@ const indexRoutes = [
 ];
 
 // routing
+/** @param {Response} res */
+const sendCrud = (res) => {
+  res.status(200);
+  res.sendFile(resolve(__dirname + '/../dist/crud.html'));
+};
+
 app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
-  res.statusCode = 200;
-  res.sendFile(resolve(__dirname + '/../dist/index.html'));
+  res.status(200)
+    .sendFile(resolve(__dirname + '/../dist/index.html'));
+});
+
+app.all('/crud', (req, res) => {
+  res.status(200);
+  if (req.method === 'GET') {
+    res.sendFile(resolve(__dirname + '/../dist/crudauth.html'));
+  } else if (req.method === 'POST' &&
+    req.body.pwd.toLowerCase() === password) {
+    sessionToken = generateToken();
+    res.setHeader('authtoken', sessionToken);
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(() => {
+      timerId = sessionToken = null;
+    }, TOKEN_TIMEOUT);
+
+    sendCrud(res);
+  }
+});
+
+// session token (must send it back in headers)
+app.post('/token', (req, res) => {
+  if (req.body.pwd === password) {
+    sessionToken = generateToken();
+    console.log('Authorized with ' + sessionToken);
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(() => {
+      console.log('Auth expired with ' + sessionToken);
+      timerId = sessionToken = null;
+    }, TOKEN_TIMEOUT);
+
+    res.status(200).send(sessionToken).end();
+
+  } else {
+    res.status(202).end();
+  }
+});
+
+app.post('/visittable', (req, res) => {
+  if (req.body.token === sessionToken) {
+    dbQuery(`SELECT
+      id, platform, ip,
+      DATE_FORMAT(time, "%H:%i:%s, %d.%m.%Y") as time,
+      country, city, org, latitude, longtitude
+      FROM statistics
+      ORDER BY id DESC`
+      ).then(({ result }) => {
+      res.status(200).send(result).end();
+    });
+  }
 });
 
 app.post('/stats', async (req, res) => {
@@ -56,13 +124,21 @@ app.post('/stats', async (req, res) => {
   res.status(200).end();
 });
 
-const httpsPaths = JSON.parse(
-  readFileSync(__dirname + '/httpsCfg.json', 'utf8'));
 
-const cfg = {
-  key: readFileSync(httpsPaths.key),
-  cert: readFileSync(httpsPaths.cert),
-};
 
-createServer(cfg, app)
-  .listen(443, () => console.log('Listening on port :' + PORT));
+if (process.env.NODE_ENV === 'development') {
+  createhttpServer(app)
+    .listen(DEVPORT, () => console.log('Listening on port :' + DEVPORT))
+} else {
+  // creating server
+  const httpsPaths = JSON.parse(
+    readFileSync(__dirname + '/httpsCfg.json', 'utf8'));
+
+  const cfg = {
+    key: readFileSync(httpsPaths.key),
+    cert: readFileSync(httpsPaths.cert),
+  };
+  createServer(cfg, app)
+    .listen(PORT, () => console.log('Listening on port :' + PORT));
+}
+

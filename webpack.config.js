@@ -4,63 +4,83 @@ const HWP = require('html-webpack-plugin');
 const cssExt = require('mini-css-extract-plugin');
 const cssMini = require('optimize-css-assets-webpack-plugin');
 const { EnvironmentPlugin } = require('webpack');
-
-const config = {
-  resolve: {
-    extensions: ['.jsx', '.js', '.scss'],
-  },
-
-  entry: './src/main.js',
-  output: {
-    filename: 'bundle.js',
-    path: __dirname + '/dist',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.s([ac])ss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot|svg|png)$/,
-        loader: 'file-loader',
-        exclude: /node_modules/,
-      }
-    ]
-  },
-  plugins: [
-    new HWP({
-      template: './src/index.html',
-      minify: {
-        collapseWhitespace: true,
-      }
-    })
-  ],
-  resolve: {
-    extensions: ['.js', '.jsx']
-  }
-};
+const { resolve } = require('path');
 
 module.exports = (env) => {
   const dev = env.development;
+
+  const config = {
+    mode: dev ? 'development' : 'production',
+
+    entry: {
+      app: './src/main.js',
+      // crudauth: './crud/src/auth.js',
+      crud: './crud/src/main.js',
+    },
+    output: {
+      filename: '[name].js',
+      path: resolve(__dirname, 'dist'),
+    },
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/env', '@babel/react'],
+            plugins: [
+              'react-hot-loader/babel',
+              '@babel/plugin-proposal-class-properties'
+            ],
+          },
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.s([ac])ss$/,
+          use: [
+            dev ? 'style-loader' : cssExt.loader,
+            'css-loader',
+            'sass-loader',
+          ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg|png)$/,
+          loader: 'file-loader',
+          exclude: /node_modules/,
+        }
+      ]
+    },
+    plugins: [
+      new HWP({
+        chunks: ['app'],
+        template: './src/index.html',
+        minify: { collapseWhitespace: true },
+        filename: 'index.html',
+      }),
+      // new HWP({
+      //   chunks: ['crudauth'],
+      //   template: './crud/src/crudauth.html',
+      //   minify: { collapseWhitespace: true },
+      //   filename: 'crudauth.html',
+      // }),
+      new HWP({
+        chunks: ['crud'],
+        template: './crud/src/crud.html',
+        minify: { collapseWhitespace: true },
+        filename: 'crud.html',
+      }),
+      new EnvironmentPlugin({ 'NODE_ENV': dev ? 'development' : 'production' })
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx']
+    },
+
+  };
+
   console.log('Running in ' +
     (dev ? 'development' : 'production') +
     ' mode.\n');
-
-  config.mode = dev ? 'development' : 'production';
-
-  config.plugins.push(
-    new EnvironmentPlugin({ 'NODE_ENV': dev ? 'development' : 'production' }));
 
   if (dev) {
     config.devServer = {
@@ -71,15 +91,14 @@ module.exports = (env) => {
       overlay: true,
       stats: 'minimal',
       historyApiFallback: true,
-      // proxy: [{
-      //   context: ['/kpi-labs'],
-      //   target: 'localhost:8080',
-      // }],
+      proxy: [{
+        context: ['/token', '/visittable'],
+        target: 'http://localhost:8081',
+      }]
     };
     config.devtool = 'source-map';
 
   } else {
-    config.module.rules[1].use[0] = cssExt.loader;
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),

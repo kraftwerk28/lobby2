@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './components/App';
-
+import Auth from './components/Auth';
 
 window.isMobile = false;
 if (
@@ -16,14 +15,13 @@ if (
 
 const location = window.location.pathname;
 
-
 if (process.env.NODE_ENV === 'production') {
   const date = new Date();
   const timestamp =
     new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
       .toJSON().replace(/T/, ' ').replace(/\..*$/, '');
 
-  fetch('stats', {
+  fetch('/stats', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -31,8 +29,9 @@ if (process.env.NODE_ENV === 'production') {
     },
     body: JSON.stringify({ platform: navigator.platform, timestamp }),
   });
+
 }
 
 ReactDOM.render(
-  <App startLocation={location} />,
-  document.getElementById('app'));
+  <Auth startLocation={location} />,
+  document.getElementById('root'));
