@@ -5,7 +5,8 @@ import {
   DialogContentText,
   DialogContent,
   DialogActions,
-  TextField as Input,
+  FormControl,
+  TextField,
   Button,
   MuiThemeProvider
 
@@ -24,15 +25,15 @@ class TokenDialog extends React.Component {
   state = {
     pwd: '',
     dialogOpen: true,
+    pwdError: false,
   };
 
   getToken = async () => {
     const token = await setToken(this.state.pwd);
     if (token !== null) {
-      // console.log('Auth successfull!');
       this.props.onPwdEnter();
-      // this.setState({ dialogOpen: false });
-
+    } else {
+      this.setState({ pwdError: true });
     }
   }
 
@@ -46,10 +47,16 @@ class TokenDialog extends React.Component {
         <DialogTitle>Log in</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>Enter password below:</DialogContentText> */}
-          <Input
+          <TextField
+            margin='normal'
+            autoFocus
+            variant='outlined'
             type='password'
-            placeholder='password'
-            onChange={(e) => this.setState({ pwd: e.target.value })}
+            error={this.state.pwdError}
+            label={'password'}
+            onChange={(e) =>
+              this.setState({ pwd: e.target.value, pwdError: false })}
+            onKeyPress={(e) => { if (e.key === 'Enter') { this.getToken() } }}
           />
         </DialogContent>
         <DialogActions>

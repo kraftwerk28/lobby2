@@ -13,9 +13,3 @@ const renderApp = () => {
 };
 
 ReactDOM.render(<TokenRequest onPwdEnter={renderApp} />, htmlel);
-
-// (async () => {
-
-//   ReactDOM.render(<App />, document.querySelector('#root'));
-// })();
-

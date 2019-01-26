@@ -34,6 +34,15 @@ const AdditionActions = (props) => (
   </Tc>
 );
 
+const AdditionActionsHOC = (_this) => (
+  <AdditionActions
+    expanded={_this.state.showMore}
+    toggleShowMore={() => _this.setState(prev => ({
+      showMore: !prev.showMore
+    }))}
+  />
+)
+
 class VTable extends React.Component {
   tableData = [];
   tableHead = [];
@@ -49,7 +58,6 @@ class VTable extends React.Component {
     _fetch('/visittable', {
       body: { token: getToken() }
     }).then(d => d.json()).then(d => {
-      // console.log(d);
       this.tableData = d;
       this.tableHead = Object.keys(d[0]);
       this.forceUpdate()
@@ -94,12 +102,7 @@ class VTable extends React.Component {
                     onChangePage={this.changePageHandler}
                     onChangeRowsPerPage={this.changeRowsPerPageHandler}
                   />
-                  <AdditionActions
-                    expanded={showMore}
-                    toggleShowMore={() => this.setState(prev => ({
-                      showMore: !prev.showMore
-                    }))}
-                  />
+                  {AdditionActionsHOC(this)}
                 </Tr>
                 <Tr>
                   {showMore ?

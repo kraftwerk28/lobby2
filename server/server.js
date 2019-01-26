@@ -56,21 +56,6 @@ app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
 
 app.all('/crud', (req, res) => {
   res.status(200).sendFile(resolve(__dirname + '/../dist/crud.html'));
-  // if (req.method === 'GET') {
-  //   res.sendFile(resolve(__dirname + '/../dist/crudauth.html'));
-  // } else if (req.method === 'POST' &&
-  //   req.body.pwd.toLowerCase() === password) {
-  //   sessionToken = generateToken();
-  //   res.setHeader('authtoken', sessionToken);
-  //   if (timerId) {
-  //     clearTimeout(timerId);
-  //   }
-  //   timerId = setTimeout(() => {
-  //     timerId = sessionToken = null;
-  //   }, TOKEN_TIMEOUT);
-
-  //   sendCrud(res);
-  // }
 });
 
 // session token (must send it back in headers)
@@ -93,6 +78,7 @@ app.post('/token', (req, res) => {
   }
 });
 
+// applied json's
 app.post('/visittable', (req, res) => {
   if (req.body.token === sessionToken) {
     dbQuery(`SELECT
@@ -122,12 +108,11 @@ app.post('/stats', async (req, res) => {
 });
 
 
-
+// creating server
 if (process.env.NODE_ENV === 'development') {
   createhttpServer(app)
     .listen(DEVPORT, () => console.log('Listening on port :' + DEVPORT))
 } else {
-  // creating server
   const httpsPaths = JSON.parse(
     readFileSync(__dirname + '/httpsCfg.json', 'utf8'));
 
@@ -135,6 +120,15 @@ if (process.env.NODE_ENV === 'development') {
     key: readFileSync(httpsPaths.key),
     cert: readFileSync(httpsPaths.cert),
   };
+
+  // redirect
+  createhttpServer((req, res) => {
+    res.statusCode = 301;
+    res.setHeader('Location', 'https://' + req.headers.host + req.url);
+    res.end()
+  }).listen(80);
+
+  // main server
   createServer(cfg, app)
     .listen(PORT, () => console.log('Listening on port :' + PORT));
 }
