@@ -14,6 +14,8 @@ const { dbQuery } = require('./db');
 
 const PORT = 443
 const DEVPORT = 8081;
+const PAGES_SCHEMA_PATH = resolve(__dirname, '../data/pages-schema.json');
+
 const geourl = 'http://ip-api.com/json/';
 
 const generateToken = () => randomBytes(16).toString('hex');
@@ -83,7 +85,7 @@ app.post('/visittable', (req, res) => {
   if (req.body.token === sessionToken) {
     dbQuery(`SELECT
       id, platform, ip,
-      DATE_FORMAT(time, "%H:%i:%s, %d.%m.%Y") as time,
+      DATE_FORMAT(time, "%H:%i:%s, %d.%m.%Y") AS time,
       country, city, org, latitude, longtitude
       FROM statistics
       ORDER BY id DESC`
@@ -106,6 +108,19 @@ app.post('/stats', async (req, res) => {
     [platform, ip, timestamp, country, city, org, lat, lon]);
   res.status(200).end();
 });
+
+app.get('/schema', (req, res) => {
+  res.status(200).sendFile(PAGES_SCHEMA_PATH);
+});
+
+app.post('/schema', (req, res) => {
+  const { writeFileSync } = require('fs');
+
+  if (req.body.token === sessionToken) {
+    writeFileSync(PAGES_SCHEMA_PATH, JSON.stringify(req.body.schema));
+    res.status(200).end();
+  }
+})
 
 
 // creating server

@@ -16,7 +16,6 @@ if (
 
 const location = window.location.pathname;
 
-
 if (process.env.NODE_ENV === 'production') {
   const date = new Date();
   const timestamp =

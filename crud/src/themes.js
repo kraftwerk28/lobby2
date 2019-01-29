@@ -4,6 +4,7 @@ import {
   deepPurple,
   lime,
   lightGreen,
+  green,
   grey
 } from '@material-ui/core/colors';
 
@@ -13,7 +14,7 @@ export const dark = createMuiTheme({
     primary: {
       main: lightGreen.A400,
     },
-    secondary: orange,
+    secondary: grey,
     background: {
       default: '#000',
       paper: grey[900]

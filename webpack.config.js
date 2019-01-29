@@ -92,7 +92,7 @@ module.exports = (env) => {
       stats: 'minimal',
       historyApiFallback: true,
       proxy: [{
-        context: ['/token', '/visittable'],
+        context: ['/token', '/visittable', '/schema'],
         target: 'http://localhost:8081',
       }]
     };

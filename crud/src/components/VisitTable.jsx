@@ -57,7 +57,7 @@ class VTable extends React.Component {
 
     _fetch('/visittable', {
       body: { token: getToken() }
-    }).then(d => d.json()).then(d => {
+    }).then(_ => _.json()).then(d => {
       this.tableData = d;
       this.tableHead = Object.keys(d[0]);
       this.forceUpdate()

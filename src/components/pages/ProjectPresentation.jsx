@@ -26,38 +26,36 @@ md.renderer.rules.text = (token, idx) => `<span>${token[idx].content}<span>`
 
 
 export default class ProjectPresentation extends Component {
+  state = {
+    data: {},
+    dataLoaded: true,
+    description: '',
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      data: {},
-      dataLoaded: false,
-      description: '',
-    }
-
-    if (props.jsonDataPath) {
-      fetch(props.jsonDataPath)
-        .then(d => d.json())
-        .then(d => {
-          this.setState({ data: d });
-
-          if (d.readme) {
-            fetch(d.readme)
-              .then(d => d.text())
-              .then(mdData => {
-                this.setState({
-                  dataLoaded: true,
-                  description: md.render(mdData),
-                });
-              });
-          } else {
-            this.setState({ dataLoaded: true });
-          }
+    if (props.data.readme) {
+      fetch(props.data.readme)
+        .then(d => d.text())
+        .then(mdData => {
+          this.setState({
+            // dataLoaded: true,
+            description: md.render(mdData),
+          });
         });
     }
+
+    // if (props.jsonDataPath) {
+    //   fetch(props.jsonDataPath)
+    //     .then(d => d.json())
+    //     .then(d => {
+    //     });
+    // }
   }
 
   render() {
-    const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.state.data;
+    // const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.state.data;
+    const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.props.data;
 
     return (
       <div

@@ -18,6 +18,7 @@ import '../scss/main.scss';
 const history = History();
 
 import Loader from './LoadIndicator';
+import _fetch from '../../crud/src/jsonfetch';
 
 //* example template
 // const routes = [
@@ -45,6 +46,7 @@ class App extends Component {
     super(props);
     this.rootEl = createRef();
     this.sm = createRef();
+    this.routes = () => [];
     this.state = {
       trx: 0,
       canNext: false,
@@ -53,54 +55,77 @@ class App extends Component {
 
       bioHasTyped: false,
     }
+
     history.listen((location) => {
       this.setState({ location: location, doAnim: false }, () => {
         this.setState({ doAnim: true });
       });
     });
 
+    _fetch('schema').then(_ => _.json()).then(data => {
+      this.routes = () => [
+        {
+          to: '/', text: 'Home',
+          component:
+            <Home
+              onMenuOpen={this.openMenu}
+              onBioTyped={() => this.setState({ bioHasTyped: true })}
+              typeBio={!this.state.bioHasTyped}
+            />
+        },
+        ...data.map(entry => {
+          if (entry.group) {
+            entry.group =
+              entry.group
+                .map(sub => ({ ...sub, component: <ProjPres data={sub} /> }));
+            return entry;
+          } else {
+            return { ...entry, component: <ProjPres data={entry} /> };
+          }
+        })
+      ];
+      this.forceUpdate();
+    });
 
-    this.routes = () => [
-      {
-        to: '/', text: 'Home',
-        component:
-          <Home
-            onMenuOpen={this.openMenu}
-            onBioTyped={() => this.setState({ bioHasTyped: true })}
-            typeBio={!this.state.bioHasTyped}
-          />
-      },
-      {
-        to: '/kpi-labs', text: 'Kpi Labs',
-        component:
-          <ProjPres jsonDataPath='../../kpi-labs.json' />
-      },
-      // {
-      //   to: '/loader-demo', text: 'Loader demo',
-      //   component:
-      //     <ProjectPresentation><Loader /></ProjectPresentation>
-      // },
-      {
-        text: 'Gamedev',
-        group: [
-          {
-            to: '/hue-game', text: 'Hue game',
-            component:
-              <ProjPres jsonDataPath='../../hue-game.json' />
-          },
-          {
-            to: '/cube-switch', text: 'Cube switch',
-            component:
-              <ProjPres jsonDataPath='../../cube-switch.json' />
-          },
-        ]
-      },
-      {
-        to: '/dev-helper', text: 'dev-helper',
-        component:
-          <ProjPres jsonDataPath='../../dev-helper.json' />
-      },
-    ];
+    /*
+    this.routes =
+      this.routes = () => [
+        {
+          to: '/', text: 'Home',
+          component:
+            <Home
+              onMenuOpen={this.openMenu}
+              onBioTyped={() => this.setState({ bioHasTyped: true })}
+              typeBio={!this.state.bioHasTyped}
+            />
+        },
+        {
+          to: '/kpi-labs', text: 'Kpi Labs',
+          component:
+            <ProjPres jsonDataPath='../../kpi-labs.json' />
+        },
+        {
+          text: 'Gamedev',
+          group: [
+            {
+              to: '/hue-game', text: 'Hue game',
+              component:
+                <ProjPres jsonDataPath='../../hue-game.json' />
+            },
+            {
+              to: '/cube-switch', text: 'Cube switch',
+              component:
+                <ProjPres jsonDataPath='../../cube-switch.json' />
+            },
+          ]
+        },
+        {
+          to: '/dev-helper', text: 'dev-helper',
+          component:
+            <ProjPres jsonDataPath='../../dev-helper.json' />
+        },
+      ];
+      */
 
   }
 
@@ -117,7 +142,7 @@ class App extends Component {
 
     return (
       <Router history={history}>
-        <div className='root'>
+        {routes.length ? <div className='root'>
 
           {/* -----MAIN BODY----- */}
           <Title
@@ -141,7 +166,7 @@ class App extends Component {
             toBlur={null}
           >{routes}</SideMenu>
 
-        </div>
+        </div> : <Loader />}
       </Router>
     )
   }

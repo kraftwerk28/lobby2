@@ -21,10 +21,12 @@ import {
 // import { Brightness5, Brightness7 } from '@material-ui/icons';
 
 import VTable from './VisitTable';
+import DataEditor from './DataEditor';
 import { dark, light } from '../themes';
 
 const tabComponents = [
   <VTable />,
+  <DataEditor />
 ];
 
 class App extends React.Component {
@@ -33,7 +35,7 @@ class App extends React.Component {
   }
 
   inputRef = React.createRef();
-  state = { curTabIndex: 0, dark: true };
+  state = { curTabIndex: 1, dark: true };
 
   render = () => (
     <MuiThemeProvider theme={this.state.dark ? dark : light}>
@@ -44,6 +46,7 @@ class App extends React.Component {
           onChange={(e, i) => this.setState({ curTabIndex: i })}
         >
           <Tab label='Visits' />
+          <Tab label='Edit data' />
         </Tabs>
       </AppBar>
       {tabComponents[this.state.curTabIndex]}
