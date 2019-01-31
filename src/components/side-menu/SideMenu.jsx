@@ -1,84 +1,84 @@
-import React, { Component, createRef } from 'react';
-import Ripple from '../Ripple.jsx';
-import globalListener from '../../globalListener';
-import defs from '../../globals';
-import SdMenuChild from './SdMenuChild.jsx';
-import Swipeable from 'react-swipeable';
-import NestedChild from './NestedChild.jsx';
-import { Link } from 'react-router-dom';
+import React, { Component, createRef } from 'react'
+import Ripple from '../Ripple.jsx'
+import globalListener from '../../globalListener'
+import defs from '../../globals'
+import SdMenuChild from './SdMenuChild.jsx'
+import Swipeable from 'react-swipeable'
+import NestedChild from './NestedChild.jsx'
+import { Link } from 'react-router-dom'
 
-const { abs, sign } = Math;
+const { abs, sign } = Math
 
-const triggerWidth = 8;
+const triggerWidth = 8
 
 export default class SideMenu extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.width = 500;
+    this.width = 500
 
-    this.menuElement = createRef();
-    this.overflowElement = createRef();
+    this.menuElement = createRef()
+    this.overflowElement = createRef()
 
-    this.startX = null;
+    this.startX = null
     this.state = {
       swapping: false,
       expanded: false,
       startx: null,
       x: 0,
-    };
+    }
 
-    this.swipeStart = this.swipeStart.bind(this);
-    this.swipeEnd = this.swipeEnd.bind(this);
+    this.swipeStart = this.swipeStart.bind(this)
+    this.swipeEnd = this.swipeEnd.bind(this)
   }
 
   componentDidMount() {
-    this.width = this.menuElement.offsetWidth;
-    this.forceUpdate();
+    this.width = this.menuElement.offsetWidth
+    this.forceUpdate()
   }
 
   expand(bool) {
     if (this.state.expanded !== bool) {
-      this.setState({ expanded: bool, x: 0, });
+      this.setState({ expanded: bool, x: 0, })
     }
     if (this.props.toBlur) {
       this.props.toBlur.style.filter =
-        `blur(${bool ? 10 : 0}px)`;
+        `blur(${bool ? 10 : 0}px)`
     }
   }
 
   swipeStart(e, deltaX, deltaY, absX, absY, velocity) {
     if (!this.state.swapping) {
-      this.startX = window.isMobile ? e.touches[0].clientX : e.clientX;
-      this.setState({ swapping: true });
+      this.startX = window.isMobile ? e.touches[0].clientX : e.clientX
+      this.setState({ swapping: true })
     }
 
     if (deltaX === 0)
-      return;
+      return
 
-    let x = -deltaX - (this.state.expanded ? 0 : this.width);
+    let x = -deltaX - (this.state.expanded ? 0 : this.width)
     if (x > 0)
-      x = 0;
+      x = 0
 
-    this.setState({ x });
+    this.setState({ x })
     if (this.props.toBlur) {
       this.props.toBlur.style.filter =
-        `blur(${Math.round((this.width + x) / this.width * 10)}px)`;
+        `blur(${Math.round((this.width + x) / this.width * 10)}px)`
     }
   }
 
   swipeEnd(e, deltaX, deltaY, isFlick, velocity) {
     if (this.state.swapping) {
-      let x = 0;
-      let shouldExpand = this.width + this.state.x >= this.width / 2;
-      if (velocity > 0.5) shouldExpand = sign(deltaX) === -1;
+      let x = 0
+      let shouldExpand = this.width + this.state.x >= this.width / 2
+      if (velocity > 0.5) shouldExpand = sign(deltaX) === -1
       this.setState({
         swapping: false, x,
-      });
-      this.expand(shouldExpand);
+      })
+      this.expand(shouldExpand)
     }
 
-    this.setState({ swapping: false });
+    this.setState({ swapping: false })
   }
 
   child({ text, to, group }, key) {
@@ -99,13 +99,13 @@ export default class SideMenu extends Component {
         >
           <SdMenuChild title={text} text={text} />
         </Link>
-      );
+      )
   }
 
   render() {
     const {
       children: items
-    } = this.props;
+    } = this.props
 
     return (
       <div style={{
@@ -114,7 +114,7 @@ export default class SideMenu extends Component {
       }}>
         <div
           ref={e => {
-            this.overflowElement = e;
+            this.overflowElement = e
           }}
           className='sd-menu-overflow'
           style={{
@@ -149,7 +149,7 @@ export default class SideMenu extends Component {
               ...sdMenuStyle,
             }}
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
             }}
           >
             {items && items.map((c, i) => this.child(c, i))}
@@ -167,7 +167,7 @@ const rootStyle = {
   left: 0,
   userSelect: 'none',
   zIndex: 10,
-};
+}
 
 const triggerStyle = {
   position: 'fixed',
@@ -178,11 +178,11 @@ const triggerStyle = {
   transform: 'translateX(50px)',
   userSelect: 'none',
   zIndex: 11,
-};
+}
 
 const overflowStyle = {
   cursor: 'default',
-};
+}
 
 const sdMenuStyle = {
   borderLeft: 0,
@@ -190,4 +190,4 @@ const sdMenuStyle = {
   borderTop: 0,
   transitionTimingFunction: 'ease-out',
   cursor: 'default',
-};
+}

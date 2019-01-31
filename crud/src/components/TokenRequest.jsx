@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -10,30 +10,37 @@ import {
   Button,
   MuiThemeProvider
 
-} from '@material-ui/core';
+} from '@material-ui/core'
 
-import { dark } from '../themes';
+import { dark } from '../themes'
 
-import { getToken, setToken } from '../token';
+import { getToken, setToken } from '../token'
 
 class TokenDialog extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
+  }
+
+  componentDidMount() {
+    // DEV ONLY
+    if (process.env.NODE_ENV === 'development') {
+      this.getToken()
+    }
   }
 
   state = {
     pwd: '',
     dialogOpen: true,
     pwdError: false,
-  };
+  }
 
   getToken = async () => {
-    const token = await setToken(this.state.pwd);
+    const token = await setToken(this.state.pwd)
     if (token !== null) {
-      this.props.onPwdEnter();
+      this.props.onPwdEnter()
     } else {
-      this.setState({ pwdError: true });
+      this.setState({ pwdError: true })
     }
   }
 
@@ -71,4 +78,4 @@ class TokenDialog extends React.Component {
 
 }
 
-export default TokenDialog;
+export default TokenDialog

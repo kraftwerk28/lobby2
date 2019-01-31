@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import Button from './Button';
+import React, { Component } from 'react'
+import Button from './Button'
 
 class Modal extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       opened: false,
     }
   }
 
   closeModal = () => {
-    this.setState({ opened: false });
-  };
+    this.setState({ opened: false })
+  }
 
   openModal = () => {
-    this.setState({ opened: true });
-  };
+    this.setState({ opened: true })
+  }
 
   render = () => (
     <div
@@ -40,7 +40,7 @@ class Modal extends Component {
         {this.props.children}
       </div>
     </div>
-  );
+  )
 }
 
-export default Modal;
+export default Modal

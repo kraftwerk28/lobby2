@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Button,
   FormControl,
@@ -16,26 +16,26 @@ import {
   IconButton,
   Icon,
   Toolbar
-} from '@material-ui/core';
+} from '@material-ui/core'
 
-// import { Brightness5, Brightness7 } from '@material-ui/icons';
+// import { Brightness5, Brightness7 } from '@material-ui/icons'
 
-import VTable from './VisitTable';
-import DataEditor from './DataEditor';
-import { dark, light } from '../themes';
+import VTable from './VisitTable'
+import DataEditor from './DataEditor'
+import { dark, light } from '../themes'
 
 const tabComponents = [
   <VTable />,
   <DataEditor />
-];
+]
 
 class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
-  inputRef = React.createRef();
-  state = { curTabIndex: 1, dark: true };
+  inputRef = React.createRef()
+  state = { curTabIndex: 1, dark: true }
 
   render = () => (
     <MuiThemeProvider theme={this.state.dark ? dark : light}>
@@ -51,7 +51,7 @@ class App extends React.Component {
       </AppBar>
       {tabComponents[this.state.curTabIndex]}
     </MuiThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

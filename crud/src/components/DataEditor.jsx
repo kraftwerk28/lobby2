@@ -1,9 +1,14 @@
-import React from 'react';
+import React from 'react'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { connect } from 'react-redux'
 
-import _fetch from '../jsonfetch';
-import { Grid, CircularProgress, Paper, IconButton, Button, Icon } from '@material-ui/core';
-import EntryEditor from './EntryEditor';
-import { getToken } from '../token';
+import _fetch from '../jsonfetch'
+import { CircularProgress } from '@material-ui/core'
+import { getToken } from '../token'
+
+import mainReducer from '../reducers'
+import DataEditorContainer from './DataEditorContainer';
 
 const schemaTemplate = {
   to: null,
@@ -18,74 +23,43 @@ const schemaTemplate = {
 
 class DataEditor extends React.Component {
   state = {
-    schema: [],
+    schema: null,
     dataSubmitted: true,
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     _fetch('schema').then(_ => _.json()).then(schema => {
-      this.setState({ schema });
+      this.setState({ schema: createStore(mainReducer(schema)) })
     })
   }
 
   handleEntryChange = (index, newData) => {
     if (this.state.dataSubmitted) {
-      this.setState({ dataSubmitted: false });
+      this.setState({ dataSubmitted: false })
     }
     this.setState(({ schema }) => {
-      schema[index] = newData;
-      return schema;
-    });
+      schema[index] = newData
+      return schema
+    })
   }
 
-  submitData = () => {
-    _fetch('schema', {
-      body: { token: getToken(), schema: this.state.schema }
-    }).then(() => this.setState({ dataSubmitted: true }));
-    // _fetch('schema', { body: this.state.schema })
-    //   .then(() => this.setState({ dataSubmitted: true }));
-  }
+  submitData = () => 
+     _fetch('schema', {
+      body: { token: getToken(), schema: this.state.schema.getState().data }
+    })
 
   render() {
-    const { schema, dataSubmitted } = this.state;
-    const spacing = 8;
+    const { schema, dataSubmitted } = this.state
+    const store = schema ? schema.getState() : null
 
     return (
-      <div style={{ padding: spacing / 2 }}>
-        <Grid
-          container
-          direction='column'
-          spacing={spacing}
-        >
-          <Grid item xs={12}>
-            <Grid container justify='center'>
-              <Button
-                disabled={dataSubmitted}
-                onClick={this.submitData}
-              >
-                <Icon>{'cloud_' + (dataSubmitted ? 'done' : 'upload')}</Icon>
-                Submit shanges
-              </Button>
-              <Button href='https://kraftwerk28.pp.ua/' target='_blank'>
-                <Icon>link</Icon>
-                Go to site
-              </Button>
-            </Grid>
-          </Grid>
-
-          {schema.length ? schema.map((entry, i) =>
-            <EntryEditor
-              key={i}
-              data={entry}
-              onMutateData={this.handleEntryChange.bind(null, i)}
-            />)
-            : <CircularProgress />}
-        </Grid>
-      </div>
+      this.state.schema ? <Provider store={this.state.schema}>
+        <DataEditorContainer onSubmitData={this.submitData} />
+      </Provider> : <CircularProgress />
     )
   }
 }
 
-export default DataEditor;
+export default (DataEditor)

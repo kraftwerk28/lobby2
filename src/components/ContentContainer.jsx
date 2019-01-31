@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Router, Route, Link, Switch, } from 'react-router-dom';
+import React, { Component } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { Router, Route, Link, Switch, } from 'react-router-dom'
 
 export default class Container extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { location, routes } = this.props;
+    const { location, routes } = this.props
 
     return (
       <TransitionGroup>

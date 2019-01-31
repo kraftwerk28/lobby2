@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import SdMenuChild from './SdMenuChild';
-import { CSSTransition, Transition } from 'react-transition-group';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import SdMenuChild from './SdMenuChild'
+import { CSSTransition, Transition } from 'react-transition-group'
+import { Link } from 'react-router-dom'
 
-const EXPAND_TIMEOUT = 1000;
+const EXPAND_TIMEOUT = 1000
 
 export default class NestedChild extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       expanded: false,
     }
-    this.toggleExpand = this.toggleExpand.bind(this);
+    this.toggleExpand = this.toggleExpand.bind(this)
   }
 
   toggleExpand() {
     this.setState((prev) => ({
       expanded: !prev.expanded,
-    }));
+    }))
   }
 
 
   render() {
-    const { text, group } = this.props;
+    const { text, group } = this.props
     const allText =
       <>
         <span
@@ -33,7 +33,7 @@ export default class NestedChild extends Component {
           }}
         >expand_more</span>
         {text}
-      </>;
+      </>
 
     return (
       <>
@@ -77,6 +77,6 @@ export default class NestedChild extends Component {
           }
         </Transition>
       </>
-    );
+    )
   }
 }

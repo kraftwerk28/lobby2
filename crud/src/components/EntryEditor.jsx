@@ -1,21 +1,95 @@
-import React from 'react';
-import { Paper, FormControlLabel, TextField, Grid, Typography } from '@material-ui/core';
+import React from 'react'
+import { connect } from 'react-redux'
 
-const TextFieldWrapped = (props) => <Grid item md={6} sm={12}><TextField
-  variant='outlined'
-  helperText={props.helperText}
-  value={props.value ? props.value : ''}
-  onChange={props.onChange}
-  fullWidth
-/></Grid>;
+import {
+  Paper,
+  TextField,
+  Grid,
+  Typography
+} from '@material-ui/core'
+
 
 const styles = {
   paper: {
     padding: 8,
   }
-};
+}
+
+const TextFieldWrapped = (props) => (
+  <Grid item md={6} sm={12}>
+    <TextField
+      variant='outlined'
+      helperText={props.helperText}
+      value={props.value ? props.value : ''}
+      onChange={props.onChange}
+      fullWidth
+    />
+  </Grid>)
 
 const Form = (props) => {
+  const { data, onUpdate } = props
+
+  const update = (val, key1, index2, key2) => {
+    if (index2 === undefined) {
+      data[key1] = val
+    } else {
+      data[key1][index2][key2] = val
+    }
+
+    onUpdate(data)
+  }
+
+  return (
+    <Grid container spacing={16}>
+      <Grid item>
+        <Typography variant='h4'>{data.text}</Typography>
+      </Grid>
+      {Object.keys(data).map((key, i) =>
+        key === 'group' ?
+          <Grid item key={i}>
+            <Grid container spacing={16}>
+              {data[key].map((_key, _i) => (
+                <>
+                  <Grid item>
+                    <Typography variant='h5'>{_key.text}</Typography>
+                  </Grid>
+                  {Object.keys(_key).map((__key, __i) =>
+                    <TextFieldWrapped
+                      key={__i}
+                      helperText={__key}
+                      value={_key[__key]}
+                      onChange={e => update(e.target.value, key, _i, __key)}
+                    />
+                  )}
+                </>
+
+
+
+                //     < TextFieldWrapped
+                //       key = { _i }
+                //       helperText = { _key }
+                //       value = { data[key][_key] }
+                //       onChange = { e => update(e.target.value, key, _key)}
+                // />
+              ))}
+            </Grid>
+          </Grid>
+          :
+          <TextFieldWrapped
+            key={i}
+            helperText={key}
+            value={data[key]}
+            onChange={e => update(e.target.value, key)}
+          />
+      )}
+    </Grid>
+  )
+
+}
+
+
+
+const Form_ = (props) => {
   const {
     text,
     to,
@@ -25,8 +99,8 @@ const Form = (props) => {
     youtubeUrl,
     readme,
     group,
-  } = props.data;
-  const { model } = props;
+  } = props.data
+  const { model } = props
 
   return (
     <Grid
@@ -76,15 +150,30 @@ const Form = (props) => {
 
 class EntryEditor extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
   }
 
   changePropHandler = (key) => (evt) => {
-    this.props.onMutateData({ ...this.props.data, [key]: evt.target.value });
+    this.props.dispatch({
+      type: 'CHANGE_ENTRY',
+      index: this.props.index,
+      data: { ...this.props.data, [key]: evt.target.value }
+    })
+
+  }
+
+  updateData = (newData) => {
+    this.props.dispatch({
+      type: 'CHANGE_ENTRY',
+      index: this.props.index,
+      data: { ...newData }
+    })
   }
 
   render() {
+    console.log('render called')
+
     const {
       text,
       to,
@@ -94,14 +183,15 @@ class EntryEditor extends React.Component {
       youtubeUrl,
       readme,
       group,
-    } = this.props.data;
+    } = this.props.data
 
-    const model = this.changePropHandler;
+    const model = this.changePropHandler
 
     return (
       <Grid item xs={12}>
         <Paper style={styles.paper}>
-          <Form data={this.props.data} model={model} />
+          <Form data={this.props.data} onUpdate={this.updateData} />
+          {/* <Form_ data={this.props.data} model={model} /> */}
 
         </Paper>
       </Grid>
@@ -109,4 +199,6 @@ class EntryEditor extends React.Component {
   }
 }
 
-export default EntryEditor;
+export default connect(
+  (state, props) => ({ data: state.data[props.index] })
+)(EntryEditor)

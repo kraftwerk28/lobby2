@@ -1,17 +1,17 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from 'react'
 
 
 export default class Test extends Component {
   constructor(props) {
-    super(props);
-    this.data = {};
+    super(props)
+    this.data = {}
 
     fetch('data/homepage.json')
       .then(d => d.json())
       .then(d => {
-        this.data = d;
-        this.forceUpdate();
-      });
+        this.data = d
+        this.forceUpdate()
+      })
   }
 
   render() {

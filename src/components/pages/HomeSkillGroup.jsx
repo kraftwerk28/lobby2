@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import { CSSTransition, Transition } from 'react-transition-group';
+import React, { Component } from 'react'
+import { CSSTransition, Transition } from 'react-transition-group'
 
-const animTimeout = 1000;
+const animTimeout = 1000
 
 const DEF = {
   skillsInDiff: 100,
   subSkillsDelay: 250,
-};
+}
 
 export default class HomeSkillGroup extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       entered: false, // just animation control
       showSubSkills: false,
       expanded: true, // if skill group is showing sub-skills
     }
-    this.h3ClickHandler = this.h3ClickHandler.bind(this);
+    this.h3ClickHandler = this.h3ClickHandler.bind(this)
     setTimeout(() => {
-      this.setState({ entered: true });
+      this.setState({ entered: true })
     }, (props.count * 2) * DEF.skillsInDiff +
-    DEF.subSkillsDelay + 500 + animTimeout);
+    DEF.subSkillsDelay + 500 + animTimeout)
 
   }
 
   h3ClickHandler() {
-    this.setState(prev => ({ expanded: !prev.expanded }));
+    this.setState(prev => ({ expanded: !prev.expanded }))
   }
 
   render() {
-    const { title, subSkills, index, count, onEntered } = this.props;
+    const { title, subSkills, index, count, onEntered } = this.props
 
     return (
       <>
@@ -48,8 +48,8 @@ export default class HomeSkillGroup extends Component {
             onEntered={() => {
               setTimeout(() => {
                 if (onEntered)
-                  onEntered();
-              }, 1000);
+                  onEntered()
+              }, 1000)
             }}
           >
             {state =>
@@ -79,7 +79,7 @@ export default class HomeSkillGroup extends Component {
           </Transition>
         }
       </>
-    );
+    )
   }
 
 }

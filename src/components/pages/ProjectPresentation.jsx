@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import MDParser from 'markdown-it';
-import mdEmoji from 'markdown-it-emoji';
-import twemoji from 'twemoji';
-// import RT from 'react-twemoji';
+import React, { Component } from 'react'
+import MDParser from 'markdown-it'
+import mdEmoji from 'markdown-it-emoji'
+import twemoji from 'twemoji'
+// import RT from 'react-twemoji'
 
-import Button from '../Button';
-import Loader from '../LoadIndicator';
+import Button from '../Button'
+import Loader from '../LoadIndicator'
 
-import octocatIcon from '../../assets/octocat.png';
-import npmIcon from '../../assets/npm.png';
-import linkIcon from '../../assets/link.png';
-import youtubeIcon from '../../assets/youtube.png';
-// import Ripple from '../Ripple';
+import octocatIcon from '../../assets/octocat.png'
+import npmIcon from '../../assets/npm.png'
+import linkIcon from '../../assets/link.png'
+import youtubeIcon from '../../assets/youtube.png'
+// import Ripple from '../Ripple'
 
-const md = new MDParser();
-md.use(mdEmoji);
+const md = new MDParser()
+md.use(mdEmoji)
 md.renderer.rules.emoji = (token, idx) =>
-  twemoji.parse(token[idx].content);
+  twemoji.parse(token[idx].content)
 
 md.renderer.rules.text = (token, idx) => `<span>${token[idx].content}<span>`
 
 // const mdRenderers = {
 //   image: (props) => <img {...props}></img>
-// };
+// }
 
 
 export default class ProjectPresentation extends Component {
@@ -30,10 +30,10 @@ export default class ProjectPresentation extends Component {
     data: {},
     dataLoaded: true,
     description: '',
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     if (props.data.readme) {
       fetch(props.data.readme)
         .then(d => d.text())
@@ -41,21 +41,21 @@ export default class ProjectPresentation extends Component {
           this.setState({
             // dataLoaded: true,
             description: md.render(mdData),
-          });
-        });
+          })
+        })
     }
 
     // if (props.jsonDataPath) {
     //   fetch(props.jsonDataPath)
     //     .then(d => d.json())
     //     .then(d => {
-    //     });
+    //     })
     // }
   }
 
   render() {
-    // const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.state.data;
-    const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.props.data;
+    // const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.state.data
+    const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.props.data
 
     return (
       <div
@@ -119,7 +119,7 @@ export default class ProjectPresentation extends Component {
         </> : <Loader />}
 
       </div>
-    );
+    )
   }
 
 }

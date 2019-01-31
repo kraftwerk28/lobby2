@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Grid,
   Typography,
@@ -15,14 +15,15 @@ import {
   CircularProgress,
   IconButton,
   Icon
-} from '@material-ui/core';
+} from '@material-ui/core'
 
-import { getToken } from '../token';
-import _fetch from '../jsonfetch';
+import { getToken } from '../token'
+
+import _fetch from '../jsonfetch'
 
 const showLessColumns = [
   'platform', 'time', 'country', 'city', 'org'
-];
+]
 
 const AdditionActions = (props) => (
   <Tc>
@@ -32,7 +33,7 @@ const AdditionActions = (props) => (
       </IconButton>
     </div>
   </Tc>
-);
+)
 
 const AdditionActionsHOC = (_this) => (
   <AdditionActions
@@ -44,37 +45,37 @@ const AdditionActionsHOC = (_this) => (
 )
 
 class VTable extends React.Component {
-  tableData = [];
-  tableHead = [];
+  tableData = []
+  tableHead = []
   state = {
     curTablePage: 0,
     rowsPerPage: 25,
     showMore: false,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     _fetch('/visittable', {
       body: { token: getToken() }
     }).then(_ => _.json()).then(d => {
-      this.tableData = d;
-      this.tableHead = Object.keys(d[0]);
+      this.tableData = d
+      this.tableHead = Object.keys(d[0])
       this.forceUpdate()
     })
   }
 
   changePageHandler = (event, page) => {
-    this.setState({ curTablePage: page });
-  };
+    this.setState({ curTablePage: page })
+  }
 
   changeRowsPerPageHandler = (event) => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
+    this.setState({ rowsPerPage: event.target.value })
+  }
 
   render() {
-    const { curTablePage, rowsPerPage, showMore } = this.state;
-    const [tableData, tableHead] = [this.tableData, this.tableHead];
+    const { curTablePage, rowsPerPage, showMore } = this.state
+    const [tableData, tableHead] = [this.tableData, this.tableHead]
 
     return (
       <Grid
@@ -137,4 +138,4 @@ class VTable extends React.Component {
   }
 }
 
-export default VTable;
+export default VTable

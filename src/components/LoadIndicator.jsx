@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 
 const DEF = {
   divCount: 3,
   pulseTime: 2000,
   allDelay: 1000,
-};
+}
 
 const Loader = () => <div className='pulse-loader' >
   <div>
@@ -18,4 +18,4 @@ const Loader = () => <div className='pulse-loader' >
   </div>
 </div>
 
-export default Loader;
+export default Loader

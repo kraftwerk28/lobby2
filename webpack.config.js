@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
-const HWP = require('html-webpack-plugin');
-const cssExt = require('mini-css-extract-plugin');
-const cssMini = require('optimize-css-assets-webpack-plugin');
-const { EnvironmentPlugin } = require('webpack');
-const { resolve } = require('path');
+const HWP = require('html-webpack-plugin')
+const cssExt = require('mini-css-extract-plugin')
+const cssMini = require('optimize-css-assets-webpack-plugin')
+const { EnvironmentPlugin } = require('webpack')
+const { resolve } = require('path')
 
 module.exports = (env) => {
-  const dev = env.development;
+  const dev = env.development
 
   const config = {
     mode: dev ? 'development' : 'production',
@@ -76,11 +76,11 @@ module.exports = (env) => {
       extensions: ['.js', '.jsx']
     },
 
-  };
+  }
 
   console.log('Running in ' +
     (dev ? 'development' : 'production') +
-    ' mode.\n');
+    ' mode.\n')
 
   if (dev) {
     config.devServer = {
@@ -95,16 +95,16 @@ module.exports = (env) => {
         context: ['/token', '/visittable', '/schema'],
         target: 'http://localhost:8081',
       }]
-    };
-    config.devtool = 'source-map';
+    }
+    config.devtool = 'source-map'
 
   } else {
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
-    );
+    )
 
   }
 
-  return config;
-};
+  return config
+}

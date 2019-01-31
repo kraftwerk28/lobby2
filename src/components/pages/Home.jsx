@@ -1,66 +1,66 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from 'react'
 
-import { CSSTransition } from 'react-transition-group';
-import Typed from 'typed.js';
-import HomeSkillGroup from './HomeSkillGroup';
-import Button from '../Button';
+import { CSSTransition } from 'react-transition-group'
+import Typed from 'typed.js'
+import HomeSkillGroup from './HomeSkillGroup'
+import Button from '../Button'
 
-import octocat from '../../assets/octocat.png';
-import telegram from '../../assets/telegram.png';
-import facebook from '../../assets/facebook.png';
-import Modal from '../Modal';
-import Icon from '../Icon';
+import octocat from '../../assets/octocat.png'
+import telegram from '../../assets/telegram.png'
+import facebook from '../../assets/facebook.png'
+import Modal from '../Modal'
+import Icon from '../Icon'
 
 export default class Home extends Component {
   constructor(props) {
-    super(props);
-    this.data = {};
-    this.typed = null;
-    this.skillsCount = null;
-    this.enteredCount = 0;
-    this.typedPassed = false;
+    super(props)
+    this.data = {}
+    this.typed = null
+    this.skillsCount = null
+    this.enteredCount = 0
+    this.typedPassed = false
     this.keyListener = (e) => {
       if (!this.typedPassed && e.key === 'p' || e.key === 'з') {
-        // this.typed.reset();
-        this.typedPassed = true;
-        this.typed.typeSpeed = 0;
-        this.typed.backSpeed = 0;
+        // this.typed.reset()
+        this.typedPassed = true
+        this.typed.typeSpeed = 0
+        this.typed.backSpeed = 0
       }
-    };
+    }
 
     this.state = {
       showSkills: false,
       allEntered: false,
-    };
+    }
 
-    this.showSkills = this.showSkills.bind(this);
-    this.enteredHandler = this.enteredHandler.bind(this);
+    this.showSkills = this.showSkills.bind(this)
+    this.enteredHandler = this.enteredHandler.bind(this)
 
     fetch('/homepage.json')
       .then(d => d.json())
       .then(d => {
-        const time = (new Date()).getHours();
-        let timeStr = '';
+        const time = (new Date()).getHours()
+        let timeStr = ''
 
         if (time < 4)
-          timeStr = 'night';
+          timeStr = 'night'
         else if (time < 12)
-          timeStr = 'morning';
+          timeStr = 'morning'
         else if (time < 18)
-          timeStr = 'afternoon';
+          timeStr = 'afternoon'
         else if (time < 22)
-          timeStr = 'evening';
+          timeStr = 'evening'
         else
-          timeStr = 'night';
+          timeStr = 'night'
 
-        d.about = d.about.map(v => v.replace(/\$TIME/, timeStr));
-        return d;
+        d.about = d.about.map(v => v.replace(/\$TIME/, timeStr))
+        return d
       })
       .then(d => {
-        this.data = d;
-        this.skillsCount = Object.keys(this.data.skills).length;
-        props.onBioTyped();
-        const timg = (num) => props.typeBio ? num : 0;
+        this.data = d
+        this.skillsCount = Object.keys(this.data.skills).length
+        props.onBioTyped()
+        const timg = (num) => props.typeBio ? num : 0
 
         this.typed = new Typed('#typed1', {
           strings: this.data.about,
@@ -79,32 +79,32 @@ export default class Home extends Component {
               onComplete: this.showSkills,
             })
           }
-        });
+        })
 
-        // this.forceUpdate(() => { });
+        // this.forceUpdate(() => { })
 
-        // this.forceUpdate();
-      });
+        // this.forceUpdate()
+      })
   }
 
   componentDidMount() {
-    document.addEventListener('keypress', this.keyListener);
+    document.addEventListener('keypress', this.keyListener)
   }
 
   showSkills() {
-    this.setState({ showSkills: true });
+    this.setState({ showSkills: true })
   }
 
   enteredHandler() {
-    this.enteredCount++;
+    this.enteredCount++
     if (this.enteredCount === Object.keys(this.data.skills).length) {
-      this.setState({ allEntered: true });
+      this.setState({ allEntered: true })
     }
   }
 
   componentWillUnmount() {
-    this.typed.destroy();
-    document.removeEventListener('keypress', this.keyListener);
+    this.typed.destroy()
+    document.removeEventListener('keypress', this.keyListener)
   }
 
   render() {

@@ -1,24 +1,24 @@
-import React, { Component, createRef } from 'react';
-import { Router } from 'react-router-dom';
-import History from 'history/createBrowserHistory';
+import React, { Component, createRef } from 'react'
+import { Router } from 'react-router-dom'
+import History from 'history/createBrowserHistory'
 
 //? components
-import SideMenu from './side-menu/SideMenu';
-import Title from './Title';
-import Container from './ContentContainer';
+import SideMenu from './side-menu/SideMenu'
+import Title from './Title'
+import Container from './ContentContainer'
 
 //? pages
-import Home from './pages/Home';
-import ProjPres from './pages/ProjectPresentation';
+import Home from './pages/Home'
+import ProjPres from './pages/ProjectPresentation'
 
-import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader'
 
-import '../scss/main.scss';
+import '../scss/main.scss'
 
-const history = History();
+const history = History()
 
-import Loader from './LoadIndicator';
-import _fetch from '../../crud/src/jsonfetch';
+import Loader from './LoadIndicator'
+import _fetch from '../../crud/src/jsonfetch'
 
 //* example template
 // const routes = [
@@ -34,19 +34,19 @@ import _fetch from '../../crud/src/jsonfetch';
 //   ]
 // },
 // { to: '/main2', text: 'Main2', component: <Home /> },
-// ];
+// ]
 
 // const flattenRoutes = () => {
-//   const getFlatten = r => r.group ? r.group.map(v => getFlatten(v)) : [r];
-//   return routes.map(v => getFlatten(v))//.reduce((res, cur) => [...res, ...cur], []);
-// };
+//   const getFlatten = r => r.group ? r.group.map(v => getFlatten(v)) : [r]
+//   return routes.map(v => getFlatten(v))//.reduce((res, cur) => [...res, ...cur], [])
+// }
 
 class App extends Component {
   constructor(props) {
-    super(props);
-    this.rootEl = createRef();
-    this.sm = createRef();
-    this.routes = () => [];
+    super(props)
+    this.rootEl = createRef()
+    this.sm = createRef()
+    this.routes = () => []
     this.state = {
       trx: 0,
       canNext: false,
@@ -58,9 +58,9 @@ class App extends Component {
 
     history.listen((location) => {
       this.setState({ location: location, doAnim: false }, () => {
-        this.setState({ doAnim: true });
-      });
-    });
+        this.setState({ doAnim: true })
+      })
+    })
 
     _fetch('schema').then(_ => _.json()).then(data => {
       this.routes = () => [
@@ -77,15 +77,15 @@ class App extends Component {
           if (entry.group) {
             entry.group =
               entry.group
-                .map(sub => ({ ...sub, component: <ProjPres data={sub} /> }));
-            return entry;
+                .map(sub => ({ ...sub, component: <ProjPres data={sub} /> }))
+            return entry
           } else {
-            return { ...entry, component: <ProjPres data={entry} /> };
+            return { ...entry, component: <ProjPres data={entry} /> }
           }
         })
-      ];
-      this.forceUpdate();
-    });
+      ]
+      this.forceUpdate()
+    })
 
     /*
     this.routes =
@@ -124,21 +124,21 @@ class App extends Component {
           component:
             <ProjPres jsonDataPath='../../dev-helper.json' />
         },
-      ];
+      ]
       */
 
   }
 
   componentDidMount() {
-    // this.forceUpdate();
+    // this.forceUpdate()
   }
 
   openMenu = () => {
-    this.sm.expand(true);
+    this.sm.expand(true)
   }
 
   render = () => {
-    const routes = this.routes();
+    const routes = this.routes()
 
     return (
       <Router history={history}>
@@ -172,4 +172,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App);
+export default hot(module)(App)
