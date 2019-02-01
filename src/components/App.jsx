@@ -65,7 +65,7 @@ class App extends Component {
     _fetch('schema').then(_ => _.json()).then(data => {
       this.routes = () => [
         {
-          to: '/', text: 'Home',
+          to: '/', text: '@kraftwerk28\'s lobby',
           component:
             <Home
               onMenuOpen={this.openMenu}

@@ -3,13 +3,13 @@
   "about": [
     "Good $TIME. I'm Vsevolod, a stud",
     "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I hate Java ",
-    "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I love to learn modern technologies and create applications with them."
+    "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I love to learn modern technologies and create applications with them. Haskell is my favourite PL."
   ],
   "skillsTitle": "Technologies, I have experience in:",
   "skills": {
     "frontend": [
       "vanilla javaScript / html / css",
-      "React.js + Redux",
+      "React + Redux + react-router",
       "Vue.js",
       "Webpack / Gulp",
       "sass / scss / stylus"
@@ -20,7 +20,7 @@
       "MySql",
       "Express.js",
       "PM2",
-      "Telegram Bot API"
+      "Telegram Bot API / Telegraf.js"
     ],
     "game dev": [
       "Unity3D",
@@ -30,6 +30,7 @@
       "Phaser / PIXI.js"
     ],
     "other": [
+      "Haskell",
       "C++",
       "Python",
       "C#"
