@@ -22,7 +22,10 @@ export const dark = createMuiTheme({
     
     // secondary: deepPurple,
   },
-  typography: { useNextVariants: true }
+  typography: {
+    useNextVariants: true,
+    fontFamily: 'Source Code Pro, monospace'
+  }
 })
 
 export const light = createMuiTheme({

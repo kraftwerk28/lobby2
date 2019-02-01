@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import {
   Grid,
   Button,
-  Icon
+  Icon,
+  Paper,
+  Fab,
+  Zoom
 } from '@material-ui/core'
 
 import EntryEditor from './EntryEditor'
@@ -15,19 +18,30 @@ const styles = {
     top: 0,
     left: 0,
     right: 0,
+    margin: 8,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     zIndex: 100,
+  },
+  fab: {
+    position: 'fixed',
+    bottom: 8,
+    right: 8,
   }
 }
 
 class DataEditorContainer extends React.Component {
-  buttonsBar = React.createRef()
+  state = {
+    gotoTopShown: false,
+  }
+
   scrollListener = () => {
     if (window.scrollY > 200) {
-      this.buttonsBar.style.position = 'fixed'
-    } else {
-      this.buttonsBar.style.position = 'relative'
+      if (!this.state.gotoTopShown) {
+        this.setState({ gotoTopShown: true })
+      }
+    } else if (this.state.gotoTopShown) {
+      this.setState({ gotoTopShown: false })
     }
   }
 
@@ -43,9 +57,17 @@ class DataEditorContainer extends React.Component {
     window.removeEventListener('scroll', this.scrollListener)
   }
 
+  goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   submitData = () => {
     this.props.onSubmitData()
       .then(() => this.props.dispatch({ type: 'SERVER_UPDATE' }))
+  }
+
+  addEntry = () => {
+    this.props.dispatch({ type: 'ADD_ENTRY' })
   }
 
   render() {
@@ -59,32 +81,70 @@ class DataEditorContainer extends React.Component {
           direction='column'
           spacing={spacing}
         >
+
+          {/* top buttons */}
           <Grid item xs={12}>
             <div ref={e => this.buttonsBar = e} style={styles.buttons}>
-                <Button
-                  disabled={store.serverUpdated}
-                  onClick={this.submitData}
-                >
-                  <Icon>
-                    {'cloud_' + (store.serverUpdated ? 'done' : 'upload')}
-                  </Icon>
-                  Submit shanges
-                </Button>
-                <Button href='https://kraftwerk28.pp.ua/' target='_blank'>
-                  <Icon>link</Icon>
-                  Go to site
-                </Button>
+              <Button
+                variant='outlined'
+                color='primary'
+                disabled={store.serverUpdated}
+                onClick={this.submitData}
+              >
+                <Icon>
+                  {'cloud_' + (store.serverUpdated ? 'done' : 'upload')}
+                </Icon>
+                {'Submit shanges'}
+              </Button>
+
+              <Button
+                variant='outlined'
+                color='primary'
+                href='https://kraftwerk28.pp.ua/'
+                target='_blank'
+              >
+                <Icon>link</Icon>
+                {'Go to site'}
+              </Button>
+
+              <Button
+                variant='outlined'
+                color='primary'
+                onClick={this.addEntry}
+              >
+                <Icon>playlist_add</Icon>
+                {'Add entry'}
+              </Button>
+
             </div>
           </Grid>
 
-          <Grid item><Grid container spacing={spacing}>
-            {store.data.map((entry, i) =>
-              <EntryEditor
-                key={i}
-                index={i}
-              />
-            )}
-          </Grid></Grid>
+          {/* content */}
+          <Grid item>
+            <Grid container spacing={spacing}>
+              {store.data.map((entry, i) =>
+                <EntryEditor
+                  key={i}
+                  index={i}
+                />
+              )}
+            </Grid>
+          </Grid>
+
+          {/* FAB */}
+          <Zoom
+            in={this.state.gotoTopShown}
+            timeout={500}
+          >
+            <Fab
+              style={styles.fab}
+              color='primary'
+              onClick={this.goToTop}
+            >
+              <Icon>expand_less</Icon>
+            </Fab>
+          </Zoom>
+
         </Grid>
       </div>
     )
