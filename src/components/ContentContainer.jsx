@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { Router, Route, Link, Switch, } from 'react-router-dom'
+import NotFoundPage from './pages/404';
 
 export default class Container extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ export default class Container extends Component {
                 )}
               />]
             ).reduce((r, c) => [...r, ...c], [])}
+            <NotFoundPage />
           </Switch>
         </CSSTransition>
       </TransitionGroup>

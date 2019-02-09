@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
 
-export default (props) =>
+const Icon = (props) => (
   <span className='material-icons'>{props.name}</span>
+)
+
+export default Icon

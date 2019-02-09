@@ -118,7 +118,6 @@ export default class Home extends Component {
         {/* about me */}
         <div>
           <span id='typed1'>{}</span>
-          {/* <span id='typed1static'>{this.data.about}</span> */}
         </div>
 
         {/* echo $MY_SKILLS */}

@@ -32,7 +32,7 @@ export default class SdMenuChild extends Component {
         onClick={onClick ? onClick : undefined}
       >
         {text}
-        <Ripple inner color='white' />
+        <Ripple inner color='lime' />
       </div>
     )
   }

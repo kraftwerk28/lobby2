@@ -10,54 +10,33 @@ import Container from './ContentContainer'
 //? pages
 import Home from './pages/Home'
 import ProjPres from './pages/ProjectPresentation'
+import NotFound from './pages/404'
 
 import { hot } from 'react-hot-loader'
 
-import '../scss/main.scss'
+import '../sass/main'
 
 const history = History()
 
 import Loader from './LoadIndicator'
 import _fetch from '../../crud/src/jsonfetch'
 
-//* example template
-// const routes = [
-//   { to: '/', text: 'Home', component: <Home /> },
-// { to: '/main', text: 'Main', component: <Test /> },
-// {
-//   text: 'Hello',
-//   group: [
-//     { to: '/main3', text: 'Hi there1', component: <Test /> },
-//     { to: '/main3', text: 'Hi there1', component: <Test /> },
-//     { to: '/main3', text: 'Hi there1', component: <Test /> },
-//     { to: '/main3', text: 'Hi there1', component: <Test /> },
-//   ]
-// },
-// { to: '/main2', text: 'Main2', component: <Home /> },
-// ]
-
-// const flattenRoutes = () => {
-//   const getFlatten = r => r.group ? r.group.map(v => getFlatten(v)) : [r]
-//   return routes.map(v => getFlatten(v))//.reduce((res, cur) => [...res, ...cur], [])
-// }
-
 class App extends Component {
+  rootEl = createRef()
+  sm = createRef()
+  routes = () => []
+
   constructor(props) {
     super(props)
-    this.rootEl = createRef()
-    this.sm = createRef()
-    this.routes = () => []
     this.state = {
-      trx: 0,
       canNext: false,
       location: { pathname: props.startLocation },
       doAnim: true,
-
-      bioHasTyped: false,
+      bioHasTyped: (process.env.NODE_ENV === 'development'),
     }
 
     history.listen((location) => {
-      this.setState({ location: location, doAnim: false }, () => {
+      this.setState({ location, doAnim: false }, () => {
         this.setState({ doAnim: true })
       })
     })
@@ -65,7 +44,7 @@ class App extends Component {
     _fetch('schema').then(_ => _.json()).then(data => {
       this.routes = () => [
         {
-          to: '/', text: '@kraftwerk28\'s lobby',
+          to: '/', text: 'Home',
           component:
             <Home
               onMenuOpen={this.openMenu}
@@ -87,54 +66,22 @@ class App extends Component {
       this.forceUpdate()
     })
 
-    /*
-    this.routes =
-      this.routes = () => [
-        {
-          to: '/', text: 'Home',
-          component:
-            <Home
-              onMenuOpen={this.openMenu}
-              onBioTyped={() => this.setState({ bioHasTyped: true })}
-              typeBio={!this.state.bioHasTyped}
-            />
-        },
-        {
-          to: '/kpi-labs', text: 'Kpi Labs',
-          component:
-            <ProjPres jsonDataPath='../../kpi-labs.json' />
-        },
-        {
-          text: 'Gamedev',
-          group: [
-            {
-              to: '/hue-game', text: 'Hue game',
-              component:
-                <ProjPres jsonDataPath='../../hue-game.json' />
-            },
-            {
-              to: '/cube-switch', text: 'Cube switch',
-              component:
-                <ProjPres jsonDataPath='../../cube-switch.json' />
-            },
-          ]
-        },
-        {
-          to: '/dev-helper', text: 'dev-helper',
-          component:
-            <ProjPres jsonDataPath='../../dev-helper.json' />
-        },
-      ]
-      */
-
   }
 
   componentDidMount() {
-    // this.forceUpdate()
   }
 
   openMenu = () => {
     this.sm.expand(true)
+  }
+
+  getTextFromRoute = (routes) => {
+    const res = routes
+      .map(r => r.group ? r.group : [r])
+      .reduce((r, c) => [...r, ...c])
+      .find(v =>
+        v.to === this.state.location.pathname)
+    return (typeof res === 'undefined') ? '404 not found' : res.text
   }
 
   render = () => {
@@ -147,11 +94,7 @@ class App extends Component {
           {/* -----MAIN BODY----- */}
           <Title
             animTrigger={this.state.doAnim}
-            text={routes
-              .map(r => r.group ? r.group : [r])
-              .reduce((r, c) => [...r, ...c])
-              .find(v =>
-                v.to === this.state.location.pathname).text}
+            text={this.getTextFromRoute(routes)}
             onOpenMenu={this.openMenu}
           />
           <div className='content-container'
@@ -172,4 +115,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App)
+export default App

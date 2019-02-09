@@ -13,14 +13,12 @@ const DEFAULTS = {
 }
 
 class Wrapper extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    return typeof this.props.href === 'string' ?
-      <A {...this.props}>{this.props.children}</A> :
+  render = () => (
+    typeof this.props.href === 'string' ?
+      <A {...this.props}>{this.props.children}</A>
+      :
       <button {...this.props}>{this.props.children}</button>
-  }
+  )
 }
 
 class Button extends Component {
@@ -78,7 +76,7 @@ class Button extends Component {
           height: size ? size : 'auto',
           borderWidth: rounded ? 0 : null
         }}
-        className={`md2-button ${className ? className : ''}`}
+        className={`md2-button ${className ? className : ''} bordered`}
         onMouseOver={(event) => {
           this.setState({ mouseOver: true })
           if (onMouseOver) onMouseOver(event)

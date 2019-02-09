@@ -8,14 +8,13 @@ const { resolve } = require('path')
 
 module.exports = (env) => {
   const dev = env.development
+  const crud = env.crud
 
   const config = {
     mode: dev ? 'development' : 'production',
 
     entry: {
-      app: './src/main.js',
-      // crudauth: './crud/src/auth.js',
-      crud: './crud/src/main.js',
+      app: './src/main.js'
     },
     output: {
       filename: '[name].js',
@@ -36,7 +35,7 @@ module.exports = (env) => {
           exclude: /node_modules/,
         },
         {
-          test: /\.s([ac])ss$/,
+          test: /\.s[ac]ss$/,
           use: [
             dev ? 'style-loader' : cssExt.loader,
             'css-loader',
@@ -58,22 +57,10 @@ module.exports = (env) => {
         minify: { collapseWhitespace: true },
         filename: 'index.html',
       }),
-      // new HWP({
-      //   chunks: ['crudauth'],
-      //   template: './crud/src/crudauth.html',
-      //   minify: { collapseWhitespace: true },
-      //   filename: 'crudauth.html',
-      // }),
-      new HWP({
-        chunks: ['crud'],
-        template: './crud/src/crud.html',
-        minify: { collapseWhitespace: true },
-        filename: 'crud.html',
-      }),
       new EnvironmentPlugin({ 'NODE_ENV': dev ? 'development' : 'production' })
     ],
     resolve: {
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx', '.sass']
     },
 
   }
@@ -97,6 +84,15 @@ module.exports = (env) => {
       }]
     }
     config.devtool = 'source-map'
+    if (crud) {
+      config.entry.crud = './crud/src/main.js'
+      config.plugins.push(new HWP({
+        chunks: ['crud'],
+        template: './crud/src/crud.html',
+        minify: { collapseWhitespace: true },
+        filename: 'crud.html',
+      }))
+    }
 
   } else {
     config.plugins.push(

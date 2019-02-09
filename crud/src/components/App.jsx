@@ -1,32 +1,23 @@
 import React from 'react'
 import {
-  Button,
-  FormControl,
-  // Input,
-  TextField,
-  Typography as Txt,
+  Typography,
   AppBar,
   CssBaseline,
   Tab,
   Tabs,
-  Paper,
 
   MuiThemeProvider,
-  createMuiTheme,
-  IconButton,
-  Icon,
-  Toolbar
 } from '@material-ui/core'
-
-// import { Brightness5, Brightness7 } from '@material-ui/icons'
 
 import VTable from './VisitTable'
 import DataEditor from './DataEditor'
+import JSONVisTest from '../tests/ObjForm.test'
 import { dark, light } from '../themes'
 
 const tabComponents = [
   <VTable />,
-  <DataEditor />
+  <DataEditor />,
+  <JSONVisTest />
 ]
 
 class App extends React.Component {
@@ -47,6 +38,7 @@ class App extends React.Component {
         >
           <Tab label='Visits' />
           <Tab label='Edit data' />
+          <Tab label='Text' />
         </Tabs>
       </AppBar>
       {tabComponents[this.state.curTabIndex]}
