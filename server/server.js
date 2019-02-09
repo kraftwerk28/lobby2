@@ -51,11 +51,6 @@ const sendCrud = (res) => {
   res.sendFile(resolve(__dirname + '/../dist/crud.html'))
 }
 
-app.get(['/', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
-  res.status(200)
-    .sendFile(resolve(__dirname + '/../dist/index.html'))
-})
-
 app.all('/crud', (req, res) => {
   res.status(200).sendFile(resolve(__dirname + '/../dist/crud.html'))
 })
@@ -122,6 +117,11 @@ app.post('/schema', (req, res) => {
   }
 })
 
+// main route
+app.get(['/*', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
+  res.status(200)
+    .sendFile(resolve(__dirname + '/../dist/index.html'))
+})
 
 // creating server
 if (process.env.NODE_ENV === 'development') {
