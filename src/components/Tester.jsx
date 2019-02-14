@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 
 const Tester = (props) => <div className='tester'>
   {props.children}
-</div>
+</div>;
 
-export default Tester
+export default Tester;

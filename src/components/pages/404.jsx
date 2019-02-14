@@ -1,6 +1,6 @@
-import React from 'react'
-import { Route } from 'react-router'
-import Typed from 'typed.js'
+import React from 'react';
+import { Route } from 'react-router';
+import Typed from 'typed.js';
 
 class NotFoundPage extends React.Component {
   typed = null
@@ -16,7 +16,7 @@ class NotFoundPage extends React.Component {
       typeSpeed: 60,
       showCursor: false,
       backDelay: 1000,
-    })
+    });
   }
   
   render() {
@@ -29,9 +29,9 @@ class NotFoundPage extends React.Component {
         </span></div>
         </div>
       </Route>
-    )
+    );
   }
 
 }
 
-export default NotFoundPage
+export default NotFoundPage;

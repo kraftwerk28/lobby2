@@ -1,5 +1,5 @@
-import React from 'react'
-import Button from './Button'
+import React from 'react';
+import Button from './Button';
 
 export default (props) => {
   return (
@@ -12,8 +12,8 @@ export default (props) => {
       rippleColor='#aaa'
       rippleOpacity={0.5}
       onClick={() => {
-        props.openMenu()
+        props.openMenu();
       }}
     />
-  )
-}
+  );
+};

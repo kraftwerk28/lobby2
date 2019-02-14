@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 
 class TextInput extends React.Component {
@@ -11,4 +11,4 @@ class TextInput extends React.Component {
   }
 }
 
-export default TextInput
+export default TextInput;

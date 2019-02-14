@@ -1,14 +1,14 @@
-'use strict'
+'use strict';
 
-const { resolve } = require('path')
-const mysql = require('mysql')
-const { readFileSync } = require('fs')
+const { resolve } = require('path');
+const mysql = require('mysql');
+const { readFileSync } = require('fs');
 
 // const TABLENAME = 'statistics'
 
 const connConfig = JSON.parse(
   readFileSync(resolve(__dirname, 'connConfig.json'), 'utf8')
-)
+);
 
 /**
  * 
@@ -17,18 +17,18 @@ const connConfig = JSON.parse(
  * @returns {Promise.<any>}
  */
 const dbQuery = (query, values) => new Promise((resolve, reject) => {
-  const conn = mysql.createConnection(connConfig)
-  conn.connect()
+  const conn = mysql.createConnection(connConfig);
+  conn.connect();
   const callback = (err, result, fields) => {
-    if (err) reject(err)
-    else resolve({ err, result, fields })
-  }
+    if (err) reject(err);
+    else resolve({ err, result, fields });
+  };
   if (typeof values === 'undefined') {
-    conn.query(query, callback)
+    conn.query(query, callback);
   } else {
-    conn.query(query, values, callback)
+    conn.query(query, values, callback);
   }
-  conn.end()
-})
+  conn.end();
+});
 
-module.exports = { dbQuery }
+module.exports = { dbQuery };

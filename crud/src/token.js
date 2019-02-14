@@ -1,4 +1,4 @@
-let token = null
+let token = null;
 
 export const setToken = async (password) => {
   const res = await fetch('token', {
@@ -7,14 +7,14 @@ export const setToken = async (password) => {
     headers: {
       'Content-Type': 'application/json'
     }
-  })
+  });
   if (res.status === 200) {
-    const txt = await res.text()
-    token = txt
+    const txt = await res.text();
+    token = txt;
   } else {
-    token = null
+    token = null;
   }
-  return token
-}
+  return token;
+};
 
-export const getToken = () => token
+export const getToken = () => token;

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-const { ceil, sqrt, round, abs, max } = Math
+import React, { Component } from 'react';
+const { ceil, sqrt, round, abs, max } = Math;
 
 const DEFAULTS = {
   opacity: 0.5,
@@ -7,51 +7,51 @@ const DEFAULTS = {
   fadeTime: 200,
   opacityDelay: 100,
   rippleTime: 500,
-}
+};
 
 export default class Ripple extends Component {
   constructor(props) {
-    super(props)
-    this.boundElement = React.createRef()
-    this.raiseTimeout = null
+    super(props);
+    this.boundElement = React.createRef();
+    this.raiseTimeout = null;
     this.state = {
       rippleLeft: 0,
       rippleTop: 0,
       size: 0,
       raising: false,
       clicked: false,
-    }
-    this.mDownHandler = this.mDownHandler.bind(this)
-    this.tDownHandler = this.tDownHandler.bind(this)
-    this.mUpHandler = this.mUpHandler.bind(this)
-    this.rippleStart = this.rippleStart.bind(this)
+    };
+    this.mDownHandler = this.mDownHandler.bind(this);
+    this.tDownHandler = this.tDownHandler.bind(this);
+    this.mUpHandler = this.mUpHandler.bind(this);
+    this.rippleStart = this.rippleStart.bind(this);
   }
 
   // mousedown
   mDownHandler(e) {
-    e.persist()
-    this.rippleStart(e)
+    e.persist();
+    this.rippleStart(e);
   }
 
   // touchdown
   tDownHandler(e) {
-    e.persist()
-    this.rippleStart({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY })
+    e.persist();
+    this.rippleStart({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
   }
 
   // mouseup
   mUpHandler() {
     this.setState({
       clicked: false,
-    })
+    });
   }
 
   rippleStart({ clientX, clientY }) {
     if (this.state.raising) {
-      clearTimeout(this.raiseTimeout)
+      clearTimeout(this.raiseTimeout);
       this.setState(
         { raising: false },
-        () => this.rippleStart({ clientX, clientY }))
+        () => this.rippleStart({ clientX, clientY }));
     } else {
       const { left, top, width, height } =
         this.boundElement.getBoundingClientRect(),
@@ -60,9 +60,9 @@ export default class Ripple extends Component {
         absY = clientY - top,
 
         szX = max(width - absX, absX),
-        szY = max(height - absY, absY)
+        szY = max(height - absY, absY);
 
-      const size = ceil(sqrt(szX ** 2 + szY ** 2) * 2)
+      const size = ceil(sqrt(szX ** 2 + szY ** 2) * 2);
 
       this.setState({
         size,
@@ -72,25 +72,25 @@ export default class Ripple extends Component {
         this.setState({
           rippleTop: absY - round(this.state.size / 2),
           rippleLeft: absX - round(this.state.size / 2),
-        })
-      })
+        });
+      });
       this.raiseTimeout = setTimeout(() => {
         if (!this.state.clicked)
-          this.setState({ raising: false })
-      }, this.props.rippleSpeed || 500)
+          this.setState({ raising: false });
+      }, this.props.rippleSpeed || 500);
     }
   }
 
   componentDidMount() {
-    const { width, height } = this.boundElement.getBoundingClientRect()
-    const size = ceil(sqrt(width ** 2 + height ** 2) * 2)
-    this.setState({ size })
+    const { width, height } = this.boundElement.getBoundingClientRect();
+    const size = ceil(sqrt(width ** 2 + height ** 2) * 2);
+    this.setState({ size });
   }
 
   render() {
     return (
       <div
-        ref={(el) => { this.boundElement = el }}
+        ref={(el) => { this.boundElement = el; }}
         style={{
           ...this.props.inner ? innerContainerStyle : containerStyle,
           ...this.props.style
@@ -135,7 +135,7 @@ export default class Ripple extends Component {
           }}
         />
       </div >
-    )
+    );
   }
 }
 
@@ -143,7 +143,7 @@ const containerStyle = {
   overflow: 'hidden',
   position: 'relative',
   boxSizing: 'border-box',
-}
+};
 
 const innerContainerStyle = {
   overflow: 'hidden',
@@ -153,7 +153,7 @@ const innerContainerStyle = {
   bottom: 0,
   left: 0,
   borderRadius: 'inherit',
-}
+};
 
 const rippleStyle = {
   position: 'absolute',
@@ -162,4 +162,4 @@ const rippleStyle = {
   userSelect: 'none',
   transitionTimingFunction: 'cubic-bezier(0, 0, 0, 1)',
   // transitionTimingFunction: 'linear',
-}
+};

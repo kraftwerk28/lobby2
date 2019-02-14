@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import MenuBtn from './MenuButton'
-import { CSSTransition, Transition } from 'react-transition-group'
+import React, { Component } from 'react';
+import MenuBtn from './MenuButton';
+import { CSSTransition, Transition } from 'react-transition-group';
 
-const timeout = 500
+const timeout = 500;
 const style = {
   transition: `transform ${timeout}ms, opacity ${timeout}ms`,
-}
+};
 
 const styles = {
   entering: {
@@ -20,12 +20,12 @@ const styles = {
     transform: 'translateY(-100px)',
     opacity: 0,
   }
-}
+};
 
 export default class Title extends Component {
   constructor(props) {
-    super(props)
-    this.prevTitle = props.text
+    super(props);
+    this.prevTitle = props.text;
   }
 
   // componentDidMount() {
@@ -39,7 +39,7 @@ export default class Title extends Component {
         timeout={timeout}
         unmountOnExit
         onExited={() => {
-          this.prevTitle = this.props.text
+          this.prevTitle = this.props.text;
         }}
       >
         {state => (
@@ -57,6 +57,6 @@ export default class Title extends Component {
           </div>
         )}
       </Transition>
-    )
+    );
   }
 }

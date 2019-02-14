@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import Ripple from './Ripple'
-import Icon from './Icon'
-import A from './MyLink'
-import DEFS from '../globals.js'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import Ripple from './Ripple';
+import Icon from './Icon';
+import A from './MyLink';
+import DEFS from '../globals.js';
+import PropTypes from 'prop-types';
 
 const DEFAULTS = {
   rippleOpacity: 0.5,
   rippleColor: '#aaa',
   background: 'transparent',
   borderRadius: 5,
-}
+};
 
 class Wrapper extends Component {
   render = () => (
@@ -23,18 +23,18 @@ class Wrapper extends Component {
 
 class Button extends Component {
   constructor(props) {
-    super(props)
-    this.buttonEl = React.createRef()
-    this.state = { mouseOver: false, size: 0 }
+    super(props);
+    this.buttonEl = React.createRef();
+    this.state = { mouseOver: false, size: 0 };
   }
 
   componentDidMount() {
     if (this.props.rounded) {
       // const { width, height } = this.buttonEl.getBoundingClientRect()
-      const width = this.buttonEl.offsetWidth
-      const height = this.buttonEl.offsetHeight
-      const maxDim = Math.round(Math.max(width, height))
-      this.setState({ size: maxDim }, () => { this.forceUpdate(); })
+      const width = this.buttonEl.offsetWidth;
+      const height = this.buttonEl.offsetHeight;
+      const maxDim = Math.round(Math.max(width, height));
+      this.setState({ size: maxDim }, () => { this.forceUpdate(); });
     }
   }
 
@@ -57,14 +57,14 @@ class Button extends Component {
       onClick,
 
       ...domProps
-    } = this.props
-    const { size } = this.state
+    } = this.props;
+    const { size } = this.state;
 
     return (
       <Wrapper
         href={href}
         ref={e => {
-          this.buttonEl = e
+          this.buttonEl = e;
         }}
         style={{
           ...style ? style : buttonStyle,
@@ -78,12 +78,12 @@ class Button extends Component {
         }}
         className={`md2-button ${className ? className : ''} bordered`}
         onMouseOver={(event) => {
-          this.setState({ mouseOver: true })
-          if (onMouseOver) onMouseOver(event)
+          this.setState({ mouseOver: true });
+          if (onMouseOver) onMouseOver(event);
         }}
         onMouseLeave={(event) => {
-          this.setState({ mouseOver: false })
-          if (onMouseLeave) onMouseLeave(event)
+          this.setState({ mouseOver: false });
+          if (onMouseLeave) onMouseLeave(event);
         }}
         onClick={onClick ? onClick : undefined}
         {...domProps}
@@ -100,13 +100,13 @@ class Button extends Component {
           <Icon name={icon} /> : this.props.children
         }
       </Wrapper>
-    )
+    );
   }
 }
 
 
 const buttonStyle = {
   borderRadius: DEFAULTS.borderRadius,
-}
+};
 
-export default Button
+export default Button;
