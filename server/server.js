@@ -80,7 +80,7 @@ app.post('/visittable', (req, res) => {
   if (req.body.token === sessionToken) {
     dbQuery(`SELECT
       id, platform, ip,
-      DATE_FORMAT(time, "%H:%i:%s, %d.%m.%Y") AS time,
+      to_char(req_time, 'HH24:MI:SS, DD.MM.YY') AS time,
       country, city, org, latitude, longtitude
       FROM stats
       ORDER BY id DESC`
@@ -98,7 +98,7 @@ app.post('/stats', async (req, res) => {
     .then(d => d.json());
 
   await dbQuery(`INSERT INTO stats
-    (platform, ip, time, country, city, org, latitude, longtitude)
+    (platform, ip, req_time, country, city, org, latitude, longtitude)
     VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
     [platform, ip, timestamp, country, city, org, lat, lon]);
   res.status(200).end();
