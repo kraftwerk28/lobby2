@@ -124,7 +124,10 @@ app.get(['/*', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
 });
 
 process.on('SIGINT', () => {
-  dbDisconnect();
+  dbDisconnect().catch((reas) => {
+    console.error(reas);
+    process.exit(1);
+  });
 });
 
 // creating server
@@ -151,6 +154,9 @@ if (process.env.NODE_ENV === 'development') {
   dbConnect().then(() => {
     createServer(cfg, app)
       .listen(PORT, () => console.log('Listening on port :' + PORT));
+  }).catch((reas) => {
+    console.error(reas);
+    process.exit(1);
   });
 }
 
