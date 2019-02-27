@@ -124,10 +124,12 @@ app.get(['/*', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
 });
 
 process.on('SIGINT', () => {
-  dbDisconnect().catch((reas) => {
-    console.error(reas);
-    process.exit(1);
-  });
+  dbDisconnect()
+    .then(process.exit(0))
+    .catch((reas) => {
+      console.error(reas);
+      process.exit(1);
+    });
 });
 
 // creating server
