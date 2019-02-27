@@ -10,7 +10,7 @@ const fetch = require('node-fetch');
 const { createServer: createhttpServer } = require('http');
 const { createServer } = require('https');
 
-const { dbQuery } = require('./db');
+const { dbQuery, dbConnect, dbDisconnect } = require('./db');
 
 const PORT = 443;
 const DEVPORT = 8081;
@@ -82,10 +82,10 @@ app.post('/visittable', (req, res) => {
       id, platform, ip,
       DATE_FORMAT(time, "%H:%i:%s, %d.%m.%Y") AS time,
       country, city, org, latitude, longtitude
-      FROM statistics
+      FROM stats
       ORDER BY id DESC`
-    ).then(({ result }) => {
-      res.status(200).send(result).end();
+    ).then(({ rows }) => {
+      res.status(200).send(rows).end();
     });
   }
 });
@@ -97,9 +97,9 @@ app.post('/stats', async (req, res) => {
   const { country, city, org, lat, lon } = await fetch(geourl + ip)
     .then(d => d.json());
 
-  dbQuery(`INSERT INTO statistics
+  await dbQuery(`INSERT INTO stats
     (platform, ip, time, country, city, org, latitude, longtitude)
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
     [platform, ip, timestamp, country, city, org, lat, lon]);
   res.status(200).end();
 });
@@ -123,6 +123,10 @@ app.get(['/*', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
     .sendFile(resolve(__dirname + '/../dist/index.html'));
 });
 
+process.on('SIGINT', () => {
+  dbDisconnect();
+});
+
 // creating server
 if (process.env.NODE_ENV === 'development') {
   createhttpServer(app)
@@ -144,7 +148,9 @@ if (process.env.NODE_ENV === 'development') {
   }).listen(80);
 
   // main server
-  createServer(cfg, app)
-    .listen(PORT, () => console.log('Listening on port :' + PORT));
+  dbConnect().then(() => {
+    createServer(cfg, app)
+      .listen(PORT, () => console.log('Listening on port :' + PORT));
+  });
 }
 
