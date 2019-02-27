@@ -83,7 +83,7 @@ app.post('/visittable', (req, res) => {
       to_char(req_time, 'HH24:MI:SS, DD.MM.YY') AS time,
       country, city, org, latitude, longtitude
       FROM stats
-      ORDER BY id DESC`
+      ORDER BY record_id DESC`
     ).then(({ rows }) => {
       res.status(200).send(rows).end();
     });
