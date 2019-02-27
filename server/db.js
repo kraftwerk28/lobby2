@@ -20,7 +20,6 @@ const dbDisconnect = async () => await conn.end();
  * 
  * @param {string} query 
  * @param {string[]=} values 
- * @returns {Promise.<QueryResult>}
  */
 const dbQuery = async (query, values) =>
   await conn.query(query, values ? values : undefined);
