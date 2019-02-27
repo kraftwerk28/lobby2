@@ -79,7 +79,7 @@ app.post('/token', (req, res) => {
 app.post('/visittable', (req, res) => {
   if (req.body.token === sessionToken) {
     dbQuery(`SELECT
-      id, platform, ip,
+      record_id, platform, ip,
       to_char(req_time, 'HH24:MI:SS, DD.MM.YY') AS time,
       country, city, org, latitude, longtitude
       FROM stats
