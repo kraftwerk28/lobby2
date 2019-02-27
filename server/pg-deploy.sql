@@ -4,7 +4,7 @@ CREATE TABLE stats (
   record_id SERIAL PRIMARY KEY,
   platform VARCHAR(40),
   ip VARCHAR(15),
-  req_time, TIMESTAMP,
+  req_time TIMESTAMP,
   country VARCHAR(20),
   city VARCHAR(20),
   org VARCHAR(100),
