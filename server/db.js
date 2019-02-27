@@ -1,34 +1,28 @@
 'use strict';
 
-const { resolve } = require('path');
-const mysql = require('mysql');
+const { resolve, join } = require('path');
+const { Client } = require('pg');
 const { readFileSync } = require('fs');
 
 // const TABLENAME = 'statistics'
 
 const connConfig = JSON.parse(
-  readFileSync(resolve(__dirname, 'connConfig.json'), 'utf8')
+  readFileSync(join(__dirname, 'connConfig.json'), 'utf8')
 );
+
+const conn = new Client(connConfig);
+
+const dbConnect = async () => await conn.connect();
+
+const dbDisconnect = async () => await conn.end();
 
 /**
  * 
  * @param {string} query 
  * @param {string[]=} values 
- * @returns {Promise.<any>}
+ * @returns {Promise.<QueryResult>}
  */
-const dbQuery = (query, values) => new Promise((resolve, reject) => {
-  const conn = mysql.createConnection(connConfig);
-  conn.connect();
-  const callback = (err, result, fields) => {
-    if (err) reject(err);
-    else resolve({ err, result, fields });
-  };
-  if (typeof values === 'undefined') {
-    conn.query(query, callback);
-  } else {
-    conn.query(query, values, callback);
-  }
-  conn.end();
-});
+const dbQuery = async (query, values) =>
+  await conn.query(query, values ? values : undefined);
 
-module.exports = { dbQuery };
+module.exports = { dbQuery, dbConnect, dbDisconnect };
