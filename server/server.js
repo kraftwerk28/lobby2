@@ -12,7 +12,7 @@ const { createServer } = require('https');
 
 const { dbQuery, dbConnect, dbDisconnect } = require('./db');
 
-const PORT = 443;
+const PORT = 1488;
 const DEVPORT = 8081;
 const PAGES_SCHEMA_PATH = resolve(__dirname, '../data/pages-schema.json');
 
@@ -137,24 +137,9 @@ if (process.env.NODE_ENV === 'development') {
   createhttpServer(app)
     .listen(DEVPORT, () => console.log('Listening on port :' + DEVPORT));
 } else {
-  const httpsPaths = JSON.parse(
-    readFileSync(__dirname + '/httpsCfg.json', 'utf8'));
-
-  const cfg = {
-    key: readFileSync(httpsPaths.key),
-    cert: readFileSync(httpsPaths.cert),
-  };
-
-  // redirect
-  createhttpServer((req, res) => {
-    res.statusCode = 301;
-    res.setHeader('Location', 'https://' + req.headers.host + req.url);
-    res.end();
-  }).listen(80);
-
   // main server
   dbConnect().then(() => {
-    createServer(cfg, app)
+    createhttpServer(app)
       .listen(PORT, () => console.log('Listening on port :' + PORT));
   }).catch((reas) => {
     console.error(reas);
