@@ -8,7 +8,7 @@
     "dev": "webpack-dev-server --env.development --open",
     "dev:crud": "webpack-dev-server --env.development --env.crud --open",
     "dev:hot": "webpack-dev-server --env.development --hot --open",
-    "build": "webpack --env.production",
+    "build": "webpack --env.production --env.crud",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "server": "NODE_ENV=development node server/server.js",

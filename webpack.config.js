@@ -86,22 +86,21 @@ module.exports = (env) => {
       }]
     };
     config.devtool = 'source-map';
-    if (crud) {
-      config.entry.crud = './crud/src/main.js';
-      config.plugins.push(new HWP({
-        chunks: ['crud'],
-        template: './crud/src/crud.html',
-        minify: { collapseWhitespace: true },
-        filename: 'crud.html',
-      }));
-    }
-
   } else {
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
     );
 
+  }
+  if (crud) {
+    config.entry.crud = './crud/src/main.js';
+    config.plugins.push(new HWP({
+      chunks: ['crud'],
+      template: './crud/src/crud.html',
+      minify: { collapseWhitespace: true },
+      filename: 'crud.html',
+    }));
   }
 
   return config;
