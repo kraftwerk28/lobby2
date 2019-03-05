@@ -9,15 +9,16 @@
   "skills": {
     "frontend": [
       "vanilla javaScript / html / css",
-      "React + Redux + react-router",
+      "React + Redux",
       "Vue.js",
-      "Webpack / Gulp",
+      "Webpack + Babel",
       "sass / scss / stylus"
     ],
     "backend": [
       "node.js",
       "MongoDB",
       "MySql",
+      "PostgreSQL (love it)",
       "Express.js",
       "PM2",
       "Telegram Bot API / Telegraf.js"
@@ -31,8 +32,8 @@
     ],
     "other": [
       "Haskell",
-      "C++",
-      "Python",
+      "C++ (also v8 API knowledge)",
+      "Python (PyQt, TKinter)",
       "C#"
     ]
   }

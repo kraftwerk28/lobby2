@@ -4,12 +4,15 @@ import { CSSTransition } from 'react-transition-group';
 import Typed from 'typed.js';
 import HomeSkillGroup from './HomeSkillGroup';
 import Button from '../Button';
+import Modal from '../Modal';
+import Icon from '../Icon';
+import LoadIndicator from '../LoadIndicator';
 
 import octocat from '../../assets/octocat.png';
 import telegram from '../../assets/telegram.png';
 import facebook from '../../assets/facebook.png';
-import Modal from '../Modal';
-import Icon from '../Icon';
+import codewars from '../../assets/codewars.png';
+import twitter from '../../assets/twitter.png';
 
 export default class Home extends Component {
   constructor(props) {
@@ -19,9 +22,9 @@ export default class Home extends Component {
     this.skillsCount = null;
     this.enteredCount = 0;
     this.typedPassed = false;
+    this.doBioType = props.typeBio;
     this.keyListener = (e) => {
       if (!this.typedPassed && e.key === 'p' || e.key === 'з') {
-        // this.typed.reset()
         this.typedPassed = true;
         this.typed.typeSpeed = 0;
         this.typed.backSpeed = 0;
@@ -59,32 +62,33 @@ export default class Home extends Component {
       .then(d => {
         this.data = d;
         this.skillsCount = Object.keys(this.data.skills).length;
-        props.onBioTyped();
-        const timg = (num) => props.typeBio ? num : 0;
-
-        this.typed = new Typed('#typed1', {
-          strings: this.data.about,
-          // stringsElement: '#typed1static',
-          // stringsElement: '#typed1strings',
-          typeSpeed: timg(30),
-          backSpeed: timg(50),
-          backDelay: timg(100),
-          cursorChar: '-',
-          onComplete: () => {
-            this.typed = new Typed('#typed2', {
-              strings: [this.data.skillsTitle],
-              // stringsElement: 'typed1',
-              startDelay: timg(300),
-              typeSpeed: timg(40),
-              onComplete: this.showSkills,
-            });
+        this.forceUpdate(() => {
+          if (this.doBioType) {
+            this.enableTyped();
+          } else {
+            this.showSkills();
           }
         });
-
-        // this.forceUpdate(() => { })
-
-        // this.forceUpdate()
       });
+  }
+
+  enableTyped = () => {
+    this.typed = new Typed('#typed1', {
+      strings: this.data.about,
+      typeSpeed: 30,
+      backSpeed: 50,
+      backDelay: 100,
+      cursorChar: '-',
+      onComplete: () => {
+        this.typed = new Typed('#typed2', {
+          strings: [this.data.skillsTitle],
+          startDelay: 300,
+          typeSpeed: 40,
+          onComplete: this.showSkills,
+        });
+      }
+    });
+
   }
 
   componentDidMount() {
@@ -103,72 +107,96 @@ export default class Home extends Component {
   }
 
   componentWillUnmount() {
-    this.typed.destroy();
+    if (this.typed) {
+      this.typed.destroy();
+    }
     document.removeEventListener('keypress', this.keyListener);
   }
 
   render() {
     return (
-      <div className='home-container'>
+      this.data.about ?
+        <div className='home-container'>
 
 
-        {/* <Modal headerText='Feedback'>
+          {/* <Modal headerText='Feedback'>
           <div>hi there!</div>
         </Modal> */}
-        {/* about me */}
-        <div>
-          <span id='typed1'>{}</span>
-        </div>
-
-        {/* echo $MY_SKILLS */}
-        <div>
-          <h3 style={{ display: 'inline-block' }} id='typed2'></h3>
-        </div>
-
-        {/* skills */}
-        <div>
-          {this.data.skills &&
-            this.state.showSkills &&
-            Object.keys(this.data.skills).map((key, index) =>
-              <HomeSkillGroup
-                title={key}
-                key={index}
-                index={index}
-                count={this.skillsCount}
-                subSkills={this.data.skills[key]}
-                onEntered={this.enteredHandler}
-              />
-            )}
-        </div>
-
-        {/* footer */}
-        {this.state.allEntered && (
-          <div className='bottom-div'>
-            <Button onClick={this.props.onMenuOpen}>
-              <Icon name='arrow_back' />
-              View projects
-            </Button>
-            <Button
-              href="https://github.com/kraftwerk28"
-              style={{ padding: 2 }}
-            >
-              <img src={octocat} className='top-link-btn' />
-            </Button>
-            <Button
-              href="https://t.me/kraftwerk28"
-              style={{ padding: 2 }}
-            >
-              <img src={telegram} className='top-link-btn' />
-            </Button>
-            <Button
-              href="https://www.facebook.com/vsevolod.zerda.1"
-              style={{ padding: 2 }}
-            >
-              <img src={facebook} className='top-link-btn' />
-            </Button>
+          {/* about me */}
+          <div>
+            <span id='typed1'>
+              {this.props.typeBio
+                ? ''
+                : this.data.about[this.data.about.length - 1]}
+            </span>
           </div>
-        )}
-      </div>
+
+          {/* echo $MY_SKILLS */}
+          <div>
+            <h3 style={{ display: 'inline-block' }} id='typed2'>
+              {this.props.typeBio ? '' : this.data.skillsTitle}
+            </h3>
+          </div>
+
+          {/* skills */}
+          <div>
+            {this.data.skills &&
+              this.state.showSkills &&
+              Object.keys(this.data.skills).map((key, index) =>
+                <HomeSkillGroup
+                  title={key}
+                  key={index}
+                  index={index}
+                  count={this.skillsCount}
+                  subSkills={this.data.skills[key]}
+                  onEntered={this.enteredHandler}
+                />
+              )}
+          </div>
+
+          {/* footer */}
+          {this.state.allEntered && (
+            <div className='bottom-div'>
+              <Button onClick={this.props.onMenuOpen}>
+                <Icon name='arrow_back' />
+                Projects
+            </Button>
+              <Button
+                href="https://github.com/kraftwerk28"
+                style={{ padding: 2 }}
+              >
+                <img src={octocat} className='top-link-btn' />
+              </Button>
+              <Button
+                href="https://t.me/kraftwerk28"
+                style={{ padding: 2 }}
+              >
+                <img src={telegram} className='top-link-btn' />
+              </Button>
+              <Button
+                href="https://www.facebook.com/vsevolod.zerda.1"
+                style={{ padding: 2 }}
+              >
+                <img src={facebook} className='top-link-btn' />
+              </Button>
+              <Button
+                href='https://www.codewars.com/users/kraftwerk28'
+                style={{ padding: 2 }}
+              >
+                <img src={codewars} className='top-link-btn'
+                  style={{ filter: 'grayscale(100%) brightness(1000%)' }}
+                />
+              </Button>
+              <Button
+                href="https://twitter.com/kraftwerk28"
+                style={{ padding: 2 }}
+              >
+                <img src={twitter} className='top-link-btn' />
+              </Button>
+            </div>
+          )}
+        </div> :
+        <LoadIndicator />
     );
   }
 }

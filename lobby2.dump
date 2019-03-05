@@ -1,0 +1,226 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.14
+-- Dumped by pg_dump version 9.5.14
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: stats; Type: TABLE; Schema: public; Owner: kraftwerk28
+--
+
+CREATE TABLE public.stats (
+    record_id integer NOT NULL,
+    platform character varying(40),
+    ip character varying(15),
+    req_time timestamp without time zone,
+    country character varying(20),
+    city character varying(20),
+    org character varying(100),
+    latitude numeric(10,7),
+    longtitude numeric(10,7)
+);
+
+
+ALTER TABLE public.stats OWNER TO kraftwerk28;
+
+--
+-- Name: stats_record_id_seq; Type: SEQUENCE; Schema: public; Owner: kraftwerk28
+--
+
+CREATE SEQUENCE public.stats_record_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stats_record_id_seq OWNER TO kraftwerk28;
+
+--
+-- Name: stats_record_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kraftwerk28
+--
+
+ALTER SEQUENCE public.stats_record_id_seq OWNED BY public.stats.record_id;
+
+
+--
+-- Name: record_id; Type: DEFAULT; Schema: public; Owner: kraftwerk28
+--
+
+ALTER TABLE ONLY public.stats ALTER COLUMN record_id SET DEFAULT nextval('public.stats_record_id_seq'::regclass);
+
+
+--
+-- Data for Name: stats; Type: TABLE DATA; Schema: public; Owner: kraftwerk28
+--
+
+COPY public.stats (record_id, platform, ip, req_time, country, city, org, latitude, longtitude) FROM stdin;
+1	Linux x86_64	77.47.207.85	2019-02-27 23:32:07	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+2	Linux x86_64	77.47.207.85	2019-02-27 23:35:37	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+3	Linux armv8l	66.249.64.187	2019-02-27 16:00:00	United States	Ashburn	Google LLC	39.0438000	-77.4874000
+4	Linux x86_64	77.47.207.85	2019-02-28 11:28:57	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+5	Linux x86_64	77.47.207.85	2019-02-28 11:32:47	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+6	Linux x86_64	77.47.207.85	2019-02-28 11:33:10	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+7	Linux x86_64	77.47.207.85	2019-02-28 11:54:47	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+8	Linux x86_64	66.249.64.187	2019-02-27 16:00:00	United States	Ashburn	Google LLC	39.0438000	-77.4874000
+9	Linux armv8l	66.249.64.185	2019-02-27 16:00:00	United States	Ashburn	Google LLC	39.0438000	-77.4874000
+10	Linux armv8l	185.128.235.86	2019-02-28 19:08:00	Ukraine	Kyiv	GT DC V37 Unnum	50.4547000	30.5238000
+11	Linux x86_64	66.249.76.153	2019-02-27 16:00:00	United States	Ashburn	Google LLC	39.0438000	-77.4874000
+12	Linux x86_64	77.47.207.85	2019-03-01 03:25:46	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+13	Linux armv8l	66.249.76.153	2019-02-28 16:00:00	United States	Ashburn	Google LLC	39.0438000	-77.4874000
+14	Linux x86_64	77.47.194.246	2019-03-01 13:08:38	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+15	Linux x86_64	178.62.210.83	2019-03-01 13:10:32	Netherlands	Amsterdam	Digital Ocean	52.3520000	4.9392000
+16	Linux x86_64	77.47.194.246	2019-03-01 13:40:11	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+17	Linux x86_64	77.47.207.85	2019-03-01 16:41:31	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+18	Linux x86_64	77.47.207.85	2019-03-01 16:56:37	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+19	Linux x86_64	77.47.207.85	2019-03-01 16:57:07	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+20	Linux x86_64	77.47.207.85	2019-03-01 16:57:14	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+21	Linux x86_64	77.47.207.85	2019-03-01 16:57:34	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+22	Linux x86_64	178.62.210.83	2019-03-01 16:58:47	Netherlands	Amsterdam	Digital Ocean	52.3520000	4.9392000
+23	Linux x86_64	178.62.210.83	2019-03-01 17:05:13	Netherlands	Amsterdam	Digital Ocean	52.3520000	4.9392000
+24	Linux x86_64	127.0.0.1	2019-03-01 17:09:37	\N	\N	\N	\N	\N
+25	Linux x86_64	127.0.0.1	2019-03-01 17:10:05	\N	\N	\N	\N	\N
+26	Linux x86_64	127.0.0.1	2019-03-01 17:16:28	\N	\N	\N	\N	\N
+27	Linux x86_64	77.47.207.85	2019-03-01 17:23:38	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+28	Linux x86_64	77.47.207.85	2019-03-01 17:26:22	Ukraine	Kyiv	National Technical University of Ukraine	50.4333000	30.5167000
+29	Linux x86_64	127.0.0.1	2019-03-01 17:36:44	\N	\N	\N	\N	\N
+30	Linux x86_64	127.0.0.1	2019-03-01 17:37:09	\N	\N	\N	\N	\N
+31	Linux x86_64	127.0.0.1	2019-03-01 17:38:42	\N	\N	\N	\N	\N
+32	Linux x86_64	127.0.0.1	2019-03-01 17:41:31	\N	\N	\N	\N	\N
+33	Linux x86_64	127.0.0.1	2019-03-01 17:41:38	\N	\N	\N	\N	\N
+34	Linux x86_64	127.0.0.1	2019-03-01 17:43:39	\N	\N	\N	\N	\N
+35	Linux x86_64	127.0.0.1	2019-02-28 16:00:00	\N	\N	\N	\N	\N
+36	Linux x86_64	127.0.0.1	2019-03-01 19:42:12	\N	\N	\N	\N	\N
+37	Linux armv8l	127.0.0.1	2019-02-28 16:00:00	\N	\N	\N	\N	\N
+38	Win32	127.0.0.1	2019-03-01 23:03:23	\N	\N	\N	\N	\N
+39	Linux x86_64	127.0.0.1	2019-03-02 16:00:00	\N	\N	\N	\N	\N
+40	Linux armv8l	127.0.0.1	2019-03-02 16:00:00	\N	\N	\N	\N	\N
+41	Linux x86_64	127.0.0.1	2019-03-03 14:31:01	\N	\N	\N	\N	\N
+42	Linux armv8l	127.0.0.1	2019-03-03 17:44:34	\N	\N	\N	\N	\N
+43	Win32	127.0.0.1	2019-03-03 17:44:40	\N	\N	\N	\N	\N
+44	Linux armv8l	127.0.0.1	2019-03-03 17:44:52	\N	\N	\N	\N	\N
+45	Linux armv8l	127.0.0.1	2019-03-03 17:45:18	\N	\N	\N	\N	\N
+46	iPhone	127.0.0.1	2019-03-03 17:46:44	\N	\N	\N	\N	\N
+47	Linux armv7l	127.0.0.1	2019-03-03 22:45:59	\N	\N	\N	\N	\N
+48	Linux armv7l	127.0.0.1	2019-03-03 22:46:58	\N	\N	\N	\N	\N
+49	Win32	127.0.0.1	2019-03-03 17:50:43	\N	\N	\N	\N	\N
+50	Win32	127.0.0.1	2019-03-03 17:50:52	\N	\N	\N	\N	\N
+51	Win32	127.0.0.1	2019-03-03 17:51:53	\N	\N	\N	\N	\N
+52	Win32	127.0.0.1	2019-03-03 17:51:58	\N	\N	\N	\N	\N
+53	Win32	127.0.0.1	2019-03-03 17:52:40	\N	\N	\N	\N	\N
+54	iPhone	127.0.0.1	2019-03-03 17:54:48	\N	\N	\N	\N	\N
+55	Linux armv7l	127.0.0.1	2019-03-03 18:02:51	\N	\N	\N	\N	\N
+56	iPhone	127.0.0.1	2019-03-03 17:15:19	\N	\N	\N	\N	\N
+57	Linux armv8l	127.0.0.1	2019-03-03 18:20:55	\N	\N	\N	\N	\N
+58	MacIntel	127.0.0.1	2019-03-03 18:43:09	\N	\N	\N	\N	\N
+59	iPhone	127.0.0.1	2019-03-03 18:43:55	\N	\N	\N	\N	\N
+60	iPhone	127.0.0.1	2019-03-03 18:44:08	\N	\N	\N	\N	\N
+61	iPhone	127.0.0.1	2019-03-03 19:01:41	\N	\N	\N	\N	\N
+62	iPhone	127.0.0.1	2019-03-03 21:24:39	\N	\N	\N	\N	\N
+63	Linux armv7l	127.0.0.1	2019-03-03 21:28:31	\N	\N	\N	\N	\N
+64	Linux armv7l	127.0.0.1	2019-03-03 21:29:06	\N	\N	\N	\N	\N
+65	Linux armv7l	127.0.0.1	2019-03-03 21:29:35	\N	\N	\N	\N	\N
+66	MacIntel	127.0.0.1	2019-03-03 21:45:04	\N	\N	\N	\N	\N
+67	MacIntel	127.0.0.1	2019-03-03 21:46:11	\N	\N	\N	\N	\N
+68	Win32	127.0.0.1	2019-03-03 21:49:27	\N	\N	\N	\N	\N
+69	Linux armv8l	127.0.0.1	2019-03-03 22:28:16	\N	\N	\N	\N	\N
+70	Linux armv8l	127.0.0.1	2019-03-03 22:29:43	\N	\N	\N	\N	\N
+71	Win32	127.0.0.1	2019-03-03 23:25:44	\N	\N	\N	\N	\N
+72	Win32	127.0.0.1	2019-03-03 23:29:12	\N	\N	\N	\N	\N
+73	Linux x86_64	127.0.0.1	2019-03-02 16:00:00	\N	\N	\N	\N	\N
+74	Linux armv7l	127.0.0.1	2019-03-04 00:10:18	\N	\N	\N	\N	\N
+75	Linux armv7l	127.0.0.1	2019-03-04 00:10:25	\N	\N	\N	\N	\N
+76	Linux armv7l	127.0.0.1	2019-03-04 00:10:29	\N	\N	\N	\N	\N
+77	Linux armv7l	127.0.0.1	2019-03-04 00:14:22	\N	\N	\N	\N	\N
+78	Linux armv7l	127.0.0.1	2019-03-04 00:14:46	\N	\N	\N	\N	\N
+79	Linux armv7l	127.0.0.1	2019-03-04 00:15:00	\N	\N	\N	\N	\N
+80	iPhone	127.0.0.1	2019-03-04 01:06:29	\N	\N	\N	\N	\N
+81	Linux x86_64	127.0.0.1	2019-03-03 18:23:14	\N	\N	\N	\N	\N
+82	iPhone	127.0.0.1	2019-03-04 08:05:55	\N	\N	\N	\N	\N
+83	iPhone	127.0.0.1	2019-03-04 08:22:19	\N	\N	\N	\N	\N
+84	iPhone	127.0.0.1	2019-03-04 08:40:21	\N	\N	\N	\N	\N
+85	Linux armv8l	127.0.0.1	2019-03-03 16:00:00	\N	\N	\N	\N	\N
+86	Linux armv8l	127.0.0.1	2019-03-04 09:51:59	\N	\N	\N	\N	\N
+87	iPhone	127.0.0.1	2019-03-04 11:37:10	\N	\N	\N	\N	\N
+88	iPhone	127.0.0.1	2019-03-04 15:27:58	\N	\N	\N	\N	\N
+89	Linux x86_64	127.0.0.1	2019-03-04 18:34:58	\N	\N	\N	\N	\N
+90	Linux x86_64	127.0.0.1	2019-03-04 18:35:05	\N	\N	\N	\N	\N
+91	Win32	127.0.0.1	2019-03-04 19:20:16	\N	\N	\N	\N	\N
+92	iPhone	127.0.0.1	2019-03-04 20:09:32	\N	\N	\N	\N	\N
+93	Linux x86_64	127.0.0.1	2019-03-04 20:35:16	\N	\N	\N	\N	\N
+94	Linux x86_64	127.0.0.1	2019-03-04 20:37:15	\N	\N	\N	\N	\N
+95	Linux x86_64	127.0.0.1	2019-03-04 20:54:58	\N	\N	\N	\N	\N
+96	Win32	127.0.0.1	2019-03-04 21:29:54	\N	\N	\N	\N	\N
+97	MacIntel	127.0.0.1	2019-03-04 13:09:48	\N	\N	\N	\N	\N
+98	MacIntel	127.0.0.1	2019-03-04 13:10:29	\N	\N	\N	\N	\N
+99	MacIntel	127.0.0.1	2019-03-04 13:10:41	\N	\N	\N	\N	\N
+100	iPhone	127.0.0.1	2019-03-05 00:15:44	\N	\N	\N	\N	\N
+101	iPhone	127.0.0.1	2019-03-05 00:18:18	\N	\N	\N	\N	\N
+102	iPhone	127.0.0.1	2019-03-05 08:28:54	\N	\N	\N	\N	\N
+103	iPhone	127.0.0.1	2019-03-05 08:44:30	\N	\N	\N	\N	\N
+104	iPhone	127.0.0.1	2019-03-05 09:14:54	\N	\N	\N	\N	\N
+105	iPhone	127.0.0.1	2019-03-05 09:45:16	\N	\N	\N	\N	\N
+106	iPhone	127.0.0.1	2019-03-05 10:07:05	\N	\N	\N	\N	\N
+107	iPhone	127.0.0.1	2019-03-05 10:09:51	\N	\N	\N	\N	\N
+108	Win32	127.0.0.1	2019-03-05 11:52:56	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Name: stats_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kraftwerk28
+--
+
+SELECT pg_catalog.setval('public.stats_record_id_seq', 108, true);
+
+
+--
+-- Name: stats_pkey; Type: CONSTRAINT; Schema: public; Owner: kraftwerk28
+--
+
+ALTER TABLE ONLY public.stats
+    ADD CONSTRAINT stats_pkey PRIMARY KEY (record_id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

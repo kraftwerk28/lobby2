@@ -123,19 +123,11 @@ app.get(['/*', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
     .sendFile(resolve(__dirname + '/../dist/index.html'));
 });
 
-process.on('SIGINT', () => {
-  dbDisconnect()
-    .then(process.exit(0))
-    .catch((reas) => {
-      console.error(reas);
-      process.exit(1);
-    });
-});
-
 // creating server
 if (process.env.NODE_ENV === 'development') {
   createhttpServer(app)
     .listen(DEVPORT, () => console.log('Listening on port :' + DEVPORT));
+  dbConnect();
 } else {
   // main server
   dbConnect().then(() => {

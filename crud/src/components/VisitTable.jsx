@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Grid,
   Typography,
@@ -15,15 +15,15 @@ import {
   CircularProgress,
   IconButton,
   Icon
-} from '@material-ui/core'
+} from '@material-ui/core';
 
-import { getToken } from '../token'
+import { getToken } from '../token';
 
-import _fetch from '../jsonfetch'
+import _fetch from '../jsonfetch';
 
 const showLessColumns = [
   'platform', 'time', 'country', 'city', 'org'
-]
+];
 
 const AdditionActions = (props) => (
   <Tc>
@@ -33,7 +33,7 @@ const AdditionActions = (props) => (
       </IconButton>
     </div>
   </Tc>
-)
+);
 
 const AdditionActionsHOC = (_this) => (
   <AdditionActions
@@ -42,7 +42,7 @@ const AdditionActionsHOC = (_this) => (
       showMore: !prev.showMore
     }))}
   />
-)
+);
 
 class VTable extends React.Component {
   tableData = []
@@ -54,28 +54,29 @@ class VTable extends React.Component {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
 
     _fetch('/visittable', {
       body: { token: getToken() }
     }).then(_ => _.json()).then(d => {
-      this.tableData = d
-      this.tableHead = Object.keys(d[0])
-      this.forceUpdate()
-    })
+      console.log('d');
+      this.tableData = d;
+      this.tableHead = Object.keys(d[0]);
+      this.forceUpdate();
+    });
   }
 
   changePageHandler = (event, page) => {
-    this.setState({ curTablePage: page })
+    this.setState({ curTablePage: page });
   }
 
   changeRowsPerPageHandler = (event) => {
-    this.setState({ rowsPerPage: event.target.value })
+    this.setState({ rowsPerPage: event.target.value });
   }
 
   render() {
-    const { curTablePage, rowsPerPage, showMore } = this.state
-    const [tableData, tableHead] = [this.tableData, this.tableHead]
+    const { curTablePage, rowsPerPage, showMore } = this.state;
+    const [tableData, tableHead] = [this.tableData, this.tableHead];
 
     return (
       <Grid
@@ -119,12 +120,12 @@ class VTable extends React.Component {
                     rowsPerPage)
                   .map((row, i) => (
                     <Tr key={i}>
-                      {showMore ?
-                        Object.values(row).map((d, _i) => (
+                      {showMore
+                        ? Object.values(row).map((d, _i) => (
                           <Tc key={row.id * 7 + _i}>{d}</Tc>
-                        )) :
-                        showLessColumns.map((col, _i) => (
-                          <Tc key={row.id * showLessColumns.length + _i}>
+                        ))
+                        : showLessColumns.map((col, _i) => (
+                          <Tc key={row.record_id * showLessColumns.length + _i}>
                             {row[col]}
                           </Tc>))}
                     </Tr>
@@ -134,8 +135,8 @@ class VTable extends React.Component {
           </Paper> : <CircularProgress style={{ margin: 20 }} />}
 
       </Grid>
-    )
+    );
   }
 }
 
-export default VTable
+export default VTable;

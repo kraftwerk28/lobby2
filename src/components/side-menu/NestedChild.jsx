@@ -1,39 +1,39 @@
-import React, { Component } from 'react'
-import SdMenuChild from './SdMenuChild'
-import { CSSTransition, Transition } from 'react-transition-group'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import SdMenuChild from './SdMenuChild';
+import { CSSTransition, Transition } from 'react-transition-group';
+import { Link } from 'react-router-dom';
 
-const EXPAND_TIMEOUT = 1000
+const EXPAND_TIMEOUT = 1000;
 
 export default class NestedChild extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       expanded: false,
-    }
-    this.toggleExpand = this.toggleExpand.bind(this)
+    };
+    this.toggleExpand = this.toggleExpand.bind(this);
   }
 
   toggleExpand() {
     this.setState((prev) => ({
       expanded: !prev.expanded,
-    }))
+    }));
   }
 
 
   render() {
-    const { text, group } = this.props
+    const { text, group } = this.props;
     const allText =
       <>
         <span
           className='material-icons'
           style={{
             transition: 'transform .5s',
-            transform: `rotate(${this.state.expanded ? 0 : -90}deg)`,
+            transform: `rotate(${this.state.expanded ? -180 : 0}deg)`,
           }}
         >expand_more</span>
         {text}
-      </>
+      </>;
 
     return (
       <>
@@ -50,8 +50,7 @@ export default class NestedChild extends Component {
                 maxHeight: state === 'exited' || state === 'exiting' ?
                   0 : 200 + 'px',
                 // display: state === 'exited' ? 'none' : null,
-                transition: `max-height ${EXPAND_TIMEOUT}ms`,
-                overflow: 'hidden',
+                transition: `max-height ${EXPAND_TIMEOUT}ms`
               }}
             >
               {group.map(({ to, text }, i) =>
@@ -77,6 +76,6 @@ export default class NestedChild extends Component {
           }
         </Transition>
       </>
-    )
+    );
   }
 }

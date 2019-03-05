@@ -18,3 +18,4 @@ rules:
   quotes:
     - 2
     - single
+  no-constant-condition: 0

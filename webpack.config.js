@@ -46,7 +46,9 @@ module.exports = (env) => {
         {
           test: /\.(woff(2)?|ttf|eot|svg|png)$/,
           loader: 'file-loader',
-          exclude: /node_modules/,
+          options: {
+            outputPath: 'assets',
+          }
         }
       ]
     },

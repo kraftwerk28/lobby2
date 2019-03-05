@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Typography,
   AppBar,
@@ -7,22 +7,21 @@ import {
   Tabs,
 
   MuiThemeProvider,
-} from '@material-ui/core'
+} from '@material-ui/core';
 
-import VTable from './VisitTable'
-import DataEditor from './DataEditor'
-import JSONVisTest from '../tests/ObjForm.test'
-import { dark, light } from '../themes'
+import VTable from './VisitTable';
+import DataEditor from './DataEditor';
+import JSONVisTest from '../tests/ObjForm.test';
+import { dark, light } from '../themes';
 
 const tabComponents = [
   <VTable />,
   <DataEditor />,
-  <JSONVisTest />
-]
+];
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   inputRef = React.createRef()
@@ -38,7 +37,6 @@ class App extends React.Component {
         >
           <Tab label='Visits' />
           <Tab label='Edit data' />
-          <Tab label='Text' />
         </Tabs>
       </AppBar>
       {tabComponents[this.state.curTabIndex]}
@@ -46,4 +44,4 @@ class App extends React.Component {
   )
 }
 
-export default App
+export default App;
