@@ -14,7 +14,7 @@ module.exports = (env) => {
     mode: dev ? 'development' : 'production',
 
     entry: {
-      app: './src/main.js'
+      app: './src'
     },
     output: {
       filename: '[name].js',
@@ -73,16 +73,14 @@ module.exports = (env) => {
 
   if (dev) {
     config.devServer = {
-      compress: true,
-      host: '0.0.0.0',
       port: 8080,
-      contentBase: ['/dist', '/data'].map(_ => __dirname + _),
+      contentBase: ['/dist', '/data'].map(dr => __dirname + dr),
       overlay: true,
       stats: 'minimal',
       historyApiFallback: true,
       proxy: [{
-        context: ['/token', '/visittable', '/schema'],
-        target: 'http://localhost:8081',
+        context: ['/token', '/visittable', '/schema', '/stats'],
+        target: 'http://127.0.0.1:8081',
       }]
     };
     config.devtool = 'source-map';

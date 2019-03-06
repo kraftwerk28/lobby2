@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "yarn dev",
-    "dev": "webpack-dev-server --env.development --open",
-    "dev:crud": "webpack-dev-server --env.development --env.crud --open",
-    "dev:hot": "webpack-dev-server --env.development --hot --open",
+    "dev": "webpack-dev-server --env.development --host $(ip route get 1 | egrep -o \"\\b192\\S*\\b\" | tail -n1)",
+    "dev:crud": "yarn dev --env.crud",
+    "dev:hot": "webpack-dev-server --env.development --hot",
     "build": "webpack --env.production --env.crud",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

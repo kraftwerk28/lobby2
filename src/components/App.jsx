@@ -39,6 +39,10 @@ class App extends Component {
       this.setState({ location, doAnim: false }, () => {
         this.setState({ doAnim: true });
       });
+      this.rootEl.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
     });
 
     _fetch('schema').then(_ => _.json()).then(data => {

@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
       .toJSON().replace(/T/, ' ').replace(/\..*$/, '');
 
-  fetch('stats', {
+  fetch('/stats', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
