@@ -92,7 +92,8 @@ app.post('/visittable', (req, res) => {
 
 app.post('/stats', async (req, res) => {
   const { platform, timestamp } = req.body;
-  const ip = req.connection.remoteAddress.substring(7);
+  const ip = req.header('x-real-ip') ||
+    req.connection.remoteAddress.substring(7);
 
   const { country, city, org, lat, lon } = await fetch(geourl + ip)
     .then(d => d.json());
