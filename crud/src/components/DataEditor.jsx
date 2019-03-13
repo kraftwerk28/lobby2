@@ -1,13 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import React from 'react'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
-import _fetch from '../jsonfetch';
-import { CircularProgress } from '@material-ui/core';
-import { getToken } from '../token';
+import _fetch from '../jsonfetch'
+import { CircularProgress } from '@material-ui/core'
+import { getToken } from '../token'
 
-import mainReducer from '../reducers';
-import DataEditorContainer from './DataEditorContainer';
+import mainReducer from '../reducers'
+import DataEditorContainer from './DataEditorContainer'
 
 class DataEditor extends React.Component {
   state = {
@@ -16,11 +16,11 @@ class DataEditor extends React.Component {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     _fetch('schema').then(_ => _.json()).then(schema => {
-      this.setState({ schema: createStore(mainReducer(schema)) });
-    });
+      this.setState({ schema: createStore(mainReducer(schema)) })
+    })
   }
 
   submitData = () =>
@@ -29,8 +29,8 @@ class DataEditor extends React.Component {
     })
 
   render() {
-    const { schema, dataSubmitted } = this.state;
-    const store = schema ? schema.getState() : null;
+    const { schema, dataSubmitted } = this.state
+    const store = schema ? schema.getState() : null
 
     return (
       this.state.schema ?
@@ -38,8 +38,8 @@ class DataEditor extends React.Component {
           <DataEditorContainer onSubmitData={this.submitData} />
         </Provider> :
         <CircularProgress />
-    );
+    )
   }
 }
 
-export default (DataEditor);
+export default (DataEditor)

@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "yarn dev",
-    "dev": "webpack-dev-server --env.development --host $(ip route get 1 | egrep -o \"\\b192\\S*\\b\" | tail -n1)",
-    "dev:crud": "yarn dev --env.crud",
+    "dev": "webpack-dev-server --env.development",
+    "dev:crud": "webpack-dev-server --env.development --env.crud",
     "dev:hot": "webpack-dev-server --env.development --hot",
     "build": "webpack --env.production --env.crud",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
     "server": "NODE_ENV=development node server/server.js",
     "clean": "rm -r dist/*"
   },

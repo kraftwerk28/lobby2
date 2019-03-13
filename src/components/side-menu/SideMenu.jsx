@@ -124,7 +124,7 @@ export default class SideMenu extends Component {
             opacity: Math.round(
               100 * (this.width + this.state.x) / this.width / 2) / 100,
           }}
-          onMouseUp={() => { this.expand(false); }}
+          onMouseUp={() => { this.expand(false) }}
         />
         <Swipeable
           trackMouse

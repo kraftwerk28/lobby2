@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core'
 import {
   orange,
   deepPurple,
@@ -6,7 +6,7 @@ import {
   lightGreen,
   green,
   grey
-} from '@material-ui/core/colors';
+} from '@material-ui/core/colors'
 
 export const dark = createMuiTheme({
   palette: {
@@ -26,9 +26,9 @@ export const dark = createMuiTheme({
     useNextVariants: true,
     fontFamily: 'Source Code Pro, monospace'
   }
-});
+})
 
 export const light = createMuiTheme({
   palette: { type: 'light' },
   typography: { useNextVariants: true },
-});
+})

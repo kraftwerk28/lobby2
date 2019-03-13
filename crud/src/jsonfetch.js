@@ -5,16 +5,16 @@
  * @return {Promise.<Response>}
  */
 const _fetch = (url, opts) => {
-  const init = Object.assign({}, opts);
+  const init = Object.assign({}, opts)
   if (init.method === undefined) {
-    init.method = init.body === undefined ? 'GET' : 'POST';
+    init.method = init.body === undefined ? 'GET' : 'POST'
   }
   if (init.body !== undefined) {
-    init.body = JSON.stringify(init.body);
+    init.body = JSON.stringify(init.body)
   }
-  init.headers = init.headers === undefined ? {} : init.headers;
-  init.headers['Content-Type'] = 'application/json';
-  return fetch(url, init);
-};
+  init.headers = init.headers === undefined ? {} : init.headers
+  init.headers['Content-Type'] = 'application/json'
+  return fetch(url, init)
+}
 
-export default _fetch;
+export default _fetch

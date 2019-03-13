@@ -74,7 +74,7 @@ const ObjForm = (props) => {
 
 class JSONSchema extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {

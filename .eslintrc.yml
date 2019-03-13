@@ -11,7 +11,7 @@ extends:
 rules:
   semi:
     - 2
-    - always
+    - never
   no-unused-vars: 0
   no-useless-escape: 0
   no-console: 0

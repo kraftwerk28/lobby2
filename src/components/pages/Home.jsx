@@ -1,75 +1,75 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from 'react'
 
-import { CSSTransition } from 'react-transition-group';
-import Typed from 'typed.js';
-import HomeSkillGroup from './HomeSkillGroup';
-import Button from '../Button';
-import Modal from '../Modal';
-import Icon from '../Icon';
-import LoadIndicator from '../LoadIndicator';
+import { CSSTransition } from 'react-transition-group'
+import Typed from 'typed.js'
+import HomeSkillGroup from './HomeSkillGroup'
+import Button from '../Button'
+import Modal from '../Modal'
+import Icon from '../Icon'
+import LoadIndicator from '../LoadIndicator'
 
-import octocat from '../../assets/octocat.png';
-import telegram from '../../assets/telegram.png';
-import facebook from '../../assets/facebook.png';
-import codewars from '../../assets/codewars.png';
-import twitter from '../../assets/twitter.png';
+import octocat from '../../assets/octocat.png'
+import telegram from '../../assets/telegram.png'
+import facebook from '../../assets/facebook.png'
+import codewars from '../../assets/codewars.png'
+import twitter from '../../assets/twitter.png'
 
 export default class Home extends Component {
   constructor(props) {
-    super(props);
-    this.data = {};
-    this.typed = null;
-    this.skillsCount = null;
-    this.enteredCount = 0;
-    this.typedPassed = false;
-    this.doBioType = props.typeBio;
+    super(props)
+    this.data = {}
+    this.typed = null
+    this.skillsCount = null
+    this.enteredCount = 0
+    this.typedPassed = false
+    this.doBioType = props.typeBio
     this.keyListener = (e) => {
       if (!this.typedPassed && e.key === 'p' || e.key === 'з') {
-        this.typedPassed = true;
-        this.typed.typeSpeed = 0;
-        this.typed.backSpeed = 0;
+        this.typedPassed = true
+        this.typed.typeSpeed = 0
+        this.typed.backSpeed = 0
       }
-    };
+    }
 
     this.state = {
       showSkills: false,
       allEntered: false,
-    };
+    }
 
-    this.showSkills = this.showSkills.bind(this);
-    this.enteredHandler = this.enteredHandler.bind(this);
+    this.showSkills = this.showSkills.bind(this)
+    this.enteredHandler = this.enteredHandler.bind(this)
 
     fetch('/homepage.json')
       .then(d => d.json())
       .then(d => {
-        const time = (new Date()).getHours();
-        let timeStr = '';
+        const time = (new Date()).getHours()
+        let timeStr = ''
 
         if (time < 4)
-          timeStr = 'night';
+          timeStr = 'night'
         else if (time < 12)
-          timeStr = 'morning';
+          timeStr = 'morning'
         else if (time < 18)
-          timeStr = 'afternoon';
+          timeStr = 'afternoon'
         else if (time < 22)
-          timeStr = 'evening';
+          timeStr = 'evening'
         else
-          timeStr = 'night';
+          timeStr = 'night'
 
-        d.about = d.about.map(v => v.replace(/\$TIME/, timeStr));
-        return d;
+        d.about = d.about.map(v => v.replace(/\$TIME/, timeStr))
+        return d
       })
       .then(d => {
-        this.data = d;
-        this.skillsCount = Object.keys(this.data.skills).length;
+        this.data = d
+        this.skillsCount = Object.keys(this.data.skills).length
         this.forceUpdate(() => {
           if (this.doBioType) {
-            this.enableTyped();
+            this.enableTyped()
           } else {
-            this.showSkills();
+            this.showSkills()
           }
-        });
-      });
+        })
+      })
   }
 
   enableTyped = () => {
@@ -85,32 +85,32 @@ export default class Home extends Component {
           startDelay: 300,
           typeSpeed: 40,
           onComplete: this.showSkills,
-        });
+        })
       }
-    });
+    })
 
   }
 
   componentDidMount() {
-    document.addEventListener('keypress', this.keyListener);
+    document.addEventListener('keypress', this.keyListener)
   }
 
   showSkills() {
-    this.setState({ showSkills: true });
+    this.setState({ showSkills: true })
   }
 
   enteredHandler() {
-    this.enteredCount++;
+    this.enteredCount++
     if (this.enteredCount === Object.keys(this.data.skills).length) {
-      this.setState({ allEntered: true });
+      this.setState({ allEntered: true })
     }
   }
 
   componentWillUnmount() {
     if (this.typed) {
-      this.typed.destroy();
+      this.typed.destroy()
     }
-    document.removeEventListener('keypress', this.keyListener);
+    document.removeEventListener('keypress', this.keyListener)
   }
 
   render() {
@@ -197,6 +197,6 @@ export default class Home extends Component {
           )}
         </div> :
         <LoadIndicator />
-    );
+    )
   }
 }

@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const HWP = require('html-webpack-plugin');
-const cssExt = require('mini-css-extract-plugin');
-const cssMini = require('optimize-css-assets-webpack-plugin');
-const { EnvironmentPlugin } = require('webpack');
-const { resolve } = require('path');
+const HWP = require('html-webpack-plugin')
+const cssExt = require('mini-css-extract-plugin')
+const cssMini = require('optimize-css-assets-webpack-plugin')
+const { EnvironmentPlugin } = require('webpack')
+const { resolve } = require('path')
 
 module.exports = (env) => {
-  const dev = env.development;
-  const crud = env.crud;
+  const dev = env.development
+  const crud = env.crud
 
   const config = {
     mode: dev ? 'development' : 'production',
@@ -65,11 +65,11 @@ module.exports = (env) => {
       extensions: ['.js', '.jsx', '.sass']
     },
 
-  };
+  }
 
   console.log('Running in ' +
     (dev ? 'development' : 'production') +
-    ' mode.\n');
+    ' mode.\n')
 
   if (dev) {
     config.devServer = {
@@ -82,24 +82,24 @@ module.exports = (env) => {
         context: ['/token', '/visittable', '/schema', '/stats'],
         target: 'http://127.0.0.1:8081',
       }]
-    };
-    config.devtool = 'source-map';
+    }
+    config.devtool = 'eval-source-map'
   } else {
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
-    );
+    )
 
   }
   if (crud) {
-    config.entry.crud = './crud/src/main.js';
+    config.entry.crud = './crud/src/main.js'
     config.plugins.push(new HWP({
       chunks: ['crud'],
       template: './crud/src/crud.html',
       minify: { collapseWhitespace: true },
       filename: 'crud.html',
-    }));
+    }))
   }
 
-  return config;
-};
+  return config
+}
