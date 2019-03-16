@@ -14,40 +14,43 @@ import {
 
   CircularProgress,
   IconButton,
-  Icon
+  Icon,
+  Zoom,
+  Fab,
 } from '@material-ui/core'
+
+import { withStyles } from '@material-ui/core/styles'
 
 import { getToken } from '../token'
 
 import _fetch from '../jsonfetch'
 
+const styles = {
+  rootGrid: {
+    overflowX: 'auto',
+  },
+  paper: {
+    overflow: 'auto',
+    height: '100%'
+  },
+  paginationSpacer: {
+    display: 'none'
+  },
+  fab: {
+    position: 'fixed',
+    bottom: 8,
+    right: 8,
+  }
+}
+
 const showLessColumns = [
   'time', 'country', 'city'
 ]
 
-const AdditionActions = (props) => (
-  <Tc>
-    <div>
-      <IconButton onClick={() => props.toggleShowMore()}>
-        <Icon>{'unfold_' + (props.expanded ? 'less' : 'more')}</Icon>
-      </IconButton>
-    </div>
-  </Tc>
-)
-
-const AdditionActionsHOC = (_this) => (
-  <AdditionActions
-    expanded={_this.state.showMore}
-    toggleShowMore={() => _this.setState(prev => ({
-      showMore: !prev.showMore
-    }))}
-  />
-)
-
 class VTable extends React.Component {
-  tableData = []
-  tableHead = []
   state = {
+    tableData: [],
+    tableHead: [],
     curTablePage: 0,
     rowsPerPage: 25,
     showMore: false,
@@ -55,13 +58,16 @@ class VTable extends React.Component {
 
   constructor(props) {
     super(props)
+  }
 
+  componentDidMount = () => {
     _fetch('/visittable', {
       body: { token: getToken() }
     }).then(_ => _.json()).then(d => {
-      this.tableData = d
-      this.tableHead = Object.keys(d[0])
-      this.forceUpdate()
+      this.setState({
+        tableData: d,
+        tableHead: Object.keys(d[0])
+      })
     })
   }
 
@@ -73,30 +79,35 @@ class VTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
+  switchExpanded = () => {
+    this.setState(prev => ({
+      showMore: !prev.showMore
+    }))
+  }
+
   render() {
-    const { curTablePage, rowsPerPage, showMore } = this.state
-    const [tableData, tableHead] = [this.tableData, this.tableHead]
+    const {
+      curTablePage, rowsPerPage,
+      showMore, tableData, tableHead
+    } = this.state
+    const { classes } = this.props
 
     return (
       <Grid
         container
         alignItems='center'
         direction='column'
-        style={{
-          overflowX: 'auto',
-        }}
+        className={classes.rootGrid}
       >
-        {tableData.length ?
-          <Paper
-            style={{
-              overflow: 'auto',
-              height: '100%'
-            }}
-          >
+        {tableData.length
+          ? <Paper className={classes.paper}>
             <Table>
               <Thead>
                 <Tr>
                   <TablePagination
+                    classes={{
+                      spacer: classes.paginationSpacer
+                    }}
                     rowsPerPageOptions={[5, 10, 25, 50]}
                     count={tableData.length}
                     rowsPerPage={rowsPerPage}
@@ -104,7 +115,6 @@ class VTable extends React.Component {
                     onChangePage={this.changePageHandler}
                     onChangeRowsPerPage={this.changeRowsPerPageHandler}
                   />
-                  {AdditionActionsHOC(this)}
                 </Tr>
                 <Tr>
                   {showMore ?
@@ -123,7 +133,7 @@ class VTable extends React.Component {
                       {showMore
                         ? Object.values(row).map((d, _i) => (
                           <Tc
-                            key={row.record_id * this.tableHead.length + _i}
+                            key={row.record_id * tableHead.length + _i}
                           >{d}</Tc>
                         ))
                         : showLessColumns.map((col, _i) => (
@@ -134,11 +144,19 @@ class VTable extends React.Component {
                   ))}
               </Tbody>
             </Table>
-          </Paper> : <CircularProgress style={{ margin: 20 }} />}
+          </Paper>
+          : <CircularProgress style={{ margin: 20 }} />}
 
+        <Fab
+          className={classes.fab}
+          color='primary'
+          onClick={this.switchExpanded}
+        >
+          <Icon>{'unfold_' + (showMore ? 'less' : 'more')}</Icon>
+        </Fab>
       </Grid>
     )
   }
 }
 
-export default VTable
+export default withStyles(styles)(VTable)

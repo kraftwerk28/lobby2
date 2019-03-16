@@ -19,12 +19,10 @@ export const dark = createMuiTheme({
       default: '#000',
       paper: grey[900]
     }
-    
-    // secondary: deepPurple,
   },
   typography: {
     useNextVariants: true,
-    fontFamily: 'Source Code Pro, monospace'
+    fontFamily: 'Source Code Pro Bold, monospace'
   }
 })
 

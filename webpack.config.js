@@ -6,6 +6,8 @@ const cssMini = require('optimize-css-assets-webpack-plugin')
 const { EnvironmentPlugin } = require('webpack')
 const { resolve } = require('path')
 
+const PORT = 8080
+
 module.exports = (env) => {
   const dev = env.development
   const crud = env.crud
@@ -73,15 +75,18 @@ module.exports = (env) => {
 
   if (dev) {
     config.devServer = {
-      port: 8080,
+      port: PORT,
       contentBase: ['/dist', '/data'].map(dr => __dirname + dr),
       overlay: true,
       stats: 'minimal',
       historyApiFallback: true,
-      proxy: [{
-        context: ['/token', '/visittable', '/schema', '/stats'],
-        target: 'http://127.0.0.1:8081',
-      }]
+      proxy: [
+        {
+          context: ['/token', '/visittable', '/schema', '/stats'],
+          target: 'http://127.0.0.1:8081',
+        },
+        { context: '/crud', target: 'http://127.0.0.1:8080/crud.html' }
+      ]
     }
     config.devtool = 'eval-source-map'
   } else {

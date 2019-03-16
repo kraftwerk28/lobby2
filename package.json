@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn dev",
     "dev": "webpack-dev-server --env.development",
-    "dev:crud": "webpack-dev-server --env.development --env.crud",
+    "dev:crud": "webpack-dev-server --env.development --env.crud --progress",
     "dev:hot": "webpack-dev-server --env.development --hot",
     "build": "webpack --env.production --env.crud",
     "lint": "eslint . --ext .js,.jsx",
