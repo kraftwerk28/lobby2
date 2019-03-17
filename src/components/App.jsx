@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import { Router } from 'react-router-dom'
 import History from 'history/createBrowserHistory'
+import Helmet from 'react-helmet'
 
 //? components
 import SideMenu from './side-menu/SideMenu'
@@ -10,7 +11,6 @@ import Container from './ContentContainer'
 //? pages
 import Home from './pages/Home'
 import ProjPres from './pages/ProjectPresentation'
-import NotFound from './pages/404'
 
 import { hot } from 'react-hot-loader'
 
@@ -25,6 +25,11 @@ class App extends Component {
   rootEl = createRef()
   sm = createRef()
   routes = () => []
+  topColorSeq = [
+    '#000000',
+    '#00ff00',
+  ]
+  topColorIndex = 0
 
   constructor(props) {
     super(props)
@@ -33,6 +38,7 @@ class App extends Component {
       location: { pathname: props.startLocation },
       doAnim: true,
       bioHasTyped: (process.env.NODE_ENV === 'development'),
+      topColor: this.topColorSeq[this.topColorIndex]
     }
 
     history.listen((location) => {
@@ -45,6 +51,9 @@ class App extends Component {
       })
     })
 
+  }
+
+  componentDidMount() {
     _fetch('schema').then(_ => _.json()).then(data => {
       this.routes = () => [
         {
@@ -69,10 +78,13 @@ class App extends Component {
       ]
       this.forceUpdate()
     })
-
-  }
-
-  componentDidMount() {
+    setInterval(() => {
+      this.topColorIndex = (this.topColorIndex + 1) % this.topColorSeq.length
+      this.setState({
+        topColor: this.topColorSeq[this.topColorIndex]
+      })
+      console.log(this.top)
+    }, 5000)
   }
 
   openMenu = () => {
@@ -92,29 +104,35 @@ class App extends Component {
     const routes = this.routes()
 
     return (
-      <Router history={history}>
-        {routes.length ? <div className='root'>
+      <>
+        <Helmet
+        >
+          <meta name='theme-color' content={this.state.topColor}></meta>
+        </Helmet>
+        <Router history={history}>
+          {routes.length ? <div className='root'>
 
-          {/* -----MAIN BODY----- */}
-          <Title
-            animTrigger={this.state.doAnim}
-            text={this.getTextFromRoute(routes)}
-            onOpenMenu={this.openMenu}
-          />
-          <div className='content-container'
-            ref={e => { this.rootEl = e }}
-          >
-            <div className='top-shadow' />
-            <Container location={this.state.location} routes={routes} />
-          </div>
+            {/* -----MAIN BODY----- */}
+            <Title
+              animTrigger={this.state.doAnim}
+              text={this.getTextFromRoute(routes)}
+              onOpenMenu={this.openMenu}
+            />
+            <div className='content-container'
+              ref={e => { this.rootEl = e }}
+            >
+              <div className='top-shadow' />
+              <Container location={this.state.location} routes={routes} />
+            </div>
 
-          <SideMenu
-            ref={e => { this.sm = e }}
-            toBlur={null}
-          >{routes}</SideMenu>
+            <SideMenu
+              ref={e => { this.sm = e }}
+              toBlur={null}
+            >{routes}</SideMenu>
 
-        </div> : <Loader />}
-      </Router>
+          </div> : <Loader />}
+        </Router>
+      </>
     )
   }
 }

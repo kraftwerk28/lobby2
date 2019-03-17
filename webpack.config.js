@@ -76,6 +76,7 @@ module.exports = (env) => {
   if (dev) {
     config.devServer = {
       port: PORT,
+      host: '0.0.0.0',
       contentBase: ['/dist', '/data'].map(dr => __dirname + dr),
       overlay: true,
       stats: 'minimal',

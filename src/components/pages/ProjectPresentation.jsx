@@ -34,27 +34,21 @@ export default class ProjectPresentation extends Component {
 
   constructor(props) {
     super(props)
-    if (props.data.readme) {
-      fetch(props.data.readme)
+  }
+
+  componentDidMount() {
+    if (this.props.data.readme) {
+      fetch(this.props.data.readme)
         .then(d => d.text())
         .then(mdData => {
           this.setState({
-            // dataLoaded: true,
             description: md.render(mdData),
           })
         })
     }
-
-    // if (props.jsonDataPath) {
-    //   fetch(props.jsonDataPath)
-    //     .then(d => d.json())
-    //     .then(d => {
-    //     })
-    // }
   }
 
   render() {
-    // const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.state.data
     const { githubUrl, npmUrl, siteUrl, youtubeUrl } = this.props.data
 
     return (
