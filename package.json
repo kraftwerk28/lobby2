@@ -4,7 +4,8 @@
   "description": "my website",
   "main": "index.js",
   "scripts": {
-    "start": "yarn dev",
+    "start": "npm run dev",
+    "start:crud": "npm run dev:crud",
     "dev": "webpack-dev-server --env.development --progress",
     "dev:crud": "webpack-dev-server --env.development --env.crud --progress",
     "dev:hot": "webpack-dev-server --env.development --hot",

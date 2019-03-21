@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react'
 import { Router } from 'react-router-dom'
-import History from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 import Helmet from 'react-helmet'
 
 //? components
@@ -16,7 +16,7 @@ import { hot } from 'react-hot-loader'
 
 import '../sass/main'
 
-const history = History()
+const history = createBrowserHistory()
 
 import Loader from './LoadIndicator'
 import _fetch from '../../crud/src/jsonfetch'

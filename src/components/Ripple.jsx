@@ -108,7 +108,7 @@ export default class Ripple extends Component {
         }
       >
         {this.props.children}
-        < div
+        <div
           style={{
             ...rippleStyle,
             background: this.props.color || DEFAULTS.color,
@@ -161,5 +161,6 @@ const rippleStyle = {
   pointerEvents: 'none',
   userSelect: 'none',
   transitionTimingFunction: 'cubic-bezier(0, 0, 0, 1)',
+  // transitionDuration:
   // transitionTimingFunction: 'linear',
 }

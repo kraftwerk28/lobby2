@@ -9,32 +9,29 @@ import { Link } from 'react-router-dom'
 
 const { abs, sign } = Math
 
-const triggerWidth = 8
+const TRIGGER_WIDTH = 8
 
 export default class SideMenu extends Component {
   constructor(props) {
     super(props)
-
-    this.width = 500
 
     this.menuElement = createRef()
     this.overflowElement = createRef()
 
     this.startX = null
     this.state = {
+      width: 500,
       swapping: false,
       expanded: false,
       startx: null,
       x: 0,
     }
-
-    this.swipeStart = this.swipeStart.bind(this)
-    this.swipeEnd = this.swipeEnd.bind(this)
   }
 
   componentDidMount() {
-    this.width = this.menuElement.offsetWidth
-    this.forceUpdate()
+    this.setState({
+      width: this.menuElement.offsetWidth
+    })
   }
 
   expand(bool) {
@@ -42,12 +39,11 @@ export default class SideMenu extends Component {
       this.setState({ expanded: bool, x: 0, })
     }
     if (this.props.toBlur) {
-      this.props.toBlur.style.filter =
-        `blur(${bool ? 10 : 0}px)`
+      this.props.toBlur.style.filter = `blur(${bool ? 10 : 0}px)`
     }
   }
 
-  swipeStart(e, deltaX, deltaY, absX, absY, velocity) {
+  swipeStart = (e, deltaX, deltaY, absX, absY, velocity) => {
     if (!this.state.swapping) {
       this.startX = window.isMobile ? e.touches[0].clientX : e.clientX
       this.setState({ swapping: true })
@@ -56,21 +52,22 @@ export default class SideMenu extends Component {
     if (deltaX === 0)
       return
 
-    let x = -deltaX - (this.state.expanded ? 0 : this.width)
-    if (x > 0)
+    let x = -deltaX - (this.state.expanded ? 0 : this.state.width)
+    if (x > 0) {
       x = 0
+    }
 
     this.setState({ x })
     if (this.props.toBlur) {
       this.props.toBlur.style.filter =
-        `blur(${Math.round((this.width + x) / this.width * 10)}px)`
+        `blur(${Math.round((this.width + x) / this.state.width * 10)}px)`
     }
   }
 
-  swipeEnd(e, deltaX, deltaY, isFlick, velocity) {
+  swipeEnd = (e, deltaX, deltaY, isFlick, velocity) => {
     if (this.state.swapping) {
       let x = 0
-      let shouldExpand = this.width + this.state.x >= this.width / 2
+      let shouldExpand = this.state.width + this.state.x >= this.state.width / 2
       if (velocity > 0.5) shouldExpand = sign(deltaX) === -1
       this.setState({
         swapping: false, x,
@@ -102,16 +99,27 @@ export default class SideMenu extends Component {
       )
   }
 
+  preventCloseHandler(e) {
+    e.preventDefault()
+  }
+
   render() {
     const {
       children: items
     } = this.props
+    const {
+      swapping,
+      expanded,
+      x,
+      width
+    } = this.state
 
     return (
       <div style={{
         ...rootStyle,
         cursor: this.state.swapping ? 'grabbing' : 'grab'
       }}>
+        {/* overflow for dimming */}
         <div
           ref={e => {
             this.overflowElement = e
@@ -119,38 +127,34 @@ export default class SideMenu extends Component {
           className='sd-menu-overflow'
           style={{
             ...overflowStyle,
-            display: (this.state.expanded || this.state.swapping) ?
-              'block' : 'none',
-            opacity: Math.round(
-              100 * (this.width + this.state.x) / this.width / 2) / 100,
+            display: (expanded || swapping) ? 'block' : 'none',
+            opacity: Math.round(100 * (width + x) / width / 2) / 100,
           }}
           onMouseUp={() => { this.expand(false) }}
         />
+
+        {/* actual body */}
         <Swipeable
           trackMouse
           onSwiping={this.swipeStart}
           onSwiped={this.swipeEnd}
           style={{
             ...triggerStyle,
-            width: this.width + triggerStyle.paddingLeft + 'px',
+            width: width + triggerStyle.paddingLeft + 'px',
             transform: `translateX(${
-              this.state.swapping ? this.state.x :
-                this.state.expanded ? 0 : -this.width
-              }px)`,
-
-            transition: `${this.state.swapping ? 0 : 300}ms`,
+              swapping ? x : (expanded ? 0 : -width)
+            }px)`,
+            transition: `${swapping ? 0 : 300}ms`,
           }}
         >
           <div
             className='side-menu'
             ref={e => this.menuElement = e}
             style={{
-              backgroundColor: defs.backgroundColor,
+              background: defs.backgroundColor,
               ...sdMenuStyle,
             }}
-            onClick={(e) => {
-              e.stopPropagation()
-            }}
+            onClick={this.preventCloseHandler}
           >
             {items && items.map((c, i) => this.child(c, i))}
             <div>Another content will be soon...</div>
@@ -174,7 +178,7 @@ const triggerStyle = {
   top: 0,
   bottom: 0,
   left: 0,
-  paddingLeft: triggerWidth,
+  paddingLeft: TRIGGER_WIDTH,
   transform: 'translateX(50px)',
   userSelect: 'none',
   zIndex: 11,

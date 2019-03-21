@@ -66,6 +66,9 @@ module.exports = (env) => {
     resolve: {
       extensions: ['.js', '.jsx', '.sass']
     },
+    watchOptions: {
+      ignored: /node_modules/
+    }
 
   }
 
