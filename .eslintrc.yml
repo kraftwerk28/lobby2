@@ -8,6 +8,8 @@ parserOptions:
 parser: babel-eslint
 extends:
   - 'eslint:recommended'
+plugins:
+  - react-hooks
 rules:
   semi:
     - 2
@@ -19,3 +21,5 @@ rules:
     - 2
     - single
   no-constant-condition: 0
+  react-hooks/rules-of-hooks:
+    - 2
