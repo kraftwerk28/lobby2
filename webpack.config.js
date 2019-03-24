@@ -3,7 +3,8 @@
 const HWP = require('html-webpack-plugin')
 const cssExt = require('mini-css-extract-plugin')
 const cssMini = require('optimize-css-assets-webpack-plugin')
-const { EnvironmentPlugin } = require('webpack')
+const { EnvironmentPlugin, DefinePlugin } = require('webpack')
+const CompressionWP = require('compression-webpack-plugin')
 const { resolve } = require('path')
 
 const PORT = 8080
@@ -61,7 +62,12 @@ module.exports = (env) => {
         minify: { collapseWhitespace: true },
         filename: 'index.html',
       }),
-      new EnvironmentPlugin({ 'NODE_ENV': dev ? 'development' : 'production' })
+      new DefinePlugin({
+        'NODE_ENV': JSON.stringify(dev ? 'development' : 'production')
+      }),
+      // new EnvironmentPlugin({
+      //   NODE_ENV: JSON.stringify()
+      // })
     ],
     resolve: {
       extensions: ['.js', '.jsx', '.sass']
@@ -97,6 +103,10 @@ module.exports = (env) => {
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
+      new CompressionWP({
+        filename: '[file]',
+        minRatio: 2
+      })
     )
 
   }

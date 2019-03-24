@@ -4,6 +4,7 @@ const { readFileSync } = require('fs')
 const { randomBytes } = require('crypto')
 const express = require('express')
 const { json, urlencoded } = require('body-parser')
+const compression = require('compression')
 const { resolve } = require('path')
 const fetch = require('node-fetch')
 
@@ -26,15 +27,6 @@ let timerId = null
 const password = readFileSync(__dirname + '/password', 'utf8')
 
 const app = express()
-
-// custom middlewares
-app.use(
-  express.static(__dirname + '/../dist/'),
-  express.static(__dirname + '/../data/'),
-  express.static(__dirname + '/../crud/dist/'),
-  json(),
-  urlencoded({ extended: false }),
-)
 
 const indexRoutes = [
   'cube-switch',
@@ -118,10 +110,24 @@ app.post('/schema', (req, res) => {
   }
 })
 
+
+// custom middlewares
+app.use(
+  json(),
+  urlencoded({ extended: false }),
+  express.static(__dirname + '/../data/'),
+)
+app.use((req, res, next) => {
+  res.set('Content-Encoding', 'gzip')
+  return next()
+})
 // main route
-app.get(['/*', ...indexRoutes.map(_ => '/' + _)], (req, res) => {
-  res.status(200)
-    .sendFile(resolve(__dirname + '/../dist/index.html'))
+app.use(
+  express.static(__dirname + '/../dist/'),
+  express.static(__dirname + '/../crud/dist/')
+)
+app.get('/*', (req, res) => {
+  res.status(200).sendFile(resolve(__dirname + '/../dist/index.html'))
 })
 
 // creating server
