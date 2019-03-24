@@ -1,5 +1,4 @@
 import React, {
-  Component,
   createRef,
   useRef,
   useEffect,
@@ -48,7 +47,6 @@ const App = (props) => {
     useState(topColorSeq[topColorIndex])
 
   const openMenu = () => {
-    console.log(sm)
     sm.current.expand(true)
   }
 
@@ -76,12 +74,13 @@ const App = (props) => {
       setRoutes([
         {
           to: '/', text: 'Home',
-          component:
+          component: (
             <Home
               onMenuOpen={openMenu}
               onBioTyped={() => setBioHasTyped(true)}
               typeBio={!bioHasTyped}
             />
+          )
         },
         ...data.map(entry => {
           if (entry.group) {
@@ -102,7 +101,7 @@ const App = (props) => {
     //   })
     //   console.log(this.top)
     // }, 5000)
-  }, [])
+  }, [bioHasTyped])
 
   return (
     <>

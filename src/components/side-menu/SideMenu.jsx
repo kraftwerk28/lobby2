@@ -26,7 +26,6 @@ const SideMenu = (props, ref) => {
   const [width, setWidth] = useState(500)
   const [swapping, setSwapping] = useState(false)
   const [expanded, setExpanded] = useState(false)
-  const [startx, setStartx] = useState(null)
   const [x, setX] = useState(0)
 
   const expand = (bool) => {
@@ -45,7 +44,7 @@ const SideMenu = (props, ref) => {
     setWidth(menuElement.current.offsetWidth)
   }, [])
 
-  const swipeStart = (e, deltaX, deltaY, absX, absY, velocity) => {
+  const swipeStart = (e, deltaX) => {
     if (!swapping) {
       startX = window.isMobile ? e.touches[0].clientX : e.clientX
       setSwapping(true)
