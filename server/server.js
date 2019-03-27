@@ -43,6 +43,11 @@ const sendCrud = (res) => {
   res.sendFile(resolve(__dirname + '/../dist/crud.html'))
 }
 
+app.use(
+  json(),
+  urlencoded({ extended: false }),
+)
+
 app.all('/crud', (req, res) => {
   res.status(200).sendFile(resolve(__dirname + '/../dist/crud.html'))
 })
@@ -113,8 +118,6 @@ app.post('/schema', (req, res) => {
 
 // custom middlewares
 app.use(
-  json(),
-  urlencoded({ extended: false }),
   express.static(__dirname + '/../data/'),
 )
 app.use((req, res, next) => {
