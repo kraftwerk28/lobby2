@@ -15,6 +15,7 @@ install:
 script:
   - npm run build
 after_success:
+  - rm -rf .git/ .gitignore
   - git remote add deploy "kraftwerk28@kraftwerk28.pp.ua:/home/kraftwerk28/deployments/lobby2-prod"
   - git config user.name "Travis CI"
   - git config user.email "kefirchik3@gmail.com"kraftwerk28
