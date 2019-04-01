@@ -8,12 +8,12 @@ before_install:
   - ssh-add deploy-rsa
 install:
   - ssh-keyscan -t rsa -H kraftwerk28.pp.ua >> ~/.ssh/known_hosts
-  - cd crud
-  - npm i
-  - cd ../server/
-  - npm i
-  - cd ..
-  - npm i
+  - cd ./crud/
+  - npm ci
+  - cd ./../server/
+  - npm ci
+  - cd ./../
+  - npm ci
 script:
   - npm run build
 after_success:
