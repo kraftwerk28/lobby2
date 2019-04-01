@@ -130,7 +130,7 @@ export default class SideMenu extends Component {
             display: (expanded || swapping) ? 'block' : 'none',
             opacity: Math.round(100 * (width + x) / width / 2) / 100,
           }}
-          onMouseUp={() => { this.expand(false) }}
+          onMouseUp={() => this.expand(false)}
         />
 
         {/* actual body */}
@@ -146,7 +146,7 @@ export default class SideMenu extends Component {
             }px)`,
             transition: `${swapping ? 0 : 300}ms`,
           }}
-        >
+          >
           <div
             className='side-menu'
             ref={e => this.menuElement = e}
