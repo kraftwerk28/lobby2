@@ -83,7 +83,6 @@ class App extends Component {
       this.setState({
         topColor: this.topColorSeq[this.topColorIndex]
       })
-      console.log(this.top)
     }, 5000)
   }
 
