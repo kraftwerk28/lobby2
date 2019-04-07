@@ -29,9 +29,12 @@ module.exports = (env) => {
           test: /\.jsx?$/,
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env', '@babel/react'],
+            presets: [
+              // '@babel/env',
+              '@babel/react'
+            ],
             plugins: [
-              'react-hot-loader/babel',
+              // 'react-hot-loader/babel',
               '@babel/plugin-proposal-class-properties'
             ],
           },
@@ -62,12 +65,9 @@ module.exports = (env) => {
         minify: { collapseWhitespace: true },
         filename: 'index.html',
       }),
-      new DefinePlugin({
-        'NODE_ENV': JSON.stringify(dev ? 'development' : 'production')
+      new EnvironmentPlugin({
+        'NODE_ENV': dev ? 'development' : 'production'
       }),
-      // new EnvironmentPlugin({
-      //   NODE_ENV: JSON.stringify()
-      // })
     ],
     resolve: {
       extensions: ['.js', '.jsx', '.sass']
@@ -75,7 +75,6 @@ module.exports = (env) => {
     watchOptions: {
       ignored: /node_modules/
     }
-
   }
 
   console.log('Running in ' +
@@ -104,8 +103,10 @@ module.exports = (env) => {
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
       new CompressionWP({
-        filename: '[file]',
-        minRatio: 2
+        minRatio: 2,
+        deleteOriginalAssets: true,
+        test: /\.(js|png|css)$/
+        
       })
     )
 

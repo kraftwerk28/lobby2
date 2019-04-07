@@ -4,18 +4,16 @@ const { readFileSync } = require('fs')
 const { randomBytes } = require('crypto')
 const express = require('express')
 const { json, urlencoded } = require('body-parser')
-const compression = require('compression')
-const { resolve } = require('path')
+const { join } = require('path')
 const fetch = require('node-fetch')
 
-const { createServer: createhttpServer } = require('http')
-const { createServer } = require('https')
+const { createServer } = require('http')
 
 const { dbQuery, dbConnect, dbDisconnect } = require('./db')
 
 const PORT = 1488
 const DEVPORT = 8081
-const PAGES_SCHEMA_PATH = resolve(__dirname, '../data/pages-schema.json')
+const PAGES_SCHEMA_PATH = join(__dirname, '../data/pages-schema.json')
 
 const geourl = 'http://ip-api.com/json/'
 
@@ -37,19 +35,17 @@ const indexRoutes = [
 ]
 
 // routing
-/** @param {Response} res */
-const sendCrud = (res) => {
-  res.status(200)
-  res.sendFile(resolve(__dirname + '/../dist/crud.html'))
-}
-
 app.use(
   json(),
-  urlencoded({ extended: false }),
+  // urlencoded({ extended: false }),
 )
 
+app.post('/printjson', (req, res) => {
+  console.log('JSON :', req.body)
+})
+
 app.all('/crud', (req, res) => {
-  res.status(200).sendFile(resolve(__dirname + '/../dist/crud.html'))
+  res.sendFile(join(__dirname, '../dist/crud.html'))
 })
 
 // session token (must send it back in headers)
@@ -73,17 +69,17 @@ app.post('/token', (req, res) => {
 })
 
 // applied json's
-app.post('/visittable', (req, res) => {
+app.post('/visittable', async (req, res) => {
   if (req.body.token === sessionToken) {
-    dbQuery(`SELECT
-      record_id, platform, ip,
-      to_char(req_time, 'HH24:MI:SS, DD.MM.YY') AS time,
-      country, city, org, latitude, longtitude
+    const { rows } = await dbQuery(`
+      SELECT
+        record_id, platform, ip,
+        to_char(req_time, 'HH24:MI:SS, DD.MM.YY') AS time,
+        country, city, org, latitude, longtitude
       FROM stats
-      ORDER BY record_id DESC`
-    ).then(({ rows }) => {
-      res.status(200).send(rows).end()
-    })
+      ORDER BY record_id DESC
+    `)
+    res.status(200).send(rows).end()
   }
 })
 
@@ -95,9 +91,11 @@ app.post('/stats', async (req, res) => {
   const { country, city, org, lat, lon } = await fetch(geourl + ip)
     .then(d => d.json())
 
-  await dbQuery(`INSERT INTO stats
-    (platform, ip, req_time, country, city, org, latitude, longtitude)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+  await dbQuery(`
+    INSERT INTO stats
+      (platform, ip, req_time, country, city, org, latitude, longtitude)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+    `,
     [platform, ip, timestamp, country, city, org, lat, lon])
   res.status(200).end()
 })
@@ -115,37 +113,46 @@ app.post('/schema', (req, res) => {
   }
 })
 
-
-// custom middlewares
-app.use(
-  express.static(__dirname + '/../data/'),
-)
-app.use((req, res, next) => {
+app.get('/assets/*', (req, res) => {
   res.set('Content-Encoding', 'gzip')
-  return next()
+  res.sendFile(join(__dirname, `../dist${req.path}.gz`))
 })
-// main route
+
+app.get('/*.js', (req, res) => {
+  res.set('Content-Encoding', 'gzip')
+  res.sendFile(join(__dirname, `../dist${req.path}.gz`))
+})
+
+app.get('/*.css', (req, res) => {
+  res.set({
+    'Content-Encoding': 'gzip',
+    'Content-type': 'text/css'
+  })
+  res.sendFile(join(__dirname, `../dist${req.path}.gz`))
+})
+
 app.use(
-  express.static(__dirname + '/../dist/'),
-  express.static(__dirname + '/../crud/dist/')
+  express.static(join(__dirname, '../data')),
+  express.static(join(__dirname, '../dist'))
 )
-app.get('/*', (req, res) => {
-  res.status(200).sendFile(resolve(__dirname + '/../dist/index.html'))
+
+// index middleware
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, '../dist/index.html'))
 })
 
 // creating server
 if (process.env.NODE_ENV === 'development') {
-  createhttpServer(app)
-    .listen(DEVPORT, () => console.log('Listening on port :' + DEVPORT))
+  createServer(app)
+    .listen(DEVPORT, () => console.log(':DEV: Listening on port :' + DEVPORT))
   dbConnect()
 } else {
   // main server
   dbConnect().then(() => {
-    createhttpServer(app)
-      .listen(PORT, () => console.log('Listening on port :' + PORT))
-  }).catch((reas) => {
-    console.error(reas)
+    createServer(app)
+      .listen(PORT, () => console.log(':PROD: Listening on port :' + PORT))
+  }).catch((reason) => {
+    console.error(reason)
     process.exit(1)
   })
 }
-
