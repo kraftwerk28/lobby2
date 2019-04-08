@@ -25,3 +25,6 @@ after_success:
   - git add dist/ server/
   - git commit -m "Deploy"
   - git push deploy master -f
+branches:
+  only:
+    - master
