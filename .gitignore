@@ -62,6 +62,8 @@ typings/
 
 .idea/
 .vscode/
+dist/*
+!dist/robots.txt
 
 connConfig.json
 password

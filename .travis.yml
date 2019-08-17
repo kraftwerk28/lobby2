@@ -1,0 +1,30 @@
+language: node_js
+node_js: '11'
+before_install:
+  - openssl aes-256-cbc -K $encrypted_7d5903de21f8_key -iv $encrypted_7d5903de21f8_iv
+    -in deploy-rsa.enc -out deploy-rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 deploy-rsa
+  - ssh-add deploy-rsa
+install:
+  - ssh-keyscan -t rsa -H kraftwerk28.pp.ua >> ~/.ssh/known_hosts
+  - cd ./crud/
+  - yarn
+  - cd ./../server/
+  - yarn
+  - cd ./../
+  - yarn
+script:
+  - yarn build
+after_success:
+  - rm -rf .git/ .gitignore
+  - git init
+  - git remote add deploy "kraftwerk28@kraftwerk28.pp.ua:deployments/lobby2-prod"
+  - git config user.name "Travis CI"
+  - git config user.email "kefirchik3@gmail.com"
+  - git add dist/ server/
+  - git commit -m "Deploy"
+  - git push deploy master -f
+branches:
+  only:
+    - master

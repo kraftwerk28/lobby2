@@ -3,7 +3,8 @@
 const HWP = require('html-webpack-plugin')
 const cssExt = require('mini-css-extract-plugin')
 const cssMini = require('optimize-css-assets-webpack-plugin')
-const { EnvironmentPlugin } = require('webpack')
+const { EnvironmentPlugin, DefinePlugin } = require('webpack')
+const CompressionWP = require('compression-webpack-plugin')
 const { resolve } = require('path')
 
 const PORT = 8080
@@ -28,9 +29,12 @@ module.exports = (env) => {
           test: /\.jsx?$/,
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env', '@babel/react'],
+            presets: [
+              // '@babel/env',
+              '@babel/react'
+            ],
             plugins: [
-              'react-hot-loader/babel',
+              // 'react-hot-loader/babel',
               '@babel/plugin-proposal-class-properties'
             ],
           },
@@ -61,7 +65,9 @@ module.exports = (env) => {
         minify: { collapseWhitespace: true },
         filename: 'index.html',
       }),
-      new EnvironmentPlugin({ 'NODE_ENV': dev ? 'development' : 'production' })
+      new EnvironmentPlugin({
+        'NODE_ENV': dev ? 'development' : 'production'
+      }),
     ],
     resolve: {
       extensions: ['.js', '.jsx', '.sass']
@@ -69,7 +75,6 @@ module.exports = (env) => {
     watchOptions: {
       ignored: /node_modules/
     }
-
   }
 
   console.log('Running in ' +
@@ -97,6 +102,12 @@ module.exports = (env) => {
     config.plugins.push(
       new cssMini({}),
       new cssExt({ filename: 'style.css' }),
+      new CompressionWP({
+        minRatio: 2,
+        deleteOriginalAssets: true,
+        test: /\.(js|png|css)$/
+        
+      })
     )
 
   }
