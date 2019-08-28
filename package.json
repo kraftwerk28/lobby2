@@ -38,14 +38,12 @@
     "react-swipeable": "^4.3.1",
     "react-transition-group": "^2.5.3",
     "react-twemoji": "^0.1.0",
-    "redux": "^4.0.1",
     "twemoji": "^11.2.0",
     "typed.js": "^2.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
