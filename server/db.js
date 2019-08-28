@@ -1,27 +1,27 @@
 'use strict'
+const { Pool } = require('pg')
 
-const { resolve, join } = require('path')
-const { Client } = require('pg')
-const { readFileSync } = require('fs')
+const {
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_DATABASE,
+  DB_PORT
+} = process.env
 
-// const TABLENAME = 'statistics'
+const conn = new Pool({
+  connectionString: `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`
+})
 
-const connConfig = JSON.parse(
-  readFileSync(join(__dirname, 'connConfig.json'), 'utf8')
-)
-
-const conn = new Client(connConfig)
-
-const dbConnect = async () => await conn.connect()
-
-const dbDisconnect = async () => await conn.end()
+const dbConnect = () => conn.connect()
+const dbDisconnect = () => conn.end()
 
 /**
  * 
  * @param {string} query 
  * @param {string[]=} values 
  */
-const dbQuery = async (query, values) =>
-  await conn.query(query, values ? values : undefined)
+const dbQuery = (query, values) =>
+  conn.query(query, values ? values : undefined)
 
 module.exports = { dbQuery, dbConnect, dbDisconnect }

@@ -3,11 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "dev": "webpack-dev-server --env.development",
-    "hot": "webpack-dev-server --env.development --hot",
-    "build": "webpack --env.production"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -18,9 +14,11 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-markdown": "^4.0.6",
+    "react-redux": "^7.1.0",
     "react-swipeable": "^4.3.0",
     "react-transition-group": "^2.5.0",
     "react-twemoji": "^0.1.0",
+    "redux": "^4.0.4",
     "twemoji": "^11.2.0",
     "typed.js": "^2.0.9"
   },
