@@ -1,39 +1,41 @@
 {
-  "title": "@kraftwerk28's lobby",
+  "title": "@kraftwerk28's site",
   "about": [
     "Good $TIME. I'm Vsevolod, a stud",
     "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I hate Java ",
     "Good $TIME. I'm Vsevolod, a software developer from Ukraine. I love to learn modern technologies and create applications with them. Haskell is my favourite PL."
   ],
-  "skillsTitle": "Technologies, I have experience in:",
+  "skillsTitle": "Technologies, I have been used and have experience in:",
   "skills": {
     "frontend": [
       "vanilla javaScript / html / css",
-      "React + Redux",
+      "⚛React + Redux",
+      "Gatsby",
       "Vue.js",
       "Webpack + Babel",
       "sass / scss / stylus"
     ],
     "backend": [
-      "node.js",
+      "⬢Node.js",
       "MongoDB",
       "MySql",
-      "PostgreSQL (love it)",
-      "Express.js",
+      "PostgreSQL",
       "PM2",
-      "Telegram Bot API / Telegraf.js"
+      "NGINX",
+      "Telegram Bot API (Telegraf.js)"
     ],
     "game dev": [
       "Unity3D",
       "Blender",
       "modelling / rigging / animating",
       "Bfxr",
-      "Phaser / PIXI.js"
+      "Phaser / PIXI.js (almost not good)"
     ],
     "other": [
-      "Haskell",
-      "C++ (also v8 API knowledge)",
-      "Python (PyQt, TKinter)",
+      "λaskell",
+      "⚙Rust",
+      "C++ (+ node V8 API knowledge)",
+      "Python",
       "C#"
     ]
   }

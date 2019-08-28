@@ -67,3 +67,4 @@ dist/*
 
 connConfig.json
 password
+dist/

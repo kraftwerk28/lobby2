@@ -6,15 +6,16 @@
   "scripts": {
     "start": "yarn dev",
     "start:crud": "yarn dev:crud",
-    "dev": "webpack-dev-server --env.development --progress",
-    "dev:crud": "webpack-dev-server --env.development --env.crud --progress",
-    "dev:hot": "webpack-dev-server --env.development --hot",
-    "build": "webpack --env.production --env.crud",
+    "dev": "webpack-dev-server --mode=development --progress",
+    "dev:crud": "webpack-dev-server --mode=development --env.crud --progress",
+    "dev:hot": "webpack-dev-server --mode=development --hot",
+    "build": "webpack --mode=production --env.crud",
     "lint": "eslint . --ext .js,.jsx",
-    "lint:fix": "eslint . --ext .js,.jsx --fix",
+    "lint:fix": "eslint --ext .js,.jsx --fix .",
     "server": "NODE_ENV=development node server/server.js",
     "server:prod": "NODE_ENV=production node server/server.js",
-    "clean": "find dist/* -maxdepth 0 ! -name robots.txt | xargs rm -r"
+    "serve": "http-server dist/ -g -d false",
+    "clean": "rm -r dist/*"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,6 @@
     "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",
     "react-markdown": "^4.0.6",
-    "react-redux": "^6.0.0",
     "react-swipeable": "^4.3.1",
     "react-transition-group": "^2.5.3",
     "react-twemoji": "^0.1.0",
@@ -48,6 +48,7 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "compression-webpack-plugin": "^2.0.0",
+    "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^1.0.0",
     "eslint": "^5.12.0",
     "eslint-plugin-react": "^7.12.4",

@@ -1,9 +1,9 @@
 'use strict'
 
-const { readFileSync } = require('fs')
+require('dotenv').config()
 const { randomBytes } = require('crypto')
 const express = require('express')
-const { json, urlencoded } = require('body-parser')
+const { json } = require('body-parser')
 const { join } = require('path')
 const fetch = require('node-fetch')
 
@@ -22,23 +22,29 @@ let sessionToken = null
 const TOKEN_TIMEOUT = 1000 * 60 * 5
 let timerId = null
 
-const password = readFileSync(__dirname + '/password', 'utf8')
+const password = process.env.ADMIN_PWD || 'admin'
+console.log('admin password:', password)
+
+let server
+
+function terminator(sig) {
+  console.log('=> Starting graceful shutdown')
+  server.close(() => {
+    dbDisconnect().then(() => {
+      console.log('Gracefully stopped server...')
+      process.exit(0)
+    })
+  })
+  process.exit(0)
+}
+
+process.on('SIGINT', terminator)
+process.on('SIGTERM', terminator)
+
 
 const app = express()
 
-const indexRoutes = [
-  'cube-switch',
-  'dev-helper',
-  'hue-game',
-  'kpi-labs',
-  'index.html',
-]
-
-// routing
-app.use(
-  json(),
-  // urlencoded({ extended: false }),
-)
+app.use(json())
 
 app.post('/printjson', (req, res) => {
   console.log('JSON :', req.body)
@@ -96,7 +102,8 @@ app.post('/stats', async (req, res) => {
       (platform, ip, req_time, country, city, org, latitude, longtitude)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8)
     `,
-    [platform, ip, timestamp, country, city, org, lat, lon])
+    [platform, ip, timestamp, country, city, org, lat, lon]
+  )
   res.status(200).end()
 })
 
@@ -113,44 +120,16 @@ app.post('/schema', (req, res) => {
   }
 })
 
-app.get('/assets/*', (req, res) => {
-  res.set('Content-Encoding', 'gzip')
-  res.sendFile(join(__dirname, `../dist${req.path}.gz`))
-})
-
-app.get('/*.js', (req, res) => {
-  res.set('Content-Encoding', 'gzip')
-  res.sendFile(join(__dirname, `../dist${req.path}.gz`))
-})
-
-app.get('/*.css', (req, res) => {
-  res.set({
-    'Content-Encoding': 'gzip',
-    'Content-type': 'text/css'
-  })
-  res.sendFile(join(__dirname, `../dist${req.path}.gz`))
-})
-
-app.use(
-  express.static(join(__dirname, '../data')),
-  express.static(join(__dirname, '../dist'))
-)
-
-// index middleware
-app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, '../dist/index.html'))
-})
-
 // creating server
 if (process.env.NODE_ENV === 'development') {
-  createServer(app)
-    .listen(DEVPORT, () => console.log(':DEV: Listening on port :' + DEVPORT))
+  server = createServer(app)
+    .listen(DEVPORT, () => console.log(`:DEV: Listening on port :${DEVPORT}`))
   dbConnect()
 } else {
   // main server
   dbConnect().then(() => {
-    createServer(app)
-      .listen(PORT, () => console.log(':PROD: Listening on port :' + PORT))
+    server = createServer(app)
+      .listen(PORT, () => console.log(`:PROD: Listening on port :${PORT}`))
   }).catch((reason) => {
     console.error(reason)
     process.exit(1)
