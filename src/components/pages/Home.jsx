@@ -173,12 +173,12 @@ export default class Home extends Component {
               >
                 <img src={telegram} className='top-link-btn' />
               </Button>
-              <Button
+              {/* <Button
                 href="https://www.facebook.com/vsevolod.zerda.1"
                 style={{ padding: 2 }}
               >
                 <img src={facebook} className='top-link-btn' />
-              </Button>
+              </Button> */}
               <Button
                 href='https://www.codewars.com/users/kraftwerk28'
                 style={{ padding: 2 }}
