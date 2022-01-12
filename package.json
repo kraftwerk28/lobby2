@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/kraftwerk28/lobby2#readme",
   "dependencies": {
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "markdown-it-emoji": "^1.4.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
